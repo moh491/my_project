@@ -14,7 +14,6 @@ trait HttpResponses
                 'data'=>$data
             ],$status_code);
     }
-
     protected function wrong($data,$message=null,$status_code): \Illuminate\Http\JsonResponse
     {
 
