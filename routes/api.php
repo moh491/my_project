@@ -26,9 +26,14 @@ Route::controller( FreelacerAuthController::class)->prefix('Freelancer')->group(
 
 });
 
-Route::controller(  CompanyAuthController::class)->prefix('Company')->group(function () {
+Route::controller(CompanyAuthController::class)->prefix('Company')->group(function () {
 
-    Route::post('/register', 'register');
-
+   Route::post('/register', 'register');
+   Route::post('/login', 'login');
+   Route::post('logout','logout')->middleware('auth:sanctum');
 });
+
+
+
+
 
