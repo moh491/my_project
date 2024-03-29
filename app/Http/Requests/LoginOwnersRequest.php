@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreFreelancerRequset extends FormRequest
+class LoginOwnersRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -22,13 +22,7 @@ class StoreFreelancerRequset extends FormRequest
     public function rules(): array
     {
         return [
-
-            'first_name' => ['required' , 'string' , 'max:255'] ,
-            'last_name' => ['required' , 'string' , 'max:255'] ,
-            'email' => ['required' , 'string' , 'max:255' , 'unique:users'] ,
-            'password' => ['required' , 'confirmed'],
-            'about'=>['required','string' ],
-
+            //
         ];
     }
 }
