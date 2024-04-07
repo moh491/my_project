@@ -4,6 +4,7 @@ namespace App\Http\Controllers\CompanyControllers;
 
 
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use App\Http\Requests\loginCompanyRequest;
 use App\Http\Requests\StoreCompanyrRequest;
 use App\Http\Requests\StoreCompanyrRequset;
@@ -19,11 +20,31 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Contracts\Auth\StatefulGuard;
+=======
+use App\Http\Requests\Auth\StoreCompanyrRequest;
+ use App\Models\Company;
+use App\Traits\ApiResponseTrait;
+ use Illuminate\Http\JsonResponse;
+>>>>>>> mohamed
 
 
 class CompanyAuthController extends Controller
 {
     use ApiResponseTrait;
+<<<<<<< HEAD
+=======
+
+    public function register(StoreCompanyrRequest $request): JsonResponse
+    {
+        $validator = $request->validated();
+        $validator['password'] = bcrypt($validator ['password']);
+        $company = Company::create($validator );
+        $success['token'] =  $company->createToken('auth-company-token',['role:Company'])->plainTextToken;
+        $success['name'] =  $company->name;
+
+        return $this->success('Register has successful',$success);
+    }
+>>>>>>> mohamed
 
 
     public function register(StoreCompanyrRequest $request): JsonResponse

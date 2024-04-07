@@ -10,9 +10,4 @@ class Position extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
-    public function freelancer(): HasMany
-    {
-        return $this->hasMany(Freelancer::class);
-    }
 }

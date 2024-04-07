@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class Freelancer extends Model
+class Freelancer extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -17,6 +18,10 @@ class Freelancer extends Model
         'last_name',
         'email',
         'password',
+        'code',
+        'expire_at',
+        'field_id',
+        'position_id',
         'about'
     ];
 
@@ -39,5 +44,14 @@ class Freelancer extends Model
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function GenerateCode(){
+
+        $this->timestamps=false;
+        $this->code=rand(1000,9999);
+        $this->expire_at=now()->addMinute(20);
+        $this->save();
+
+    }
 
 }

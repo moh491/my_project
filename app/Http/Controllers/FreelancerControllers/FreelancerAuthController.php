@@ -2,21 +2,17 @@
 
 namespace App\Http\Controllers\FreelancerControllers;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginFreelancerRequest;
-use App\Http\Requests\StoreFreelancerRequset;
-use App\Models\Freelancer;
-use App\Models\User;
+use App\Http\Requests\Auth\StoreFreelancerRequset;
+ use App\Models\Freelancer;
 use App\Traits\ApiResponseTrait;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+ use Illuminate\Support\Facades\Hash;
 
 class FreelancerAuthController extends Controller
 {
 
 use ApiResponseTrait;
 
-    public function Register(StoreFreelancerRequset $request): \Illuminate\Http\JsonResponse
+    public function register(StoreFreelancerRequset $request): \Illuminate\Http\JsonResponse
     {
         $request->validated($request->all());
 
@@ -25,6 +21,8 @@ use ApiResponseTrait;
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'field_id'=>$request->field_id,
+            'position_id'=>$request->position_id,
             'about'=>$request->about,
             ]);
 
@@ -36,24 +34,5 @@ use ApiResponseTrait;
 
     }
 
-    public function Login(LoginFreelancerRequest $request){
 
-        $request->validated($request->all());
-
-        if (!Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return $this->error('Invalid email or password. Please check your credentials.', 401);
-        }
-
-    }
-
-    public function Logout(): \Illuminate\Http\JsonResponse
-    {
-
-        auth()->user()->tokens()->delete();
-        return response()->json([
-            'status'=>'1',
-            'data'=>[], 'message'=>'user logout successfully'
-        ]);
-
-    }
 }

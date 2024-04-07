@@ -45,6 +45,16 @@ return [
             'driver' => 'session',
             'provider' => 'Companies',
         ],
+
+        'Freelancer' => [
+            'driver' => 'session',
+            'provider' => 'Freelancers',
+        ],
+
+        'Project_Owner' => [
+            'driver' => 'session',
+            'provider' => 'Project_Owners',
+        ],
     ],
 
     /*
@@ -79,7 +89,15 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\Company::class,
         ],
-    ],
+        'Freelancers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Freelancer::class,
+        ],
+        'Project_Owners' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Project_Owners::class,
+        ],
+        ],
 
     /*
     |--------------------------------------------------------------------------
