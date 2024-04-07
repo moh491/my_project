@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
-use App\Http\Controllers\FreelacerControllers\FreelacerAuthController;
+ use App\Http\Controllers\FreelancerControllers\FreelancerAuthController;
+use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,15 +22,29 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::controller( FreelacerAuthController::class)->prefix('Freelancer')->group(function () {
+Route::controller( FreelancerAuthController::class)->prefix('Freelancer')->group(function () {
+
+    Route::post('/register', 'register');
+
+});
+Route::controller(ProjectOwnersAuthController::class)->prefix('ProjectOwner')->group(function () {
+
+    Route::post('/register', 'register');
+
+
+});
+
+
+Route::controller(  CompanyAuthController::class)->prefix('Company')->group(function () {
 
     Route::post('/register', 'register');
 
 });
 
-Route::controller(  CompanyAuthController::class)->prefix('Company')->group(function () {
+Route::controller( AuthController::class)->group(function () {
 
-    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+    Route::post('/logout' , 'logout')->middleware('auth:sanctum');
 
 });
 

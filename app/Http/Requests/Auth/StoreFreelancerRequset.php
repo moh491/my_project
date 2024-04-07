@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Auth;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginFreelancerRequest extends FormRequest
+class StoreFreelancerRequset extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,6 +24,14 @@ class LoginFreelancerRequest extends FormRequest
     {
         return [
 
-         ];
+            'first_name' => ['required' , 'string' , 'max:255'] ,
+            'last_name' => ['required' , 'string' , 'max:255'] ,
+            'email' => ['required' , 'string' , 'max:255' ] ,
+            'password' => ['required' , 'confirmed'],
+            'field_id'=>['required'],
+            'position_id'=>['required'],
+            'about'=>['required','string' ],
+
+        ];
     }
 }
