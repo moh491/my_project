@@ -24,7 +24,8 @@ class CompanyAuthController extends Controller
         $company = Company::create($validator );
         $success['token'] =  $company->createToken('auth-company-token',['role:Company'])->plainTextToken;
         $success['name'] =  $company->name;
-        return $this->success('Register has successful',$success);
+        return $this->success('Register has successful for company',$success);
     }
+
 
 }
