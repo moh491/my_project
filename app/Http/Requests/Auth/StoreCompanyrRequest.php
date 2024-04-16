@@ -26,7 +26,7 @@ class StoreCompanyrRequest extends FormRequest
             'name'=>['required','string'],
             'logo'=>['required'],
             'email'=>['required'],
-            'password' => ['required'],
+            'password' => ['required','confirmed'],
             'field_id'=>['required'],
             'about'=>['required'],
         ];

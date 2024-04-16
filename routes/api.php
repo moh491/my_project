@@ -30,21 +30,18 @@ Route::controller( FreelancerAuthController::class)->prefix('Freelancer')->group
 Route::controller(ProjectOwnersAuthController::class)->prefix('ProjectOwner')->group(function () {
 
     Route::post('/register', 'register');
-
-
 });
-
-
 Route::controller(  CompanyAuthController::class)->prefix('Company')->group(function () {
 
     Route::post('/register', 'register');
 
 });
-
-Route::controller( AuthController::class)->group(function () {
-
-    Route::post('/login', 'login');
-    Route::post('/logout' , 'logout')->middleware('auth:sanctum');
+Route::post('/login',[AuthController::class,'login']);
+Route::controller( AuthController::class)->middleware('auth:sanctum')->group(function () {
+    Route::post('/logout' , 'logout');
+    Route::post('/verifyOtp','verifyOtp');
+    Route::post('userForgotPassword','userForgotPassword');
+    Route::post('/userResetPassword','userResetPassword');
 
 });
 

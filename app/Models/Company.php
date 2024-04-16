@@ -24,4 +24,9 @@ class Company extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function otps()
+    {
+        return $this->morphMany(Otp::class, 'otpable');
+    }
 }

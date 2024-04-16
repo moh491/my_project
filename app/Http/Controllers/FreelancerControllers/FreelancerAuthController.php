@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\FreelancerControllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\StoreFreelancerRequset;
- use App\Models\Freelancer;
+use App\Mail\SendCodeEmail;
+use App\Models\Freelancer;
+use App\Models\Otp;
 use App\Traits\ApiResponseTrait;
  use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class FreelancerAuthController extends Controller
 {
@@ -25,7 +28,17 @@ use ApiResponseTrait;
             'position_id'=>$request->position_id,
             'about'=>$request->about,
             ]);
-
+        $code = mt_rand(100000, 999999);
+        while(Otp::where('otp', $code)->exists()){
+            $code = mt_rand(100000, 999999);
+        }
+        Otp::create([
+            'otpable_id'=>$Freelacer->id,
+            'otpable_type'=>'App\\Models\\Freelancer',
+            'otp'=>$code,
+            'otp_expiry_time'=>now()->addMinute(15),
+        ]);
+        Mail::to($Freelacer->email)->send(new SendCodeEmail($code));
         return $this->success([
             'message'=>'Register has successful',
             'freelancer'=>$Freelacer,
