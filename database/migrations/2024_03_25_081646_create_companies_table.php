@@ -18,8 +18,14 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('field_id');
+            $table->string('location');
+            $table->string('time_zone');
+            $table->string('employees_count');
+            $table->string('website')->nullable();
+            $table->string('opening_days');
+            $table->string('background_image');
             $table->text('about');
+            $table->foreignId('field_id');
             $table->timestamps();
         });
     }
