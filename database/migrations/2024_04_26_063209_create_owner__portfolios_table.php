@@ -11,8 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('languages', function (Blueprint $table) {
+        Schema::create('owner__portfolios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('portfolio_id')->constrained('portfolios');
+            $table->morphs('owner');
             $table->timestamps();
         });
     }
@@ -22,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('languages');
+        Schema::dropIfExists('owner__portfolios');
     }
 };

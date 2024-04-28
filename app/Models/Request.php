@@ -5,11 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Language extends Model
+class Request extends Model
 {
     use HasFactory;
-
-    public function freelancer(){
-        return $this->belongsTo(Freelancer::class);
+    public function delivery_options(){
+        return $this->belongsTo(Delivery_Option::class);
     }
 }

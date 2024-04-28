@@ -13,12 +13,6 @@ return new class extends Migration
     {
         Schema::create('freelancers', function (Blueprint $table) {
             $table->id();
-//            $table->bigInteger('field_id');
-//            $table->foreign('field_id')->references('id')->on('fields');
-//            $table->bigInteger('position_id');
-//            $table->foreign('position_id')->references('id')->on('positions');
-//            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete()->cascadeOnUpdate();
-//            $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
@@ -26,9 +20,14 @@ return new class extends Migration
             $table->string('password');
             $table->string('code')->nullable();
             $table->dateTime('expire_at')->nullable();
-            $table->foreignId('field_id');
-            $table->foreignId('position_id');
+            $table->string('location');
+            $table->string('time_zone');
+            $table->string('profile')->nullable();
+            $table->decimal('withdrawal_balance')->nullable();
+            $table->decimal('available_balance')->nullable();
+            $table->decimal('suspended_balance')->nullable();
             $table->text('about');
+            $table->foreignId('position_id')->constrained('positions');
             $table->timestamps();
         });
     }

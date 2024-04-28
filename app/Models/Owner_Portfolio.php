@@ -5,11 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Language extends Model
+class Owner_Portfolio extends Model
 {
     use HasFactory;
-
-    public function freelancer(){
-        return $this->belongsTo(Freelancer::class);
-    }
 }
