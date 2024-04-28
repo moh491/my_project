@@ -1,5 +1,8 @@
 <?php
 
+use App\Enums\Employment_Type;
+use App\Enums\Level;
+use App\Enums\Location_Type;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,16 +16,15 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
-            $table->enum('location_type',['On-site','Hybrid','Remote']);
-            $table->enum('employment_type',['Full_time','Part_time','Self_employed','Freelance','Contract','Internship','Seasonal','Apprenticeship']);
-            $table->enum('level',['junior' , 'senior' , 'mid']);
+            $table->enum('location_type',Location_Type::getValues());
+            $table->enum('employment_type',Employment_Type::getValues());
+            $table->enum('level',Level::getValues());
             $table->text('description');
             $table->decimal('min_salary');
             $table->decimal('max_salary');
             $table->text('responsibilities');
-            $table->foreignId('field_id');
-            $table->foreignId('position_id');
-            $table->foreignId('company_id');
+            $table->foreignId('position_id')->constrained('positions');
+            $table->foreignId('company_id')->constrained('companies');
             $table->timestamps();
         });
     }

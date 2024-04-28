@@ -27,6 +27,13 @@ class Company extends Authenticatable
 
     public function otps()
     {
-        return $this->morphMany(Otp::class, 'otpable');
+        return $this->morphOne(Otp::class, 'otpable');
+    }
+
+    public function field(){
+        return $this->belongsTo(Field::class);
+    }
+    public function experiences(){
+        return $this->hasMany(Experience::class);
     }
 }

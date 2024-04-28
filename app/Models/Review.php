@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     use HasFactory;
+    public function project(){
+        return $this->belongsTo(Project::class);
+    }
 }

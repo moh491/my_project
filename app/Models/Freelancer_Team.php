@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Freelancer_Team extends Model
 {
     use HasFactory;
+    public function position(){
+        return $this->belongsTo(Position::class);
+    }
 }

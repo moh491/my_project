@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('opening_days');
             $table->string('background_image');
             $table->text('about');
-            $table->foreignId('field_id');
+            $table->foreignId('field_id')->constrained('fields');
             $table->timestamps();
         });
     }

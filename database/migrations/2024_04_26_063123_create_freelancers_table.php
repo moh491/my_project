@@ -20,10 +20,14 @@ return new class extends Migration
             $table->string('password');
             $table->string('code')->nullable();
             $table->dateTime('expire_at')->nullable();
-
-            $table->foreignId('field_id');
-            $table->foreignId('position_id');
+            $table->string('location');
+            $table->string('time_zone');
+            $table->string('profile')->nullable();
+            $table->decimal('withdrawal_balance')->nullable();
+            $table->decimal('available_balance')->nullable();
+            $table->decimal('suspended_balance')->nullable();
             $table->text('about');
+            $table->foreignId('position_id')->constrained('positions');
             $table->timestamps();
         });
     }

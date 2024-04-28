@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Certification extends Model
 {
     use HasFactory;
+    public function freelancer(){
+        return $this->belongsTo(Freelancer::class);
+    }
 }

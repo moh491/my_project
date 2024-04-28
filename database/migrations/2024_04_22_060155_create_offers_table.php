@@ -17,8 +17,8 @@ return new class extends Migration
             $table->decimal('budget');
             $table->text('description');
             $table->string('files');
-            $table->foreignId('project_id');
-            $table->foreignId('freelancer_id');
+            $table->foreignId('project_id')->constrained('projects');
+            $table->morphs('worker');
             $table->timestamps();
         });
     }

@@ -11,11 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('applications', function (Blueprint $table) {
+        Schema::create('freelancer__teams', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_accepted');
-            $table->foreignId('job_id');
-            $table->foreignId('freelancer_id');
+            $table->foreignId('freelancer_id')->constrained('freelancers');
+            $table->foreignId('team_id')->constrained('teams');
+            $table->foreignId('position_id')->constrained('positions');
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('applications');
+        Schema::dropIfExists('freelancer__teams');
     }
 };

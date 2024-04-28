@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Plan extends Model
 {
     use HasFactory;
+    public function service(){
+        return $this->belongsTo(Service::class);
+    }
+    public function delivery_options(){
+        return $this->hasMany(Delivery_Option::class);
+    }
+    public function features(){
+        return $this->belongsToMany(Feature::class,'plan__features');
+    }
 }

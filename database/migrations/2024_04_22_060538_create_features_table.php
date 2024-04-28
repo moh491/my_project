@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->boolean('is_boolean');
-            $table->foreignId('service_id');
+            $table->foreignId('service_id')->constrained('services');
             $table->timestamps();
         });
     }

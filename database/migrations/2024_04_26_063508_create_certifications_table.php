@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('education', function (Blueprint $table) {
+        Schema::create('certifications', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->string('institution');
-            $table->string('location');
-            $table->date('start_year');
-            $table->date('end_year')->nullable();
-            $table->decimal('average')->nullable();
-            $table->text('description');
-            $table->foreignId('freelancer_id');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->string('credentials_id')->nullable();
+            $table->string('link')->nullable();
+            $table->string('image');
+            $table->foreignId('freelancer_id')->constrained('freelancers');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('education');
+        Schema::dropIfExists('certifications');
     }
 };

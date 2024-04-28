@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('plan__features', function (Blueprint $table) {
             $table->id();
             $table->string('value');
-            $table->foreignId('plan_id');
-            $table->foreignId('feature_id');
+            $table->foreignId('plan_id')->constrained('plans');
+            $table->foreignId('feature_id')->constrained('features');
             $table->timestamps();
         });
     }

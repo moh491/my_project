@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('skillable__skills', function (Blueprint $table) {
+        Schema::create('owner__portfolios', function (Blueprint $table) {
             $table->id();
-            $table->morphs('skillabe');
-            $table->foreignId('skill_id');
+            $table->foreignId('portfolio_id')->constrained('portfolios');
+            $table->morphs('owner');
             $table->timestamps();
         });
     }
@@ -24,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('skillable__skills');
+        Schema::dropIfExists('owner__portfolios');
     }
 };

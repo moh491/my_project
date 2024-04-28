@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Status;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,9 +17,9 @@ return new class extends Migration
             $table->text('note');
             $table->string('files');
             $table->decimal('budget');
-            $table->enum('status',[]);
-            $table->foreignId('project_owner_id');
-            $table->foreignId('delivery_option_id');
+            $table->enum('status',Status::getValues());
+            $table->foreignId('project_owner_id')->constrained('project__owners');
+            $table->foreignId('delivery_option_id')->constrained('delivery__options');
             $table->timestamps();
         });
     }

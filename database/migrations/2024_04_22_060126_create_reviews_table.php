@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('commit_to_deadlines');
             $table->bigInteger('re_employee');
             $table->bigInteger('description');
-            $table->foreignId('project_id');
+            $table->foreignId('project_id')->constrained('projects');
             $table->timestamps();
         });
     }

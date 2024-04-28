@@ -1,6 +1,5 @@
 <?php
 
-use App\Enums\Type;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -12,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('education', function (Blueprint $table) {
             $table->id();
-            $table->decimal('price');
+            $table->string('title');
+            $table->string('institution');
+            $table->string('location');
+            $table->date('start_year');
+            $table->date('end_year')->nullable();
+            $table->decimal('average')->nullable();
             $table->text('description');
-            $table->enum('type',Type::getValues());
-            $table->foreignId('service_id')->constrained('services');
+            $table->foreignId('freelancer_id')->constrained('freelancers');
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plans');
+        Schema::dropIfExists('education');
     }
 };
