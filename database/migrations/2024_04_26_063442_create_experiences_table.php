@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('location');
             $table->date('start_date');
             $table->date('end_date')->nullable();
-            $table->foreignId('freelancer_id')->constrained('freelancers');
-            $table->foreignId('position_id')->constrained('positions');
-            $table->foreignId('company_id')->constrained('companies')->nullable();
+            $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete();;
+            $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();;
+            $table->foreignId('company_id')->constrained('companies')->nullable()->cascadeOnDelete();;
             $table->timestamps();
         });
     }

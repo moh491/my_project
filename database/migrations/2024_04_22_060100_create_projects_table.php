@@ -19,9 +19,9 @@ return new class extends Migration
             $table->decimal('min_budget');
             $table->decimal('max_budget');
             $table->enum('status',Status::getValues());
-            $table->foreignId('project_owner_id')->constrained('project__owners');
-            $table->foreignId('field_id')->constrained('fields');
-            $table->morphs('worker');
+            $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();;
+            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();;
+            $table->nullableMorphs('worker');
             $table->timestamps();
         });
     }

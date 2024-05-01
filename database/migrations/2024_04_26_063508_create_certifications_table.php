@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('credentials_id')->nullable();
             $table->string('link')->nullable();
             $table->string('image');
-            $table->foreignId('freelancer_id')->constrained('freelancers');
+            $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete();;
             $table->timestamps();
         });
     }
