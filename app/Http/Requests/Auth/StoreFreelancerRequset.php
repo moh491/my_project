@@ -23,15 +23,17 @@ class StoreFreelancerRequset extends FormRequest
     public function rules(): array
     {
         return [
-
-            'first_name' => ['required' , 'string' , 'max:255'] ,
-            'last_name' => ['required' , 'string' , 'max:255'] ,
+            'first_name' => 'required|string|max:255',
+            'Last_name' => ['required' , 'string' , 'max:255'] ,
             'email' => ['required' , 'string' , 'max:255' ] ,
-            'password' => ['required' , 'confirmed'],
-            'field_id'=>['required'],
-            'position_id'=>['required'],
+            'password' => ['required'],
             'about'=>['required','string' ],
-
+            'location'=>['required']    ,
+            'time_zone'=>['required'],
+            'position_id'=>['required'],
+            'skills'=>['required','array'],
+            'languages'=>['required','array'],
+            
         ];
     }
 }

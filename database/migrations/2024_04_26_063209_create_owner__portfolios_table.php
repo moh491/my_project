@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('owner__portfolios', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('portfolio_id')->constrained('portfolios');
+            $table->foreignId('portfolio_id')->constrained('portfolios')->cascadeOnDelete();;
             $table->morphs('owner');
             $table->timestamps();
         });

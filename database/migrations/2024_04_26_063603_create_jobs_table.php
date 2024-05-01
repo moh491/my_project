@@ -23,8 +23,8 @@ return new class extends Migration
             $table->decimal('min_salary');
             $table->decimal('max_salary');
             $table->text('responsibilities');
-            $table->foreignId('position_id')->constrained('positions');
-            $table->foreignId('company_id')->constrained('companies');
+            $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();;
+            $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

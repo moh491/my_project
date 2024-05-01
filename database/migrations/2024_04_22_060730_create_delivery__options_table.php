@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('days');
             $table->decimal('increase');
-            $table->foreignId('plan_id')->constrained('plans');
+            $table->foreignId('plan_id')->constrained('plans')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

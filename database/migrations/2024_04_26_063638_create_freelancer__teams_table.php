@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('freelancer__teams', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('freelancer_id')->constrained('freelancers');
-            $table->foreignId('team_id')->constrained('teams');
-            $table->foreignId('position_id')->constrained('positions');
+            $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete();;
+            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();;
+            $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

@@ -27,7 +27,7 @@ return new class extends Migration
             $table->decimal('available_balance')->nullable();
             $table->decimal('suspended_balance')->nullable();
             $table->text('about');
-            $table->foreignId('position_id')->constrained('positions');
+            $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

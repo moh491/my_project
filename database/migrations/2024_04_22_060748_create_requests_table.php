@@ -18,8 +18,8 @@ return new class extends Migration
             $table->string('files');
             $table->decimal('budget');
             $table->enum('status',Status::getValues());
-            $table->foreignId('project_owner_id')->constrained('project__owners');
-            $table->foreignId('delivery_option_id')->constrained('delivery__options');
+            $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();;
+            $table->foreignId('delivery_option_id')->constrained('delivery__options')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

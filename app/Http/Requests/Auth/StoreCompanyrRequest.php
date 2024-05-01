@@ -27,8 +27,10 @@ class StoreCompanyrRequest extends FormRequest
             'logo'=>['required'],
             'email'=>['required'],
             'password' => ['required','confirmed'],
-            'field_id'=>['required'],
             'about'=>['required'],
+            'location'=>['required'],
+            'background_image'=>['required'],
+            'field_id'=>['required'],
         ];
     }
 }

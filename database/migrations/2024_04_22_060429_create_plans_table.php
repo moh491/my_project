@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('price');
             $table->text('description');
             $table->enum('type',Type::getValues());
-            $table->foreignId('service_id')->constrained('services');
+            $table->foreignId('service_id')->constrained('services')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

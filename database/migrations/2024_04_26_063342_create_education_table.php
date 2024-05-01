@@ -20,7 +20,7 @@ return new class extends Migration
             $table->date('end_year')->nullable();
             $table->decimal('average')->nullable();
             $table->text('description');
-            $table->foreignId('freelancer_id')->constrained('freelancers');
+            $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

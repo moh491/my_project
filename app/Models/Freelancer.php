@@ -20,9 +20,11 @@ class Freelancer extends Authenticatable
         'password',
         'code',
         'expire_at',
-        'field_id',
         'position_id',
-        'about'
+        'about',
+        'time_zone',
+        'location',
+
     ];
 
     /**

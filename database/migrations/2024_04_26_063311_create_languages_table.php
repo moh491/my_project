@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('language');
             $table->enum('level',Languages_status::getValues());
-            $table->foreignId('freelancer_id')->constrained('freelancers');
+            $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete();
             $table->timestamps();
         });
     }
