@@ -2,10 +2,23 @@
 
 namespace App\Services;
 
+use App\Http\Resources\CertificationResource;
+use App\Http\Resources\CompanyResource;
+use App\Http\Resources\EducationResource;
+use App\Http\Resources\ExperienceResource;
+use App\Http\Resources\FreelancerResource;
+use App\Http\Resources\PortfolioResource;
+use App\Http\Resources\ReviewResource;
+use App\Http\Resources\ServiceResource;
 use App\Mail\SendCodeEmail;
+use App\Models\Company;
 use App\Models\Freelancer;
 use App\Models\Language;
 use App\Models\Otp;
+use App\Models\Owner_Portfolio;
+use App\Models\Portfolio;
+use App\Models\Position;
+use App\Models\Review;
 use Illuminate\Support\Facades\Mail;
 
 class FreelancerService
@@ -45,5 +58,44 @@ public function createFreelancer(array $freelancerData){
     return $freelancer;
 }
 
+public function basicInformation(string $id){
+    $freelancer=Freelancer::find($id);
+    $languages = $freelancer->languages()->select('language', 'level')->get();
+    $skills=$freelancer->skills()->pluck('name');
+    $response =[
+        'about'=>$freelancer->about,
+        'languages'=>$languages,
+        'skills'=>$skills
+    ];
+    return $response;
+}
 
+public function workProfile(string $id){
+    $freelancer=Freelancer::find($id);
+    $response =[
+        'experiences'=>ExperienceResource::collection($freelancer->experiences),
+        'educations'=>EducationResource::collection($freelancer->eductions),
+        'certification'=>CertificationResource::collection($freelancer->certifications),
+    ];
+    return $response ;
+}
+
+public function getPortfolios(string $id){
+    $freelancer=Freelancer::find($id);
+    $portfolios = $freelancer->portfolios;
+    return PortfolioResource::collection($portfolios);
+}
+
+public function getReviews(string $id)
+{
+    $freelancer = Freelancer::find($id);
+    $projects = $freelancer->projects;
+    return ReviewResource::collection($projects);
+}
+
+public function getServices(string $id){
+    $freelancer = Freelancer::find($id);
+    $services = $freelancer->services;
+    return ServiceResource::collection($services);
+}
 }
