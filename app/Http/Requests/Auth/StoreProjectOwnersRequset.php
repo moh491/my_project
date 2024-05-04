@@ -26,7 +26,7 @@ class StoreProjectOwnersRequset extends FormRequest
             'first_name' => ['required' , 'string' , 'max:255'] ,
             'last_name' => ['required' , 'string' , 'max:255'] ,
             'email' => ['required' , 'string' , 'max:255' ] ,
-            'password' => ['required' , 'confirmed'],
+            'password' => ['required' ],
             'about'=>['required','string' ],
             'location'=>['required'],
             'time_zone'=>['required'],

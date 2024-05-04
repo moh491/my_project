@@ -4,6 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
  use App\Http\Controllers\FreelancerControllers\FreelancerAuthController;
 use App\Http\Controllers\FreelancerControllers\FreelancerController;
+use App\Http\Controllers\FreelancerControllers\PortfolioController;
+use App\Http\Controllers\FreelancerControllers\ServiceController;
+use App\Http\Controllers\FreelancerControllers\WorkProfileController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -48,10 +51,14 @@ Route::controller( AuthController::class)->middleware('auth:sanctum')->group(fun
 });
 Route::controller(FreelancerController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/basic-info/{id}','getBasicInformation');
-    Route::get('/work-profile/{id}','getWorkProfile');
-    Route::get('/portfolio/{id}','getPortfolios');
     Route::get('/reviews/{id}','getReviews');
-    Route::get('/services/{id}','getServices');
-
 });
-
+Route::controller(WorkProfileController::class)->middleware('auth:sanctum')->group(function(){
+    Route::get('/work-profile/{id}','getWorkProfile');
+});
+Route::controller(PortfolioController::class)->middleware('auth:sanctum')->group(function(){
+    Route::get('/portfolio/{id}','getPortfolios');
+});
+Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function(){
+    Route::get('/services/{id}','getServices');
+});
