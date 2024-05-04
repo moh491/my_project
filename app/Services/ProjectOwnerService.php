@@ -17,6 +17,8 @@ class ProjectOwnerService
             'password' => bcrypt($projectownerData ['password']),
             'field_id'=>$projectownerData['field_id'],
             'about'=>$projectownerData['about'],
+            'location'=>$projectownerData['location'],
+            'time_zone'=>$projectownerData['time_zone'],
         ]);
         $project_owner['token'] =  $project_owner->createToken('auth-project-owner-token',['role:project_owner'])->plainTextToken;
         $code = mt_rand(100000, 999999);

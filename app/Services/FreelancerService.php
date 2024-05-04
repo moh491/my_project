@@ -69,23 +69,6 @@ public function basicInformation(string $id){
     ];
     return $response;
 }
-
-public function workProfile(string $id){
-    $freelancer=Freelancer::find($id);
-    $response =[
-        'experiences'=>ExperienceResource::collection($freelancer->experiences),
-        'educations'=>EducationResource::collection($freelancer->eductions),
-        'certification'=>CertificationResource::collection($freelancer->certifications),
-    ];
-    return $response ;
-}
-
-public function getPortfolios(string $id){
-    $freelancer=Freelancer::find($id);
-    $portfolios = $freelancer->portfolios;
-    return PortfolioResource::collection($portfolios);
-}
-
 public function getReviews(string $id)
 {
     $freelancer = Freelancer::find($id);
@@ -93,9 +76,5 @@ public function getReviews(string $id)
     return ReviewResource::collection($projects);
 }
 
-public function getServices(string $id){
-    $freelancer = Freelancer::find($id);
-    $services = $freelancer->services;
-    return ServiceResource::collection($services);
-}
+
 }

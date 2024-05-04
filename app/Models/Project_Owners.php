@@ -19,7 +19,9 @@ class Project_Owners extends Authenticatable
         'email',
         'password',
         'field_id',
-        'about'
+        'about',
+        'location',
+        'time_zone'
     ];
 
     /**

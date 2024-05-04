@@ -18,6 +18,8 @@ class Company extends Authenticatable
         'password',
         'field_id',
         'about',
+        'location',
+        'background_image',
     ];
 
     protected $casts = [
