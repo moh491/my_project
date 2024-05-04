@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
  use App\Http\Controllers\FreelancerControllers\FreelancerAuthController;
+use App\Http\Controllers\FreelancerControllers\FreelancerController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,7 @@ Route::controller( FreelancerAuthController::class)->prefix('Freelancer')->group
     Route::post('/register', 'register');
 
 });
+
 Route::controller(ProjectOwnersAuthController::class)->prefix('ProjectOwner')->group(function () {
 
     Route::post('/register', 'register');
@@ -42,6 +44,14 @@ Route::controller( AuthController::class)->middleware('auth:sanctum')->group(fun
     Route::post('/verifyOtp','verifyOtp');
     Route::post('userForgotPassword','userForgotPassword');
     Route::post('/userResetPassword','userResetPassword');
+
+});
+Route::controller(FreelancerController::class)->middleware('auth:sanctum')->group(function(){
+    Route::get('/basic-info/{id}','getBasicInformation');
+    Route::get('/work-profile/{id}','getWorkProfile');
+    Route::get('/portfolio/{id}','getPortfolios');
+    Route::get('/reviews/{id}','getReviews');
+    Route::get('/services/{id}','getServices');
 
 });
 

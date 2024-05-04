@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('field_id');
+            $table->string('location');
+            $table->string('website')->nullable();
+            $table->string('background_image');
             $table->text('about');
+            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();;
             $table->timestamps();
         });
     }

@@ -10,8 +10,12 @@ use App\Mail\SendCodeResetPassword;
 use App\Models\Company;
 use App\Models\Freelancer;
 use App\Models\Otp;
+use App\Models\Portfolio;
 use App\Models\Project_Owners;
 use App\Models\ResetCodePassword;
+use App\Models\Service;
+use App\Models\Skill;
+use App\Models\Team;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +96,7 @@ class AuthController extends Controller
         $passwordReset->delete();
         return $this->success('password has been successfully reset');
     }
+
 
 
 

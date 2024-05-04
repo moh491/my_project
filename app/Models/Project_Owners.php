@@ -41,4 +41,17 @@ class Project_Owners extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+    public function otps()
+    {
+        return $this->morphOne(Otp::class, 'otpable');
+    }
+    public function field(){
+        return $this->belongsTo(Field::class);
+    }
+    public function Projects(){
+        return $this->hasMany(Project::class);
+    }
+    public function requests(){
+        return $this->hasMany(Request::class);
+    }
 }

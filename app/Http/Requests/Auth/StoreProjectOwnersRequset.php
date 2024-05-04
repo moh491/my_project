@@ -27,8 +27,10 @@ class StoreProjectOwnersRequset extends FormRequest
             'last_name' => ['required' , 'string' , 'max:255'] ,
             'email' => ['required' , 'string' , 'max:255' ] ,
             'password' => ['required' , 'confirmed'],
-            'field_id'=>['required'],
             'about'=>['required','string' ],
+            'location'=>['required'],
+            'time_zone'=>['required'],
+            'field_id'=>['required'],
         ];
     }
 }
