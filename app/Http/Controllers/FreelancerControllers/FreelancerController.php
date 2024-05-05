@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\FreelancerControllers;
 
+use App\Http\Requests\AboutRequest;
 use App\Services\FreelancerService;
 use App\Traits\ApiResponseTrait;
 
@@ -26,6 +27,18 @@ class FreelancerController
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
+    }
+    public function updateAbout(AboutRequest $request,string $id,FreelancerService $freelancerService){
+        try {
+            $validator = $request->validated();
+           $freelancerService->updateAbout($id,$validator);
+            return $this->success('updated successfully');
+        }
+        catch (\throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
+
+
     }
 
 }

@@ -19,7 +19,6 @@ use ApiResponseTrait;
     public function register(StoreFreelancerRequset $request,FreelancerService $freelancerService)
     {
         try {
-
             $validator = $request->validated();
             $Freelancer = $freelancerService->createFreelancer($validator);
             return $this->success('Register has successful',$Freelancer);

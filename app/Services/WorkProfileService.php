@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Http\Resources\CertificationResource;
 use App\Http\Resources\EducationResource;
 use App\Http\Resources\ExperienceResource;
+use App\Models\Experience;
 use App\Models\Freelancer;
 
 class WorkProfileService

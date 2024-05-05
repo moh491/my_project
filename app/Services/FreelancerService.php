@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\BasicInfoResource;
 use App\Http\Resources\CertificationResource;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\EducationResource;
@@ -60,20 +61,18 @@ public function createFreelancer(array $freelancerData){
 
 public function basicInformation(string $id){
     $freelancer=Freelancer::find($id);
-    $languages = $freelancer->languages()->select('language', 'level')->get();
-    $skills=$freelancer->skills()->pluck('name');
-    $response =[
-        'about'=>$freelancer->about,
-        'languages'=>$languages,
-        'skills'=>$skills
-    ];
-    return $response;
+    return new BasicInfoResource($freelancer);
 }
 public function getReviews(string $id)
 {
     $freelancer = Freelancer::find($id);
     $projects = $freelancer->projects;
     return ReviewResource::collection($projects);
+}
+public function updateAbout(string $id,$about){
+    $freelancer=Freelancer::find($id);
+    $freelancer->update(['about'=>$about['about']]);
+
 }
 
 
