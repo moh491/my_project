@@ -30,6 +30,7 @@ class ExperienceRequest extends FormRequest
             'end_date'=>'required',
             'position_id'=>'required',
             'company_id'=>'required',
+            'description'=>'required',
         ];
     }
 }

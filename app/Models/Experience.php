@@ -17,10 +17,8 @@ class Experience extends Model
         'end_date',
         'position_id',
         'company_id',
-        'freelancer_id'
-
-
-
+        'freelancer_id',
+        'description'
     ];
 
     public function freelancer(){

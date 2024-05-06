@@ -17,10 +17,10 @@ class ServiceResource extends JsonResource
         return [
             'id'=>$this->id,
             'title'=>$this->title,
-            'starting_price'=>$this->plans[0]->price,
+            'starting_price'=>200,
             'rating' =>4,
             'ratings_count' => 24,
-            'image' =>"link to image"
+            'image' =>"link to image",
         ];
     }
 }

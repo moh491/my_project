@@ -17,6 +17,7 @@ class ExperiencService
             'end_date'=>$data['end_date'],
             'position_id'=> $data['position_id'],
             'company_id'=> $data['company_id']  ,
+            'description'=>$data['description'],
             'freelancer_id'=>$id,
         ]);
     }
