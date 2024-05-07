@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('location');
             $table->date('start_date');
             $table->date('end_date')->nullable();
+            $table->text('description');
             $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete();;
             $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();;
             $table->foreignId('company_id')->constrained('companies')->nullable()->cascadeOnDelete();;

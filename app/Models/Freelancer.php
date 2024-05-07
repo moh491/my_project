@@ -24,7 +24,6 @@ class Freelancer extends Authenticatable
         'about',
         'time_zone',
         'location',
-
     ];
 
     /**
