@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ProfilePageService;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Auth;
 
 class ProfilePageController extends Controller
 {
     use ApiResponseTrait;
-    public function getProfilePage(string $id,ProfilePageService $profilePageService){
+    public function getProfilePage(ProfilePageService $profilePageService,$id=null){
         try {
+            if(!$id){
+                $id = Auth::user()->id;
+            }
             $information = $profilePageService->ProfilePage($id);
             return $this->success('get Profile Page',$information);
         }
@@ -19,9 +23,10 @@ class ProfilePageController extends Controller
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function updateProfile(string $id,Request $request,ProfilePageService $profilePageService){
+    public function updateProfile(Request $request,ProfilePageService $profilePageService){
         try {
             $data=$request->all();
+            $id =Auth::user()->id;
             $profilePageService->updateProfile($id,$data);
             return $this->success('Update Profile');
         }

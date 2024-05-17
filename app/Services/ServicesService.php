@@ -7,9 +7,9 @@ use App\Models\Freelancer;
 
 class ServicesService
 {
-    public function getServices(string $id){
-        $freelancer = Freelancer::find($id);
-        $services = $freelancer->services;
+    public function getServices(string $id,$model){
+        $user = $model::find($id);
+        $services = $user->services;
         return ServiceResource::collection($services);
     }
 

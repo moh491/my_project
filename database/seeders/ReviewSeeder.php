@@ -19,7 +19,8 @@ class ReviewSeeder extends Seeder
         'communication' => 5,
         'quality' => 3,
         'commit_to_deadlines' => 3,
-        're_employee' => 7,
+        're_employee' => 4,
+        'experience'=>3,
         'description' =>'description',
             'project_id'=>1,
 
@@ -29,7 +30,8 @@ class ReviewSeeder extends Seeder
             'communication' => 5,
             'quality' => 3,
             'commit_to_deadlines' => 3,
-            're_employee' => 7,
+            're_employee' => 2,
+            'experience'=>3,
             'description' =>'description',
             'project_id'=>2,
 
@@ -37,21 +39,23 @@ class ReviewSeeder extends Seeder
         Review::create([
             'professionalism' => 4,
             'communication' => 5,
-            'quality' => 3,
+            'quality' => 2,
             'commit_to_deadlines' => 3,
-            're_employee' => 7,
+            're_employee' => 2,
+            'experience'=>3,
             'description' =>'description',
-            'project_id'=>2,
+            'project_id'=>3,
 
         ]);
         Review::create([
             'professionalism' => 4,
             'communication' => 5,
-            'quality' => 3,
+            'quality' => 2,
             'commit_to_deadlines' => 3,
-            're_employee' => 7,
+            're_employee' => 4,
+            'experience'=>3,
             'description' =>'description',
-            'project_id'=>2,
+            'project_id'=>4,
 
         ]);
     }

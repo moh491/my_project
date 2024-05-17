@@ -7,12 +7,15 @@ use App\Http\Requests\CertificateRequest;
 use App\Services\CertificateService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CertificateController extends Controller
 {
     use ApiResponseTrait;
-    public function insert(CertificateRequest $request,string $id,CertificateService $certificateService){
+    public function insert(CertificateRequest $request,CertificateService $certificateService){
         try {
+            $id = Auth::user()->id;
+          // $user = Auth::guard('Freelancer')->user();
             $validator = $request->validated();
              $certificateService->create($id,$validator);
             return $this->success('insert successful');

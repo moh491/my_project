@@ -19,8 +19,8 @@ class ReviewResource extends JsonResource
             'professionalism'=>$this->review->professionalism,
             'communication'=>$this->review->communication,
             'commit_to_deadlines'=>$this->review->commit_to_deadlines,
-            'quality'=> 3 ,
-            'experience'=>5,
+            'quality'=>$this->review->quality ,
+            'experience'=>$this->review->experience,
             're_employee'=>$this->review->re_employee,
             'description'=>$this->review->description,
             'project' => [
@@ -28,7 +28,7 @@ class ReviewResource extends JsonResource
                 'title' => $this->title,
                 'project_owner' => [
                     'id' => $this->worker_id,
-                    'full_name' => $this->project_owner->first_name,
+                    'full_name' => $this->project_owner->first_name.' '.$this->project_owner->last_name,
                     'profile' => $this->project_owner->profile
                 ]
             ],

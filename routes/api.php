@@ -56,43 +56,47 @@ Route::controller( AuthController::class)->middleware('auth:sanctum')->group(fun
 
 });
 Route::controller(FreelancerController::class)->middleware('auth:sanctum')->group(function(){
-    Route::get('/basic-info/{id}','getBasicInformation');
-    Route::get('/reviews/{id}','getReviews');
-    Route::post('updateAbout/{id}','updateAbout');
+    Route::get('/basic-info/{id?}','getBasicInformation');
+    Route::get('/reviews/{id?}','getReviews');
+    Route::post('updateAbout','updateAbout');
 });
 Route::controller(WorkProfileController::class)->middleware('auth:sanctum')->group(function(){
-    Route::get('/work-profile/{id}','getWorkProfile');
+    Route::get('/work-profile/{id?}','getWorkProfile');
 });
 Route::controller(PortfolioController::class)->middleware('auth:sanctum')->group(function(){
-    Route::get('/portfolio/{id}','getPortfolios');
+    Route::get('/portfolio/{id?}/{type?}','getPortfolios');
+    Route::post('/insert/{TeamId?}','insert');
+    Route::post('delete/{portfolioId}/{teamId?}','delete');
+    Route::get('detailsPortfolio/{portfolioId}','getDetailsPortfolios');
+    Route::post('updatePortfolio/{portfolioId}/{teamId?}','update');
 });
 Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function(){
-    Route::get('/services/{id}','getServices');
+    Route::get('/services/{id?}/{type?}','getServices');
 });
 Route::controller(ProfilePageController::class)->middleware('auth:sanctum')->group(function(){
-    Route::get('/freelancer/{id}','getProfilePage');
-    Route::post('update-profile/{id}','updateProfile');
+    Route::get('/freelancer/{id?}','getProfilePage');
+    Route::post('update-profile','updateProfile');
 });
 Route::controller(CertificateController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('/insert-certificate/{id}','insert');
+    Route::post('/insert-certificate','insert');
     Route::post('update-certificate/{id}','update');
     Route::post('delete-certificate/{id}','delete');
 });
 Route::controller(ExperienceController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('/insert-experience/{id}','insert');
+    Route::post('/insert-experience','insert');
     Route::post('update-experience/{id}','update');
     Route::post('delete-experience/{id}','delete');
 });
 Route::controller(EducationController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('/insert-education/{id}','insert');
+    Route::post('/insert-education','insert');
     Route::post('update-education/{id}','update');
     Route::post('delete-education/{id}','delete');
 });
 Route::controller(LanguageController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('/insert-lan/{id}','insert');
+    Route::post('/insert-lan','insert');
     Route::post('delete-lan/{id}','delete');
 });
 Route::controller(SkillController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('/insert-skill/{id}','insert');
-    Route::post('delete-skill/{id}','delete');
+    Route::post('insert-skill/{teamId?}','insert');
+    Route::post('delete-skill/{skillId}/{teamId?}','delete');
 });

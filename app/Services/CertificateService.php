@@ -2,11 +2,12 @@
 
 namespace App\Services;
 
+use App\Http\Controllers\Controller;
 use App\Http\Resources\CertificateResource;
 use App\Models\Certification;
 use App\Models\Freelancer;
 
-class CertificateService
+class CertificateService extends Controller
 {
     public function create(string $id,array $data){
       Certification::create([

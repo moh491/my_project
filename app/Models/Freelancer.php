@@ -25,6 +25,7 @@ class Freelancer extends Authenticatable
         'time_zone',
         'location',
     ];
+    protected $guard = 'Freelancer';
 
     /**
      * The attributes that should be hidden for serialization.
@@ -41,6 +42,8 @@ class Freelancer extends Authenticatable
      *
      * @var array<string, string>
      */
+
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',

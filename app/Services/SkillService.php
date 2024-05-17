@@ -2,21 +2,21 @@
 
 namespace App\Services;
 
+use App\Models\Freelancer;
 use App\Models\Skill;
+use Illuminate\Support\Facades\Auth;
 
 class SkillService
 {
-    public function create(string $id,array $skills)
+    public function create(string $id,$model,array $skills)
     {
-        foreach ($skills as $skill) {
-            $skill = Skill::create([
-                'name' => $skill,
-            ]);
-            $skill->freelancers()->attach($id);
-        }
+        $user = $model::find($id);
+        $user->skills()->attach($skills);
     }
-    public function delete(string $id){
-        Skill::where('id',$id)->delete();
+    public function delete(string $skillId,$id,$model){
+            $freelancer = $model::find($id);
+            $freelancer->skills()->detach($skillId);
     }
+
 
 }

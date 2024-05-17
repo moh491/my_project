@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Portfolio extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'title',
+        'description',
+        'date',
+        'preview',
+        'images',
+        'demo',
+        'link',
+    ];
     //Get all of the skills for the portfolio.
     public function skills(){
         return $this->morphToMany(Skill::class, 'skillable','skillable__skills');
@@ -18,5 +27,12 @@ class Portfolio extends Model
     {
         return $this->morphedByMany(Freelancer::class, 'owner','owner__portfolios');
     }
+
+    public function team()
+    {
+        return $this->morphedByMany(Team::class, 'owner','owner__portfolios');
+    }
+
+
 
 }

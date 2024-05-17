@@ -7,13 +7,15 @@ use App\Http\Requests\ExperienceRequest;
 use App\Services\ExperiencService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ExperienceController extends Controller
 {
     use ApiResponseTrait;
-    public function insert(ExperienceRequest $request,string $id,ExperiencService $experiencService){
+    public function insert(ExperienceRequest $request,ExperiencService $experiencService){
         try {
             $validator = $request->validated();
+            $id = Auth::user()->id;
             $experiencService->create($id,$validator);
             return $this->success('insert successful');
         }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('quality');
             $table->bigInteger('commit_to_deadlines');
             $table->bigInteger('re_employee');
+            $table->bigInteger('experience');
             $table->text('description');
             $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();;
             $table->timestamps();

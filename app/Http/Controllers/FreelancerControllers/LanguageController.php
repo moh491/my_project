@@ -5,13 +5,15 @@ namespace App\Http\Controllers\FreelancerControllers;
 use App\Http\Requests\LanguageRequest;
 use App\Services\LanguageService;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Auth;
 
 class LanguageController
 {
     use ApiResponseTrait;
-    public function insert(LanguageRequest $request,string $id,LanguageService $languageService){
+    public function insert(LanguageRequest $request,LanguageService $languageService){
         try {
             $validator = $request->validated();
+            $id = Auth::user()->id;
             $languageService->create($id,$validator);
             return $this->success('insert successful');
         }

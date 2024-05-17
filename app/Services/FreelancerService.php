@@ -20,6 +20,7 @@ use App\Models\Owner_Portfolio;
 use App\Models\Portfolio;
 use App\Models\Position;
 use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class FreelancerService
@@ -69,8 +70,8 @@ public function getReviews(string $id)
     $projects = $freelancer->projects;
     return ReviewResource::collection($projects);
 }
-public function updateAbout(string $id,$about){
-    $freelancer=Freelancer::find($id);
+public function updateAbout($about){
+    $freelancer=Auth::user();
     $freelancer->update(['about'=>$about['about']]);
 
 }

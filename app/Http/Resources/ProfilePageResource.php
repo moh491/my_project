@@ -17,7 +17,7 @@ class ProfilePageResource extends JsonResource
         return [
             'id'=>$this->id,
             'profile'=>$this->profile,
-            'full name'=>$this->first_name.''.$this->last_name,
+            'full name'=>$this->first_name.' '.$this->last_name,
             'position'=>$this->position->name,
             'rating'=>5,
             'location'=>$this->location,
