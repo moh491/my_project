@@ -38,7 +38,6 @@ class FreelancerController
             return $this->serverError($throwable->getMessage());
         }
 
-
     }
 
 }

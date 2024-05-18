@@ -11,12 +11,13 @@ use Illuminate\Http\Request;
 class ExperienceController extends Controller
 {
     use ApiResponseTrait;
+
     public function insert(ExperienceRequest $request,string $id,ExperiencService $experiencService){
         try {
             $validator = $request->validated();
             $experiencService->create($id,$validator);
             return $this->success('insert successful');
-        }
+            }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
