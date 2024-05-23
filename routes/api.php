@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
+use App\Http\Controllers\CompanyControllers\JobController;
 use App\Http\Controllers\FreelancerControllers\CertificateController;
 use App\Http\Controllers\FreelancerControllers\EducationController;
 use App\Http\Controllers\FreelancerControllers\ExperienceController;
@@ -102,4 +103,9 @@ Route::controller(LanguageController::class)->middleware('auth:sanctum')->group(
 Route::controller(SkillController::class)->middleware('auth:sanctum')->group(function(){
     Route::post('insert-skill/{teamId?}','insert');
     Route::post('delete-skill/{skillId}/{teamId?}','delete');
+});
+Route::controller(JobController::class)->prefix('job')->middleware('auth:sanctum')->group(function(){
+    Route::post('/insert','insert');
+    Route::put('/update/{id}','update');
+    Route::delete('/delete/{id}','delete');
 });

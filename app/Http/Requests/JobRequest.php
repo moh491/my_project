@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests;
 
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCompanyrRequest extends FormRequest
+class JobRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,14 +23,15 @@ class StoreCompanyrRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>['required','string'],
-           'logo'=>['required'],
-            'email'=>['required'],
-            'password' => ['required'],
-            'about'=>['required'],
-            'location'=>['required'],
-            'background_image'=>['required'],
-            'field_id'=>['required'],
+            'position_id'=>'required',
+            'location_type'=>'required',
+            'employment_type'=>'required',
+            'level'=>'required',
+            'description'=>'required',
+            'requirements'=>'required',
+            'responsibilities'=>'required',
+            'min_salary'=>'required',
+            'max_salary'=>'required',
         ];
     }
 }

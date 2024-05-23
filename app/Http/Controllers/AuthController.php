@@ -49,7 +49,7 @@ class AuthController extends Controller
         if(!$user->email_verified_at){
             return $this->error('Please verified your email to allow login');
         }
-        $token = $user->createToken('auth_' . $data['user_type'] . '_token', ['*'])->plainTextToken;
+        $token = $user->createToken('auth_' . $data['user_type'] . '_ token', ['*'])->plainTextToken;
         return $this->success('login successful', $user, $token);
     }
 

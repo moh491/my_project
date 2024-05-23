@@ -9,6 +9,8 @@ class Job extends Model
 {
     use HasFactory;
 
+    protected $guarded=[];
+
     public function freelancers(){
         return $this->belongsToMany(Freelancer::class,'applications');
     }

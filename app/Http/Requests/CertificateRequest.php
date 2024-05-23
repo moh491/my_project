@@ -28,7 +28,6 @@ class CertificateRequest extends FormRequest
             'image'=>'required',
             'link'=>'required',
             'credentials_id'=>'required',
-
         ];
     }
 }
