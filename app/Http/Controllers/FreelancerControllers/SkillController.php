@@ -12,33 +12,39 @@ use Illuminate\Support\Facades\Auth;
 class SkillController extends controller
 {
     use ApiResponseTrait;
-    public function insert(Request $request,SkillService $skillService,$id=null){
+    protected $skillService;
+
+    public function __construct(SkillService $skillService)
+    {
+        $this->skillService = $skillService;
+    }
+    public function insert(Request $request,$id=null){
         try {
             if($id){
                 $type='App\\Models\\Team';
             }
             else{
                 $type='App\\Models\\Freelancer';
-                $id=Auth::user()->id;
+                $id = Auth::guard('Freelancer')->user()->id;
             }
             $validator = $request->all();
-            $skillService->create($id,$type,$validator);
+            $this->skillService->create($id,$type,$validator);
             return $this->success('insert successful');
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function delete(string $skillId,SkillService $skillService,$id=null){
+    public function delete(string $skillId,$id=null){
         try {
             if($id){
                 $type='App\\Models\\Team';
             }
             else{
                 $type='App\\Models\\Freelancer';
-                $id=Auth::user()->id;
+                $id = Auth::guard('Freelancer')->user()->id;
             }
-            $skillService->delete($skillId,$id,$type);
+            $this->skillService->delete($skillId,$id,$type);
             return $this->success('deleted successful');
         }
         catch (\throwable $throwable){

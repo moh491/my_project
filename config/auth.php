@@ -42,17 +42,19 @@ return [
         ],
 
         'Company' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'Companies',
         ],
 
         'Freelancer' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'Freelancers',
         ],
 
+
+
         'Project_Owner' => [
-            'driver' => 'session',
+            'driver' => 'sanctum',
             'provider' => 'Project_Owners',
         ],
 

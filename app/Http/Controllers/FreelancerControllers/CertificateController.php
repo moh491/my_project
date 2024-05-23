@@ -4,6 +4,8 @@ namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CertificateRequest;
+use App\Models\Certification;
+use App\Models\Freelancer;
 use App\Services\CertificateService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
@@ -12,12 +14,18 @@ use Illuminate\Support\Facades\Auth;
 class CertificateController extends Controller
 {
     use ApiResponseTrait;
-    public function insert(CertificateRequest $request,CertificateService $certificateService){
+    protected $certificateService;
+
+    public function __construct(CertificateService $certificateService)
+    {
+        $this->certificateService = $certificateService;
+    }
+
+    public function insert(CertificateRequest $request){
         try {
-            $id = Auth::user()->id;
-          // $user = Auth::guard('Freelancer')->user();
+            $id = Auth::guard('Freelancer')->user()->id;
             $validator = $request->validated();
-             $certificateService->create($id,$validator);
+            $this->certificateService->create($id,$validator);
             return $this->success('insert successful');
         }
         catch (\throwable $throwable){
@@ -25,21 +33,31 @@ class CertificateController extends Controller
         }
 
     }
-    public function update(Request $request,string $id,CertificateService $certificateService){
+    public function update(Request $request,string $id){
         try {
             $data = $request->all();
-             $certificateService->update($id,$data);
-            return $this->success('updated successful');
+            $certification=Certification::find($id);
+            if( Auth::guard('Freelancer')->user()->can('update', [ Certification::class, $certification ] ) ){
+                $this->certificateService->update($id, $data);
+                return $this->success('updated successful');
+            }else{
+                return $this->error('not authorized');
+            }
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
     }
 
-    public function delete(string $id,CertificateService $certificateService){
+    public function delete(string $id){
         try {
-            $certificateService->delete($id);
-            return $this->success('deleted successful');
+            $certification=Certification::find($id);
+            if( Auth::guard('Freelancer')->user()->can('delete', [ Certification::class, $certification ] ) ){
+                $this->certificateService->delete($id);
+                return $this->success('deleted successful');
+            }else{
+                return $this->error('not authorized');
+            }
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Delivery_Option;
 use App\Models\Review;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -37,6 +38,12 @@ class DatabaseSeeder extends Seeder
             FieldSeeder::class,
             PositionSeeder::class,
             ProjectSeeder::class,
+            DeliveryOptionSeeder::class,
+            featuresSeeder::class,
+            PlanFeaturesSeeder::class,
+            PlanSeeder::class,
+
+
 
         ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=1;');

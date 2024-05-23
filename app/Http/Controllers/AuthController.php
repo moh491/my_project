@@ -19,6 +19,7 @@ use App\Models\Team;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AuthController extends Controller
@@ -28,10 +29,23 @@ class AuthController extends Controller
     public function login (LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
-        if (!Auth::guard($data['user_type'])->attempt(['email' => $data['email'], 'password' => $data['password']])) {
-            return $this->error(['message' => 'invalid credentials']);
+        switch ($data['user_type']) {
+            case 'Company':
+                $user = Company::where('email', $data['email'])->first();
+                break;
+            case 'Freelancer':
+                $user = Freelancer::where('email', $data['email'])->first();
+                break;
+            case 'Project_Owner':
+                $user = Project_Owners::where('email', $data['email'])->first();
+                break;
+            default:
+                return $this->error(['message' => 'Invalid user type']);
         }
-        $user = Auth::guard($data['user_type'])->user();
+        // Check if the user exists and the password is correct
+        if (!$user || !Hash::check($data['password'], $user->password)) {
+            return $this->error(['message' => 'Invalid credentials']);
+        }
         if(!$user->email_verified_at){
             return $this->error('Please verified your email to allow login');
         }

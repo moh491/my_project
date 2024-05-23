@@ -11,19 +11,36 @@ use Illuminate\Support\Facades\Auth;
 class ServiceController extends Controller
 {
     use ApiResponseTrait;
-    public function getServices(ServicesService $servicesService,$id =null,$type=null){
+    protected $servicesService;
+
+    public function __construct(ServicesService $servicesService)
+    {
+        $this->servicesService = $servicesService;
+    }
+    public function getServices($id =null,$type=null){
         try {
             ($type=="team")?$model=$model='App\\Models\\Team':$model='App\\Models\\Freelancer';
             if(!$id){
-                $id=Auth::user()->id;
+                $id = Auth::guard('Freelancer')->user()->id;
                 $model='App\\Models\\Freelancer';
             }
-            $information = $servicesService->getServices($id,$model);
+            $information = $this->servicesService->getServices($id,$model);
             return $this->success('get services',$information);
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
     }
+    public function detailService($id){
+        try {
+            $information = $this->servicesService->detailServices($id);
+            return $this->success('get details service',$information);
+        }
+        catch (\throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
+
 
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PortfolioRequest;
+use App\Models\Portfolio;
+use App\Models\Team;
 use App\Services\FreelancerService;
 use App\Services\PortfoliosService;
 use App\Traits\ApiResponseTrait;
@@ -14,23 +16,29 @@ use function PHPUnit\Framework\isEmpty;
 class PortfolioController extends Controller
 {
     use ApiResponseTrait;
-    public function getPortfolios(PortfoliosService $portfoliosService,$id=null,$type=null){
+    protected $portfoliosService;
+
+    public function __construct(PortfoliosService $portfoliosService)
+    {
+        $this->portfoliosService = $portfoliosService;
+    }
+    public function getPortfolios($id=null,$type=null){
         try {
             ($type=="team")?$model='App\\Models\\Team':$model='App\\Models\\Freelancer';
             if(!$id){
-                $id=Auth::user()->id;
+                $id = Auth::guard('Freelancer')->user()->id;
                 $model='App\\Models\\Freelancer';
             }
-            $information = $portfoliosService->getPortfolios($id,$model);
+            $information = $this->portfoliosService->getPortfolios($id,$model);
             return $this->success('get portfolios', $information);
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function getDetailsPortfolios(string $portfolioId,PortfoliosService $portfoliosService){
+    public function getDetailsPortfolios(string $portfolioId){
         try {
-            $information = $portfoliosService->getDetailsPortfolio($portfolioId);
+            $information = $this->portfoliosService->getDetailsPortfolio($portfolioId);
             return $this->success('get details portfolio',$information);
         }
         catch (\throwable $throwable){
@@ -38,11 +46,18 @@ class PortfolioController extends Controller
         }
     }
 
-    public function insert(PortfolioRequest $request,PortfoliosService $portfoliosService,$id=null){
+    public function insert(PortfolioRequest $request,$id=null){
         try {
-            ($id)?$type='team':$type='freelancer' && $id=Auth::user()->id;
+            ($id)?$type='team':$type='freelancer' && $id = Auth::guard('Freelancer')->user()->id;
             $validator = $request->all();
-            $portfoliosService->createPortfolio($id,$type,$validator);
+            if(!$type=="freelancer"){
+                $team = Team::find($id);
+                $freelancer=Auth::guard('Freelancer')->user();
+                if(!$team->freelancers->contains($freelancer->id)){
+                return $this->error('not authorized');
+                }
+            }
+            $this->portfoliosService->createPortfolio($id,$type,$validator);
             return $this->success('insert portfolio successfully');
         }
         catch (\throwable $throwable){
@@ -50,21 +65,30 @@ class PortfolioController extends Controller
         }
 
     }
-    public function delete(string $id,PortfoliosService $portfoliosService,$teamId=null){
+    public function delete(string $id,$teamId=null){
         try {
-
-            $portfoliosService->delete($id,$teamId);
-            return $this->success('deleted successful');
+            $portfolio=Portfolio::find($id);
+            if( Auth::guard('Freelancer')->user()->can('delete', [ Portfolio::class, $portfolio,$teamId ] ) ){
+                $this->portfoliosService->delete($id);
+                return $this->success('deleted successful');
+            }else{
+                return $this->error('not authorized');
+            }
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function update(Request $request,string $id,PortfoliosService $portfoliosService,$teamId=null){
+    public function update(Request $request,string $id,$teamId=null){
         try {
             $data = $request->all();
-           $portfoliosService->update($id,$teamId,$data);
-            return $this->success('updated successful');
+            $portfolio=Portfolio::find($id);
+            if( Auth::guard('Freelancer')->user()->can('update', [ Portfolio::class, $portfolio,$teamId ] ) ){
+                $this->portfoliosService->update($id,$teamId,$data);
+                return $this->success('updated successful');
+            }else{
+                return $this->error('not authorized');
+            }
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());

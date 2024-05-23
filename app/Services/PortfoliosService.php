@@ -38,24 +38,12 @@ class PortfoliosService
         }
     }
 
-    public function delete(string $id,$teamId){
-        $freelancer = Auth::user();
-        if(!$teamId) {
-            $freelancer->portfolios()->delete($id);
-        }
-        else {
-            $team = Team::find($teamId);
-            //Only team members can delete
-            if ($team->freelancers->where('id', $freelancer->id)->first()) {
-                $team->portfolios()->delete($id);
-            }
-        }
+    public function delete(string $id){
+        Portfolio::where('id',$id)->delete();
     }
     public function update(string $id,$teamId,array $data){
-
-        $freelancer= Auth::user();
-        if(!$teamId) {
-            $portfolio = $freelancer->portfolios->find($id);
+        $freelancer=Auth::guard('Freelancer')->user();
+           $portfolio= Portfolio::find($id);
             $portfolio->update($data);
             if (isset($data['skills']))
                 $portfolio->skills()->sync($data['skills']);
@@ -63,18 +51,6 @@ class PortfoliosService
                 $portfolio->freelancers()->sync($data['contributors']);
                 $portfolio->freelancers()->attach($freelancer);
             }
-        }
-        else {
-            $team = Team::find($teamId);
-            //Only team members can update
-            if ($team->freelancers->where('id', $freelancer->id)->first()) {
-                $portfolio = $team->portfolios->find($id);
-                $portfolio->update($data);
-                if (isset($data['skills']))
-                    $portfolio->skills()->sync($data['skills']);
-            }
-        }
-
     }
 
 }

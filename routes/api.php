@@ -32,6 +32,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
+
 Route::controller(FreelancerAuthController::class)->prefix('Freelancer')->group(function () {
 
     Route::post('/register', 'register');
@@ -72,6 +74,7 @@ Route::controller(PortfolioController::class)->middleware('auth:sanctum')->group
 });
 Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/services/{id?}/{type?}','getServices');
+    Route::get('service-details/{id}','detailService');
 });
 Route::controller(ProfilePageController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/freelancer/{id?}','getProfilePage');

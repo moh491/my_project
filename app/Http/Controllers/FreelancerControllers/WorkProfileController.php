@@ -14,7 +14,7 @@ class WorkProfileController extends Controller
     public function getWorkProfile(WorkProfileService $workProfileService,$id=null){
         try {
             if(!$id){
-                $id=Auth::user()->id;
+                $id = Auth::guard('Freelancer')->user()->id;
             }
             $information = $workProfileService->workProfile($id);
             return $this->success('get work profile',$information);

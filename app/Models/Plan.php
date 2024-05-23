@@ -15,6 +15,6 @@ class Plan extends Model
         return $this->hasMany(Delivery_Option::class);
     }
     public function features(){
-        return $this->belongsToMany(Feature::class,'plan__features');
+        return $this->belongsToMany(Feature::class,'plan__features')->withPivot('value');
     }
 }

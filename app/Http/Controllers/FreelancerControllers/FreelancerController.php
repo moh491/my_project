@@ -10,12 +10,18 @@ use Illuminate\Support\Facades\Auth;
 class FreelancerController
 {
     use ApiResponseTrait;
-    public function getBasicInformation(FreelancerService $freelancerService,$id=null){
+    protected $freelancerService;
+
+    public function __construct(FreelancerService $freelancerService)
+    {
+        $this->freelancerService = $freelancerService;
+    }
+    public function getBasicInformation($id=null){
         try {
             if(!$id){
-                $id=Auth::user()->id;
+                $id = Auth::guard('Freelancer')->user()->id;
             }
-            $information = $freelancerService->basicInformation($id);
+            $information = $this->freelancerService->basicInformation($id);
             return $this->success('get basic information',$information);
         }
          catch (\throwable $throwable){
@@ -23,22 +29,22 @@ class FreelancerController
         }
     }
 
-    public function getReviews(FreelancerService $freelancerService,$id =null){
+    public function getReviews($id =null){
         try {
             if(!$id){
-                $id=Auth::user()->id;
+                $id = Auth::guard('Freelancer')->user()->id;
             }
-            $information = $freelancerService->getReviews($id);
+            $information = $this->freelancerService->getReviews($id);
             return $this->success('get reviews',$information);
         }
         catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function updateAbout(AboutRequest $request,FreelancerService $freelancerService){
+    public function updateAbout(AboutRequest $request){
         try {
             $validator = $request->validated();
-           $freelancerService->updateAbout($validator);
+            $this->freelancerService->updateAbout($validator);
             return $this->success('updated successfully');
         }
         catch (\throwable $throwable){
@@ -47,5 +53,4 @@ class FreelancerController
 
 
     }
-
 }

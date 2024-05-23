@@ -45,7 +45,7 @@ public function createFreelancer(array $freelancerData){
           'freelancer_id'=>$freelancer->id,
       ]);
   }
-    $freelancer['token'] =  $freelancer->createToken('auth-freelancer-token',['role:freelance'])->plainTextToken;
+    $freelancer['token'] =  $freelancer->createToken('auth-Freelancer-token',['role:Freelance'])->plainTextToken;
     $code = mt_rand(100000, 999999);
     while(Otp::where('otp', $code)->exists()){
         $code = mt_rand(100000, 999999);
@@ -71,7 +71,7 @@ public function getReviews(string $id)
     return ReviewResource::collection($projects);
 }
 public function updateAbout($about){
-    $freelancer=Auth::user();
+    $freelancer=Auth::guard('Freelancer')->user();
     $freelancer->update(['about'=>$about['about']]);
 
 }
