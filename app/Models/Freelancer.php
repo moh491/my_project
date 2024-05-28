@@ -24,6 +24,7 @@ class Freelancer extends Authenticatable
         'about',
         'time_zone',
         'location',
+        'profile',
     ];
     protected $guard = 'Freelancer';
 

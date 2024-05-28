@@ -15,16 +15,19 @@ class ServiceDetailsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+            'id'=>$this->id,
             'title'=>$this->title,
             'description'=>$this->description,
             'image'=>$this->image,
             'plans' => $this->plans->map(function ($plan) {
                 return [
+                    'id'=>$plan->id,
                     'type' => $plan->type,
                     'price' => $plan->price,
                     'description'=>$plan->description,
                     'features'=>$plan->features->map(function ($feature){
                     return [
+                        'id'=>$feature->id,
                         'name'=>$feature->name,
                         'is_boolean'=>$feature->is_boolean,
                         'value'=>$feature->pivot['value'],
@@ -32,16 +35,13 @@ class ServiceDetailsResource extends JsonResource
                     }),
                     'delivery_options'=>$plan->delivery_options->map(function ($delivery){
                         return [
+                            'id'=>$delivery->id,
                             'days'=>$delivery->days,
                             'increase'=>$delivery->increase,
                         ];
                     })
                 ];
             }),
-
-
-
-
         ];
     }
 }

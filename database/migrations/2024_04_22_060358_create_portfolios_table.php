@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->date('date');
-            $table->string('preview');
-            $table->string('images');
+            $table->string('preview')->nullable();
+            $table->string('images')->nullable();
             $table->string('demo')->nullable();
             $table->string('link');
             $table->timestamps();

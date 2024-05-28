@@ -25,9 +25,9 @@ class CertificateRequest extends FormRequest
             'title'=>'required',
             'start_date'=>'required',
             'end_date'=>'required',
-            'image'=>'required',
-            'link'=>'required',
-            'credentials_id'=>'required',
+            'image'=>['required','image:jpeg,png,jpg,gif,svg|max:2048'],
+            'link'=>'sometimes',
+            'credentials_id'=>'sometimes',
         ];
     }
 }

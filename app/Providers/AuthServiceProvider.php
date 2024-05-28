@@ -7,10 +7,12 @@ use App\Models\Education;
 use App\Models\Experience;
 use App\Models\Language;
 use App\Models\Portfolio;
+use App\Models\Service;
 use App\Policies\CertificatePolicy;
 use App\Policies\EducationPolicy;
 use App\Policies\LanguagePolicy;
 use App\Policies\PortfloioPolicy;
+use App\Policies\ServicePolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -27,7 +29,8 @@ class AuthServiceProvider extends ServiceProvider
         Education::class=>EducationPolicy::class,
         Language::class=>LanguagePolicy::class,
         Experience::class=>EducationPolicy::class,
-        Portfolio::class=>PortfloioPolicy::class
+        Portfolio::class=>PortfloioPolicy::class,
+        Service::class=>ServicePolicy::class,
 
     ];
 

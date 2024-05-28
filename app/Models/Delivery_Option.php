@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Delivery_Option extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'days',
+        'increase',
+        'plan_id',
+    ];
     public function plan(){
         return $this->belongsTo(Plan::class);
     }

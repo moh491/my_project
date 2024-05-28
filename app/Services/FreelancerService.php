@@ -21,6 +21,7 @@ use App\Models\Portfolio;
 use App\Models\Position;
 use App\Models\Review;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class FreelancerService
@@ -38,6 +39,11 @@ public function createFreelancer(array $freelancerData){
       'time_zone' => $freelancerData['time_zone'],
   ]);
   $freelancer->skills()->attach( $freelancerData['skills']);
+  if(isset($freelancerData['profile'])){
+      $imageName = $freelancer->id . '-' . $freelancerData['profile']->getClientOriginalName();
+      $path = $freelancerData['profile']->storeAs( 'freelancer-profile', $imageName, 'public');
+      $freelancer->update(['profile'=>$path]);
+  }
   foreach ($freelancerData['languages'] as $language){
       Language::create([
           'language'=>$language['lang'],

@@ -20,6 +20,11 @@ class ProjectOwnerService
             'location'=>$projectownerData['location'],
             'time_zone'=>$projectownerData['time_zone'],
         ]);
+        if(isset($projectownerData['profile'])){
+            $imageName = $project_owner->id . '-' . $projectownerData['profile']->getClientOriginalName();
+            $path = $projectownerData['profile']->storeAs( 'project-owner-profile', $imageName, 'public');
+            $project_owner->update(['profile'=>$path]);
+        }
         $project_owner['token'] =  $project_owner->createToken('auth-project-owner-token',['role:project_owner'])->plainTextToken;
         $code = mt_rand(100000, 999999);
         while(Otp::where('otp', $code)->exists()){

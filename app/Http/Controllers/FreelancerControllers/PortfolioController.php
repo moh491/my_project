@@ -84,7 +84,7 @@ class PortfolioController extends Controller
             $data = $request->all();
             $portfolio=Portfolio::find($id);
             if( Auth::guard('Freelancer')->user()->can('update', [ Portfolio::class, $portfolio,$teamId ] ) ){
-                $this->portfoliosService->update($id,$teamId,$data);
+                $this->portfoliosService->update($id,$data);
                 return $this->success('updated successful');
             }else{
                 return $this->error('not authorized');

@@ -15,6 +15,7 @@ use App\Http\Controllers\FreelancerControllers\ServiceController;
 use App\Http\Controllers\FreelancerControllers\SkillController;
 use App\Http\Controllers\FreelancerControllers\WorkProfileController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
+use App\Http\Controllers\Project_OwnersControllers\RequestServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -76,6 +77,9 @@ Route::controller(PortfolioController::class)->middleware('auth:sanctum')->group
 Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/services/{id?}/{type?}','getServices');
     Route::get('service-details/{id}','detailService');
+    Route::post('/insertService/{TeamId?}','insertService');
+    Route::post('/updateService/{id}/{TeamId?}','update');
+    Route::post('deleteService/{id}/{TeamId?}','delete');
 });
 Route::controller(ProfilePageController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/freelancer/{id?}','getProfilePage');
@@ -108,4 +112,7 @@ Route::controller(JobController::class)->prefix('job')->middleware('auth:sanctum
     Route::post('/insert','insert');
     Route::put('/update/{id}','update');
     Route::delete('/delete/{id}','delete');
+});
+Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
+    Route::post('requestService','RequestService');
 });

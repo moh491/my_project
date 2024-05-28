@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Feature extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'name',
+        'is_boolean',
+        'service_id',
+
+    ];
     public function service(){
         return $this->belongsTo(Service::class);
     }

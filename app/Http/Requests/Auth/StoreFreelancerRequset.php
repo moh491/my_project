@@ -33,7 +33,8 @@ class StoreFreelancerRequset extends FormRequest
             'position_id'=>['required'],
             'skills'=>['required','array'],
             'languages'=>['required','array'],
-            
+            'profile'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
         ];
     }
 }
