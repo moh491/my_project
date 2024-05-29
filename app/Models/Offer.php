@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     use HasFactory;
+
+    protected $guarded=[];
      //Get the project that are assigned this offer
     public function project(){
         return $this->belongsTo(Project::class);
@@ -17,6 +19,10 @@ class Offer extends Model
     {
         return $this->morphTo();
     }
+
+//    protected $attributes = [
+//        'worker_type' => 'App\Models\Freelancer',
+//    ];
 
 
 

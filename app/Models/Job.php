@@ -11,7 +11,12 @@ class Job extends Model
 
     protected $guarded=[];
 
-    public function freelancers(){
+    public function freelancers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
         return $this->belongsToMany(Freelancer::class,'applications');
+    }
+    public function company(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Company::class);
     }
 }

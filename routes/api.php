@@ -9,11 +9,13 @@ use App\Http\Controllers\FreelancerControllers\ExperienceController;
 use App\Http\Controllers\FreelancerControllers\FreelancerAuthController;
 use App\Http\Controllers\FreelancerControllers\FreelancerController;
 use App\Http\Controllers\FreelancerControllers\LanguageController;
+use App\Http\Controllers\FreelancerControllers\OfferController;
 use App\Http\Controllers\FreelancerControllers\PortfolioController;
 use App\Http\Controllers\FreelancerControllers\ProfilePageController;
 use App\Http\Controllers\FreelancerControllers\ServiceController;
 use App\Http\Controllers\FreelancerControllers\SkillController;
 use App\Http\Controllers\FreelancerControllers\WorkProfileController;
+use App\Http\Controllers\Project_OwnersControllers\ProjectController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -101,8 +103,43 @@ Route::controller(SkillController::class)->middleware('auth:sanctum')->group(fun
     Route::post('insert-skill/{teamId?}','insert');
     Route::post('delete-skill/{skillId}/{teamId?}','delete');
 });
-Route::controller(JobController::class)->prefix('job')->middleware('auth:sanctum')->group(function(){
-    Route::post('/insert','insert');
-    Route::put('/update/{id}','update');
-    Route::delete('/delete/{id}','delete');
+
+
+Route::controller(JobController::class)->prefix('job')->group(function (){
+
+    Route::get('/browse-jobs','browseJobs');
+    Route::get('/filter','filterAll');
+    Route::get('/details/{id}','jobDetails');
+    Route::get('/job-options', 'getJobOptions');
+    //Route::post('/search', 'searchJobs');
+    Route::middleware('auth:sanctum')->group(function (){
+        Route::post('/insert','insert');
+        Route::put('/update/{id}','update');
+        Route::delete('/delete/{id}','delete');
+    });
 });
+
+ Route::controller(ProjectController::class)->prefix('project')->group(function (){
+
+     Route::get('/details/{id}','projectDetails');
+     Route::get('/project-options', 'projectOptions');
+     Route::get('/browse-projects','browseProjects');
+     Route::get('/filter','filterAll');
+
+     Route::middleware('auth:sanctum')->group(function (){
+         Route::post('store','store');
+     });
+
+ });
+
+     Route::controller(OfferController::class)->prefix('offer')->group(function (){
+         Route::get('/project-options', 'offerOptions');
+         Route::get('/browse-offers','browseOffers');
+         Route::get('/filter','filterAll');
+
+         Route::middleware('auth:sanctum')->group(function (){
+         Route::post('store','insert');
+         Route::delete('delete/{id}','delete');
+     });
+
+ });
