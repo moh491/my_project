@@ -21,8 +21,28 @@ class ProjectService
         $data = $request->validated();
 
         $data['project_owner_id'] = auth()->id();
+        $skills = $data['skills'];
+        unset($data['skills']);
 
-        return Project::create($data);
+
+        return DB::transaction(function () use ($data, $skills) {
+
+            $project = Project::create($data);
+            if (!empty($skills)) {
+                $project->skills()->attach($skills);
+            }
+
+            return $project;
+        });
+//        $data = $request->validated();
+//
+//        $data['project_owner_id'] = auth()->id();
+//
+//        if (!empty($data['skills'])) {
+//            $data->skills()->attach($data['skills']);
+//        }
+//
+//        return Project::create($data);
     }
 
     public function getProjectById($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
@@ -34,24 +54,24 @@ class ProjectService
     {
         $classifications = Field::has('projects')
             ->select('id', 'name')
-            ->paginate(10);
+            ->get();
 
         $skills = Skill::select(DB::raw('name as skill_name'))
             ->distinct()
-            ->paginate(10);
+            ->get();
 
         $deliveryDurations = Project::select('duration as delivery_duration')
             ->distinct()
-            ->paginate(10);
+            ->get();
 
         $dates = Project::select(DB::raw('DATE(created_at) as publish_date'))
             ->distinct()
-            ->paginate(10);
+             ->get();
 
         $averageSalary = DB::table('projects')
             ->select(DB::raw('((min_budget + max_budget) / 2) as average_salary'))
             ->distinct()
-            ->paginate(10);
+            ->get();
 
         foreach ($averageSalary as  $salary) {
             $salary->average_salary = number_format($salary->average_salary, 0, '.', '');

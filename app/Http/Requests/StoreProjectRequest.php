@@ -22,11 +22,11 @@ class StoreProjectRequest extends FormRequest
             'min_budget' => 'required|numeric',
             'max_budget' => 'required|numeric',
             'status' => 'required|string',
-            'field_id' => 'required|exists:fields,id',
+            'field_id' => 'required|integer|exists:fields,id',
             'worker_type' => 'nullable|string',
             'worker_id' => 'nullable|exists:freelancers,id',
-           // 'skills' => 'required|array',
-           // 'skills.*' => 'exists:skillable__skills,id',
+            'skills' => 'required|array',
+            'skills.*' => 'integer|exists:skills,id'
 
         ];
     }

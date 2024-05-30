@@ -40,35 +40,35 @@ class OfferController extends Controller
         }
     }
 
-    public function offerOptions(): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $options = $this->offerService->getOfferOptions();
-            return $this->success('successfully',$options);
-        }catch (\throwable $throwable){
-            return $this->serverError($throwable->getMessage());
-        }
-    }
-
-    public function browseOffers(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    {
-        try {
-            $projects = $this->offerService->getAllOffers();
-            return OfferResource::collection($projects);
-        } catch (\Throwable $throwable) {
-            return $this->serverError($throwable->getMessage());
-        }
-    }
-
-    public function filterAll(Request $request): \Illuminate\Http\JsonResponse
-    {
-        try {
-            $projects = $this->offerService->filterAll();
-            return $this->success('success',$projects);
-        } catch  (\throwable $throwable){
-            return $this->serverError($throwable->getMessage());
-        }
-    }
+//    public function offerOptions(): \Illuminate\Http\JsonResponse
+//    {
+//        try {
+//            $options = $this->offerService->getOfferOptions();
+//            return $this->success('successfully',$options);
+//        }catch (\throwable $throwable){
+//            return $this->serverError($throwable->getMessage());
+//        }
+//    }
+//
+//    public function browseOffers(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+//    {
+//        try {
+//            $projects = $this->offerService->getAllOffers();
+//            return OfferResource::collection($projects);
+//        } catch (\Throwable $throwable) {
+//            return $this->serverError($throwable->getMessage());
+//        }
+//    }
+//
+//    public function filterAll(Request $request): \Illuminate\Http\JsonResponse
+//    {
+//        try {
+//            $projects = $this->offerService->filterAll();
+//            return $this->success('success',$projects);
+//        } catch  (\throwable $throwable){
+//            return $this->serverError($throwable->getMessage());
+//        }
+//    }
 
 
 }

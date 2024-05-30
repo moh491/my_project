@@ -37,29 +37,7 @@ class OfferService
         Offer::where('id', $id)->delete();
     }
 
-    public function getOfferOptions(): void
-    {
 
-
-    }
-
-    public function getAllOffers()
-    {
-        return Offer::paginate(10);
-
-    }
-
-    public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-    {
-
-        $projects = QueryBuilder::for(Offer::class)
-            ->allowedFilters((new FilterProjects())->filterAll())
-            ->with(['field:id,name'])
-            ->get();
-
-        return OfferResource::collection($projects);
-
-    }
 
 
 

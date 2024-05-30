@@ -18,7 +18,7 @@ class FilterProjects {
 
             AllowedFilter::callback('skills', function (Builder $query, $value) {
                 $query->whereHas('skills', function (Builder $query) use ($value) {
-                    $query->whereIn('id', $value);
+                    $query->whereIn('skills.id', $value);
                 });
             }),
 
@@ -34,24 +34,21 @@ class FilterProjects {
                 $query->whereRaw('((min_budget + max_budget) / 2) >= ?', [$value]);
             }),
 
-           // AllowedFilter::callback('search', new SearchFilter(['field_id:name', 'skills', 'duration', 'created_at', 'salary_options'])),
-
             AllowedFilter::callback('search', function (Builder $query, $value) {
 
-                $query->where(function ($query) use ($value) {
-                    $query->whereHas('field', function (Builder $companyQuery) use ($value) {
-                        (new SearchFilter(['name']))->__invoke($companyQuery, $value, 'fields');
-                    });
+                $query->whereHas('field', function (Builder $fieldQuery) use ($value) {
+                    (new SearchFilter(['name']))->__invoke($fieldQuery, $value, 'fields');
                 });
-                $query->where(function ($query) use ($value) {
-                    $query->whereHas('skills', function (Builder $companyQuery) use ($value) {
-                        (new SearchFilter(['name']))->__invoke($companyQuery, $value, 'skills');
-                    });
+
+                $query->orWhereHas('skills', function (Builder $skillQuery) use ($value) {
+                    (new SearchFilter(['name']))->__invoke($skillQuery, $value, 'skills');
                 });
 
                 $query->orWhere(function ($query) use ($value) {
                     $query->whereRaw('? BETWEEN min_budget AND max_budget', [$value])
                         ->orWhere('duration',$value)
+                        ->orwhere('description','like',"%$value%")
+                        ->orwhere('title','like',"%$value%")
                         ->orWhereDate('created_at', $value);
                 });
             }),
