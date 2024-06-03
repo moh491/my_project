@@ -38,4 +38,9 @@ class Company extends Authenticatable
     public function experiences(){
         return $this->hasMany(Experience::class);
     }
+    public function jobs()
+    {
+        return $this->hasMany(Job::class);
+    }
+
 }

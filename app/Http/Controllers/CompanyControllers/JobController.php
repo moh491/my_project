@@ -1,13 +1,22 @@
 <?php
 
 namespace App\Http\Controllers\CompanyControllers;
-
+use App\Filtering\FilterJob;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobRequest;
+use App\Http\Resources\BrowseJobs;
+use App\Http\Resources\JobResource;
+use App\Models\Company;
 use App\Models\Job;
 use App\Services\JobService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 
 class JobController extends Controller
 {
@@ -23,14 +32,13 @@ class JobController extends Controller
     {
         try {
             $validator = $request->validated();
-            $validator['company_id']=auth()->user()->id;
+            $validator['company_id']=auth()->guard('Company')->user()->id;
             $this->jobService->create($validator);
             return $this->success('insert successful');
         }
             catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
         }
-
     }
 
     public function update(Request $request,string $id){
@@ -54,13 +62,45 @@ class JobController extends Controller
         }
     }
 
-    public function browseJobs(){
-
-
+    public function browseJobs(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        try {
+            $jobs = $this->jobService->getAllJobs();
+            return BrowseJobs::collection($jobs);
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
     }
-//
-//    public function store(JobRequest $request)
-//    {
-//        return (new JobService())->store($request);
-//    }
+
+    public function jobDetails($id): \Illuminate\Http\JsonResponse|JobResource
+    {
+        try {
+            $job = $this->jobService->getJobById($id);
+            return new JobResource($job);
+
+        }catch (\Throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
+    public function getJobOptions(): \Illuminate\Http\JsonResponse
+    {
+        try {
+             $options = $this->jobService->getJobOptions();
+            return $this->success('successfully',$options);
+        }catch (\throwable $throwable){
+                return $this->serverError($throwable->getMessage());
+            }
+    }
+
+    public function filterAll(Request $request): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $jobs = $this->jobService->filterAll();
+            return $this->success('success',$jobs);
+        } catch  (\throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
 }

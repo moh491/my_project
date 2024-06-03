@@ -14,15 +14,19 @@ class Field extends Model
     public function freelancers(){
         return $this->hasMany(Freelancer::class);
     }
-    public function companies(){
+    public function companies(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Company::class);
     }
     public function project_owners(){
         return $this->hasMany(Project_Owners::class);
     }
-    public function projects(){
+
+    public function projects(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Project::class);
     }
+
     public function positions(){
         return $this->hasMany(Position::class);
     }
