@@ -4,6 +4,7 @@ namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ExperienceRequest;
+use App\Http\Requests\ExperienceUpdateRequest;
 use App\Models\Experience;
 use App\Services\ExperiencService;
 use App\Traits\ApiResponseTrait;
@@ -32,11 +33,11 @@ class ExperienceController extends Controller
         }
 
     }
-    public function update(Request $request,string $id){
+    public function update(ExperienceUpdateRequest $request,string $id){
         try {
-            $data = $request->all();
+            $data = $request->validated();
             $experience=Experience::find($id);
-            if( Auth::guard('Freelancer')->user()->can('update', [ Experience::class, $experience ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Experience::class, $experience ] ) ){
                 $this->experiencService->update($id, $data);
                 return $this->success('updated successful');
             }else{
@@ -51,7 +52,7 @@ class ExperienceController extends Controller
     public function delete(string $id){
         try {
             $experience=Experience::find($id);
-            if( Auth::guard('Freelancer')->user()->can('delete', [ Experience::class, $experience ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Experience::class, $experience ] ) ){
                 $this->experiencService->delete($id);
                 return $this->success('deleted successful');
             }else{

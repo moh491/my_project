@@ -16,40 +16,18 @@ class ServicePolicy
     {
         //
     }
-    public function update(Freelancer $freelancer,  Service $service, ?int $teamId = null)
+    public function access(Freelancer $freelancer,  Service $service)
     {
-        if (is_null($teamId)) {
-            if ($service->owner_type === Freelancer::class) {
-                // Check if the user is the freelancer who owns the service
-                return $service->owner_id === $freelancer->id;
-            }
+        if($service->owner_type==Team::class){
+            $team=Team::find($service->owner_id);
+            return $this->isMemberOfTeam($freelancer,$team);
         }
-        else {
-            if($service->owner_type === Team::class && $service->owner_id === $teamId){
-                // Check if the user is a member of the team that owns the service
-            $team = Team::find($teamId);
-            return $team->freelancers->contains($freelancer->id);
-            }
+        else{
+           return  $service->owner_id === $freelancer->id;
         }
-        return false;
     }
-
-    public function delete(Freelancer $freelancer,  Service $service, ?int $teamId = null)
-    {
-        if (is_null($teamId)) {
-            if ($service->owner_type === Freelancer::class) {
-                // Check if the user is the freelancer who owns the service
-                return $service->owner_id === $freelancer->id;
-            }
-        }
-        else {
-            if($service->owner_type === Team::class && $service->owner_id === $teamId){
-                // Check if the user is a member of the team that owns the service
-                $team = Team::find($teamId);
-                return $team->freelancers->contains($freelancer->id);
-            }
-        }
-        return false;
+    public function isMemberOfTeam(Freelancer $freelancer,Team $team){
+        return $team->freelancers->contains($freelancer->id);
     }
 
 

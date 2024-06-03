@@ -16,6 +16,7 @@ use App\Models\ResetCodePassword;
 use App\Models\Service;
 use App\Models\Skill;
 use App\Models\Team;
+use App\Services\DataServices;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,7 +113,16 @@ class AuthController extends Controller
     }
 
 
+    public function index(DataServices $dataServices)
+    {
+        try {
+            $information = $dataServices->get();
+            return $this->success('get information', $information);
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
 
+    }
 
 
 

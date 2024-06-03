@@ -26,38 +26,7 @@ class Freelancer extends Authenticatable
         'location',
         'profile',
     ];
-    protected $guard = 'Freelancer';
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
-
-    public function GenerateCode(){
-
-        $this->timestamps=false;
-        $this->code=rand(1000,9999);
-        $this->expire_at=now()->addMinute(20);
-        $this->save();
-
-    }
     //Get the freelancer's only otp.
     public function otps()
     {

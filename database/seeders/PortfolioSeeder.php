@@ -21,8 +21,8 @@ class PortfolioSeeder extends Seeder
             'title'=>'project1',
             'description'=>'Our portfolio showcases a comprehensive pharmacy management system designed to streamline operations, enhance customer service, and optimize medication management. The system comprises a Laravel backend for robust data management and a Vue.js frontend for seamless cross-platform user experiences',
             'date'=>'2024-05-01',
-            'preview'=>'link',
-            'images'=>'link',
+            'preview'=>'portfolio/1/photo_2024-06-02_13-42-53.jpg',
+            'images'=>'portfolio/1',
             'demo'=>'demo',
             'link'=>'link'
         ]);

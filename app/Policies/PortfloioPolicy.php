@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\Freelancer;
+use App\Models\Owner_Portfolio;
 use App\Models\Portfolio;
 use App\Models\Team;
 use App\Models\User;
@@ -16,35 +17,20 @@ class PortfloioPolicy
     {
         //
     }
-    public function update(Freelancer $freelancer,  Portfolio $portfolio, ?int $teamId = null)
-    {
-        if (is_null($teamId)) {
-            // Check if the freelancer owns the portfolio
-            return $freelancer->portfolios()->where('portfolio_id', $portfolio->id)->exists();
-        } else {
-            // Check if the freelancer is a member of the team and the team owns the portfolio
-            $team = Team::find($teamId);
-            if ($team && $team->freelancers->contains($freelancer->id)) {
-                return $team->portfolios()->where('portfolio_id', $portfolio->id)->exists();
-            }
-        }
 
-        return false;
+    public function access(Freelancer $freelancer, Portfolio $portfolio)
+    {
+        $owner = Owner_Portfolio::where('portfolio_id', $portfolio->id)->first();
+        if ($owner->owner_type == Team::class) {
+            $team = Team::find($owner->owner_id);
+            // Check if the authenticated freelancer is a member of the team
+            return $this->isMemberOfTeam($freelancer,$team);
+        } else {
+            // Check if the authenticated freelancer  owns the portfolio
+            return $freelancer->portfolios()->where('portfolio_id', $portfolio->id)->exists();
+        }
     }
-
-    public function delete(Freelancer $freelancer,  Portfolio $portfolio, ?int $teamId = null)
-    {
-        if (is_null($teamId)) {
-            // Check if the freelancer owns the portfolio
-            return $freelancer->portfolios()->where('portfolio_id', $portfolio->id)->exists();
-        } else {
-            // Check if the freelancer is a member of the team and the team owns the portfolio
-            $team = Team::find($teamId);
-            if ($team && $team->freelancers->contains($freelancer->id)) {
-                return $team->portfolios()->where('portfolio_id', $portfolio->id)->exists();
-            }
-        }
-
-        return false;
+    public function isMemberOfTeam(Freelancer $freelancer,Team $team){
+        return $team->freelancers->contains($freelancer->id);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EducationRequest;
+use App\Http\Requests\EducationUpdateRequest;
 use App\Models\Education;
 use App\Services\EducationService;
 use App\Traits\ApiResponseTrait;
@@ -31,11 +32,11 @@ class EducationController extends Controller
         }
 
     }
-    public function update(Request $request,string $id){
+    public function update(EducationUpdateRequest $request,string $id){
         try {
-            $data = $request->all();
+            $data = $request->validated();
             $education =Education::find($id);
-            if( Auth::guard('Freelancer')->user()->can('update', [ Education::class, $education ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Education::class, $education ] ) ){
                 $this->educationService ->update($id,$data);
                 return $this->success('updated successful');
             }else{
@@ -50,7 +51,7 @@ class EducationController extends Controller
     public function delete(string $id){
         try {
             $education =Education::find($id);
-            if( Auth::guard('Freelancer')->user()->can('delete', [ Education::class, $education ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Education::class, $education ] ) ){
                 $this->educationService ->delete($id);
                 return $this->success('deleted successful');
             }else{

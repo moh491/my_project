@@ -2,17 +2,24 @@
 
 namespace App\Providers;
 
+use App\Http\Controllers\FreelancerControllers\PlanServiceController;
 use App\Models\Certification;
 use App\Models\Education;
 use App\Models\Experience;
+use App\Models\Feature;
 use App\Models\Language;
+use App\Models\Plan;
 use App\Models\Portfolio;
 use App\Models\Service;
+use App\Models\Skill;
 use App\Policies\CertificatePolicy;
 use App\Policies\EducationPolicy;
+use App\Policies\ExperiencePolicy;
+use App\Policies\FeaturePolicy;
 use App\Policies\LanguagePolicy;
 use App\Policies\PortfloioPolicy;
 use App\Policies\ServicePolicy;
+use App\Policies\SkillPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -28,9 +35,12 @@ class AuthServiceProvider extends ServiceProvider
         Certification::class=>CertificatePolicy::class,
         Education::class=>EducationPolicy::class,
         Language::class=>LanguagePolicy::class,
-        Experience::class=>EducationPolicy::class,
+        Experience::class=>ExperiencePolicy::class,
         Portfolio::class=>PortfloioPolicy::class,
         Service::class=>ServicePolicy::class,
+        Feature::class=>ServicePolicy::class,
+        Plan::class=>ServicePolicy::class,
+        Skill::class=>SkillPolicy::class
 
     ];
 

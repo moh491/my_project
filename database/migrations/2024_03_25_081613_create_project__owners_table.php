@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('time_zone');
             $table->string('profile')->nullable();
             $table->text('about');
-            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();
             $table->timestamps();
         });
     }

@@ -18,13 +18,9 @@ class CertificatePolicy
         //
     }
 
-    public function update(Freelancer $freelancer, Certification $certification)
+    public function access(Freelancer $freelancer, Certification $certification)
     {
         return $freelancer->id === $certification->freelancer_id;
     }
 
-    public function delete(Freelancer $freelancer, Certification $certification)
-    {
-        return $freelancer->id === $certification->freelancer_id;
-    }
 }

@@ -13,7 +13,8 @@ class Service extends Model
        'description',
        'image',
         'owner_type',
-        'owner_id'
+        'owner_id',
+        'preview'
     ];
     public function plans(){
         return $this->hasMany(Plan::class);

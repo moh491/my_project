@@ -15,13 +15,10 @@ class ExperiencePolicy
     {
         //
     }
-    public function update(Freelancer $freelancer, Experience $experience)
+    public function access(Freelancer $freelancer, Experience $experience)
     {
         return $freelancer->id === $experience->freelancer_id;
     }
 
-    public function delete(Freelancer $freelancer, Experience $experience)
-    {
-        return $freelancer->id === $experience->freelancer_id;
-    }
+
 }

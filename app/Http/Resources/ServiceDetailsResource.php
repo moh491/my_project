@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\File;
 
 class ServiceDetailsResource extends JsonResource
 {
@@ -12,13 +13,25 @@ class ServiceDetailsResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    private function getImages($path)
+    {
+        $imageFiles = File::files(storage_path('app/public/' . $path));
+        $images = [];
+        foreach ($imageFiles as $file) {
+            if($file->getFilename() !==basename($this->preview))
+                $images[] = $path . '/' . $file->getFilename();
+        }
+
+        return $images;
+    }
     public function toArray(Request $request): array
     {
         return [
             'id'=>$this->id,
             'title'=>$this->title,
             'description'=>$this->description,
-            'image'=>$this->image,
+            'images' => $this->getImages($this->image),
+            'preview'=>$this->preview,
             'plans' => $this->plans->map(function ($plan) {
                 return [
                     'id'=>$plan->id,

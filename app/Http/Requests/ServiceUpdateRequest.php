@@ -11,7 +11,7 @@ class ServiceUpdateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,20 +24,9 @@ class ServiceUpdateRequest extends FormRequest
         return [
             'title'=>'string',
             'description'=>'text',
-            'image'=>'string',
-            'plans'=>'array',
-            'plans.*.id'=>'required',
-            'plans.*.price' => 'sometimes|numeric',
-            'plans.*.description'=>'sometimes',
-            'plans.*.features'=>'array',
-            'plans.*.features.*.id'=>'required',
-            'plans.*.features.*.value'=>'sometimes',
-            'plans.*.delivery_option'=>'array',
-            'plans.*.delivery_option.*.id'=>'required',
-            'plans.*.delivery_option.*.days'=>'sometimes',
-            'plans.*.delivery_option.*.increase'=>'sometimes',
-
-
+            'preview'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'image'=>'array',
+            'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }

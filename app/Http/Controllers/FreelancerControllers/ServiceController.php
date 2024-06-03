@@ -57,8 +57,7 @@ class ServiceController extends Controller
             $validator = $request->validated();
             if($type=='App\\Models\\Team'){
                 $team = Team::find($id);
-                $freelancer=Auth::guard('Freelancer')->user();
-                if(!$team->freelancers->contains($freelancer->id)){
+                if(!Auth::guard('Freelancer')->user()->can('isMemberOfTeam',[Service::class,$team])){
                     return $this->error('not authorized');
                 }
             }
@@ -69,11 +68,11 @@ class ServiceController extends Controller
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function update(ServiceUpdateRequest $request,string $id,$teamId=null){
+    public function update(ServiceUpdateRequest $request,string $id){
         try {
             $data = $request->validated();
             $service=Service::find($id);
-            if( Auth::guard('Freelancer')->user()->can('update', [ Service::class, $service,$teamId ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Service::class, $service] ) ){
                 $this->servicesService->update($id,$data);
                 return $this->success('updated successful');
             }else{
@@ -84,10 +83,10 @@ class ServiceController extends Controller
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function delete($id,$teamId=null){
+    public function delete($id){
         try {
             $service=Service::find($id);
-            if( Auth::guard('Freelancer')->user()->can('delete', [ Service::class, $service,$teamId ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Service::class, $service] ) ){
                 $this->servicesService->delete($id);
                 return $this->success('deleted successful');
             }else{

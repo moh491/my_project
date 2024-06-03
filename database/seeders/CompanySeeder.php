@@ -17,6 +17,7 @@ class CompanySeeder extends Seeder
         Company::create([
             'name'=>'OurCompany',
             'email'=>'Our@gmail.com',
+            'email_verified_at'=>'2023-06-11 19:25:02',
             'logo'=>' ',
             'background_image'=>' ',
             'password'=>'111111',
@@ -28,6 +29,7 @@ class CompanySeeder extends Seeder
         Company::create([
             'name'=>'Meta',
             'email'=>'Meta@gmail.com',
+            'email_verified_at'=>'2023-06-11 19:25:02',
             'logo'=>' ',
             'background_image'=>' ',
             'password'=>'111111',
