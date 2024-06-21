@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Builder;
 
 class Freelancer extends Authenticatable
 {
@@ -26,6 +27,12 @@ class Freelancer extends Authenticatable
         'location',
         'profile',
     ];
+
+    public function scopeName(Builder $query, $name)
+    {
+        return $query->where('first_name', 'like', "%{$name}%")
+            ->orWhere('last_name', 'like', "%{$name}%");
+    }
 
     //Get the freelancer's only otp.
     public function otps()

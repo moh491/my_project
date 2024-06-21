@@ -20,7 +20,7 @@ class ServiceResource extends JsonResource
             'starting_price'=>200,
             'rating' =>4,
             'ratings_count' => 24,
-            'image' =>"link to image",
+            'image' =>$this->preview,
         ];
     }
 }
