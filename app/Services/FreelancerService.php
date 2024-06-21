@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Http\Resources\BasicInfoResource;
 use App\Http\Resources\CertificationResource;
-use App\Http\Resources\CompanyResource;
 use App\Http\Resources\EducationResource;
 use App\Http\Resources\ExperienceResource;
 use App\Http\Resources\FreelancerResource;
@@ -20,9 +19,15 @@ use App\Models\Owner_Portfolio;
 use App\Models\Portfolio;
 use App\Models\Position;
 use App\Models\Review;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use MongoDB\Driver\Query;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\AllowedFilter;
+
+
 
 class FreelancerService
 {
@@ -79,6 +84,19 @@ public function getReviews(string $id)
 public function updateAbout($about){
     $freelancer=Auth::guard('Freelancer')->user();
     $freelancer->update(['about'=>$about['about']]);
+
+}
+public function filterAll(){
+    $freelancers = QueryBuilder::for(Freelancer::class)
+        ->allowedFilters([
+            'location',
+            'time_zone',
+            AllowedFilter::exact('position_id'),
+            AllowedFilter::exact('position.field_id'),
+            AllowedFilter::scope('name')
+        ])
+        ->get();
+    return FreelancerResource::collection($freelancers);
 
 }
 
