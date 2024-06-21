@@ -17,8 +17,8 @@ class BrowseJobs extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'location' => $this->location,
-            //'location_type' => $this->location_type,
+            'location' => $this->company->location,
+            'location_type' => $this->location_type,
             'employment_type' => $this->employment_type,
             'level' => $this->level,
             'min_salary' => $this->min_salary,

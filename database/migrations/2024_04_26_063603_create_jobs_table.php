@@ -16,13 +16,15 @@ return new class extends Migration
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->enum('location_type',Location_Type::getValues());
             $table->enum('employment_type',Employment_Type::getValues());
             $table->enum('level',Level::getValues());
             $table->text('description');
             $table->decimal('min_salary');
             $table->decimal('max_salary');
-            $table->text('responsibilities');
+            $table->json('responsibilities')->nullable();
+            $table->json('requirements')->nullable();
             $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();;
             $table->foreignId('company_id')->constrained('companies')->cascadeOnDelete();;
             $table->timestamps();

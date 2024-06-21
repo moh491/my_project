@@ -26,8 +26,8 @@ class JobFactory extends Factory
             'description' => $this->faker->paragraph,
             'min_salary' => $this->faker->randomFloat(2, 1000, 10000),
             'max_salary' => $this->faker->randomFloat(2, 10000, 50000),
-            'responsibilities' => $this->faker->paragraph,
-            'requirements' => $this->faker->paragraph,
+//            'responsibilities' => [1,2,3],
+//            'requirements' => json_encode([1,2,3]),
             'position_id' => random_int(1, 3),
             'company_id' => random_int(1, 3),
         ];
