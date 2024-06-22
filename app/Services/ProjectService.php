@@ -24,7 +24,6 @@ class ProjectService
         $skills = $data['skills'];
         unset($data['skills']);
 
-
         return DB::transaction(function () use ($data, $skills) {
 
             $project = Project::create($data);

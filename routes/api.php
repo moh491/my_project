@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
 use App\Http\Controllers\CompanyControllers\JobController;
+use App\Http\Controllers\FreelancerControllers\ApplicationController;
 use App\Http\Controllers\FreelancerControllers\CertificateController;
 use App\Http\Controllers\FreelancerControllers\EducationController;
 use App\Http\Controllers\FreelancerControllers\ExperienceController;
@@ -145,7 +146,7 @@ Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->
  });
 
      Route::controller(OfferController::class)->prefix('offer')->group(function (){
-         Route::get('/project-options', 'offerOptions');
+         Route::get('/offer-options', 'offerOptions');
          Route::get('/browse-offers','browseOffers');
          Route::get('/filter','filterAll');
 
@@ -155,4 +156,16 @@ Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->
      });
 
  });
+
+Route::controller( ApplicationController::class)->prefix('app')->group(function (){
+    Route::get('/application-options', 'applicationOptions');
+    Route::get('/browse-applications','browseApplications');
+    Route::get('/filter','filterAll');
+
+    Route::middleware('auth:sanctum')->group(function (){
+        Route::post('store','insert');
+        Route::delete('delete/{id}','delete');
+    });
+
+});
 

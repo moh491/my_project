@@ -17,7 +17,7 @@ return new class extends Migration
             $table->decimal('budget');
             $table->text('description');
             $table->string('files')->nullable();
-            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();;
+            $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
             $table->morphs('worker');
             $table->timestamps();
         });
