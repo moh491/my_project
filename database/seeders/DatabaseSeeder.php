@@ -42,6 +42,7 @@ class DatabaseSeeder extends Seeder
             featuresSeeder::class,
             PlanFeaturesSeeder::class,
             PlanSeeder::class,
+            TeamSeeder::class,
 
 
 
