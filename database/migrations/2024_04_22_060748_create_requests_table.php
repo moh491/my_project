@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->text('note');
-            $table->string('files');
+            $table->string('files')->nullable();
             $table->decimal('budget');
             $table->enum('status',Status::getValues())->nullable();
             $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();;
