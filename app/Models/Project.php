@@ -39,7 +39,8 @@ class Project extends Model
     }
 
     //get all of the offers for the project
-    public function offers(){
+    public function offers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Offer::class);
     }
 

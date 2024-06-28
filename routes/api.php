@@ -3,8 +3,9 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
 use App\Http\Controllers\CompanyControllers\JobController;
-use App\Http\Controllers\Controller1;
+//use App\Http\Controllers\Controller1;
 use App\Http\Controllers\FilterFreelancerController;
+use App\Http\Controllers\FreelancerControllers\ApplicationController;
 use App\Http\Controllers\FreelancerControllers\CertificateController;
 use App\Http\Controllers\FreelancerControllers\EducationController;
 use App\Http\Controllers\FreelancerControllers\ExperienceController;
@@ -171,9 +172,18 @@ Route::controller(PlanServiceController::class)->middleware('auth:sanctum')->gro
      });
 
  });
+Route::controller( ApplicationController::class)->prefix('app')->group(function (){
+    Route::get('/application-options', 'applicationOptions');
+    Route::get('/browse-applications','browseApplications');
+    Route::get('/filter','filterAll');
+
+    Route::middleware('auth:sanctum')->group(function (){
+        Route::post('store','insert');
+        Route::delete('delete/{id}','delete');
+    });
+
+});
 
 Route::controller(FilterFreelancerController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('filterFreelancers','filterAll');
 });
-
-
