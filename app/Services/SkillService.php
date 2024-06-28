@@ -7,7 +7,7 @@ use App\Models\Skill;
 use Illuminate\Support\Facades\Auth;
 
 class SkillService
-{
+{    //freelancer is a member of team
     public function create(string $id,$model,array $skills)
     {
         $user = $model::find($id);

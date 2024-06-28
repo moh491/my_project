@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Requests\AboutRequest;
+use App\Models\Portfolio;
 use App\Services\FreelancerService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Support\Facades\Auth;
@@ -52,4 +53,5 @@ class FreelancerController
         }
 
     }
+
 }

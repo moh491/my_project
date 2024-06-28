@@ -5,9 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Application extends Model
+class Field_Project_owner extends Model
 {
-    protected $guarded=[];
-
     use HasFactory;
 }

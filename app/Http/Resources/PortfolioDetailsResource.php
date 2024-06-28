@@ -2,8 +2,11 @@
 
 namespace App\Http\Resources;
 
+
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\File;
 
 class PortfolioDetailsResource extends JsonResource
 {
@@ -12,8 +15,20 @@ class PortfolioDetailsResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    private function getImages($path)
+    {
+        $imageFiles = File::files(storage_path('app/public/' . $path));
+        $images = [];
+        foreach ($imageFiles as $file) {
+            if($file->getFilename() !==basename($this->preview))
+            $images[] = $path . '/' . $file->getFilename();
+        }
+
+        return $images;
+    }
     public function toArray(Request $request): array
     {
+
         return [
             'id'=>$this->id,
             'title'=>$this->title,
@@ -28,7 +43,8 @@ class PortfolioDetailsResource extends JsonResource
             }),
             'demo'=>$this->demo,
             'link'=>$this->link,
-            'images'=>$this->images,
+            'preview'=>$this->preview,
+            'images' => $this->getImages($this->images),
         ];
     }
 }

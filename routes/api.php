@@ -3,14 +3,18 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
 use App\Http\Controllers\CompanyControllers\JobController;
+//use App\Http\Controllers\Controller1;
+use App\Http\Controllers\FilterFreelancerController;
 use App\Http\Controllers\FreelancerControllers\ApplicationController;
 use App\Http\Controllers\FreelancerControllers\CertificateController;
 use App\Http\Controllers\FreelancerControllers\EducationController;
 use App\Http\Controllers\FreelancerControllers\ExperienceController;
+use App\Http\Controllers\FreelancerControllers\FeatureServiceController;
 use App\Http\Controllers\FreelancerControllers\FreelancerAuthController;
 use App\Http\Controllers\FreelancerControllers\FreelancerController;
 use App\Http\Controllers\FreelancerControllers\LanguageController;
 use App\Http\Controllers\FreelancerControllers\OfferController;
+use App\Http\Controllers\FreelancerControllers\PlanServiceController;
 use App\Http\Controllers\FreelancerControllers\PortfolioController;
 use App\Http\Controllers\FreelancerControllers\ProfilePageController;
 use App\Http\Controllers\FreelancerControllers\ServiceController;
@@ -55,6 +59,7 @@ Route::controller(  CompanyAuthController::class)->prefix('Company')->group(func
 
 });
 Route::post('/login',[AuthController::class,'login']);
+Route::get('/getdata',[AuthController::class,'index']);
 Route::controller( AuthController::class)->middleware('auth:sanctum')->group(function () {
     Route::post('/logout' , 'logout');
     Route::post('/verifyOtp','verifyOtp');
@@ -62,6 +67,7 @@ Route::controller( AuthController::class)->middleware('auth:sanctum')->group(fun
     Route::post('/userResetPassword','userResetPassword');
 
 });
+
 Route::controller(FreelancerController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/basic-info/{id?}','getBasicInformation');
     Route::get('/reviews/{id?}','getReviews');
@@ -73,16 +79,16 @@ Route::controller(WorkProfileController::class)->middleware('auth:sanctum')->gro
 Route::controller(PortfolioController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/portfolio/{id?}/{type?}','getPortfolios');
     Route::post('/insert/{TeamId?}','insert');
-    Route::post('delete/{portfolioId}/{teamId?}','delete');
+    Route::post('delete/{portfolioId}','delete');
     Route::get('detailsPortfolio/{portfolioId}','getDetailsPortfolios');
-    Route::post('updatePortfolio/{portfolioId}/{teamId?}','update');
+    Route::post('updatePortfolio/{portfolioId}','update');
 });
 Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/services/{id?}/{type?}','getServices');
     Route::get('service-details/{id}','detailService');
     Route::post('/insertService/{TeamId?}','insertService');
-    Route::post('/updateService/{id}/{TeamId?}','update');
-    Route::post('deleteService/{id}/{TeamId?}','delete');
+    Route::post('/updateService/{id}','update');
+    Route::post('deleteService/{id}','delete');
 });
 Route::controller(ProfilePageController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('/freelancer/{id?}','getProfilePage');
@@ -130,6 +136,16 @@ Route::controller(JobController::class)->prefix('job')->group(function (){
 Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::post('requestService','RequestService');
 });
+Route::controller(FeatureServiceController::class)->middleware('auth:sanctum')->group(function(){
+    Route::post('createFeature/{serviceID}','insertFeature');
+    Route::post('deleteFeature/{featureID}','deleteFeature');
+
+});
+Route::controller(PlanServiceController::class)->middleware('auth:sanctum')->group(function(){
+    Route::post('createPlan/{serviceID}','insert');
+    Route::post('deletePlan/{id}','delete');
+    Route::post('updatePlan/{id}','update');
+});
 
 
  Route::controller(ProjectController::class)->prefix('project')->group(function (){
@@ -146,7 +162,7 @@ Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->
  });
 
      Route::controller(OfferController::class)->prefix('offer')->group(function (){
-         Route::get('/offer-options', 'offerOptions');
+         Route::get('/project-options', 'offerOptions');
          Route::get('/browse-offers','browseOffers');
          Route::get('/filter','filterAll');
 
@@ -156,7 +172,6 @@ Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->
      });
 
  });
-
 Route::controller( ApplicationController::class)->prefix('app')->group(function (){
     Route::get('/application-options', 'applicationOptions');
     Route::get('/browse-applications','browseApplications');
@@ -169,3 +184,6 @@ Route::controller( ApplicationController::class)->prefix('app')->group(function 
 
 });
 
+Route::controller(FilterFreelancerController::class)->middleware('auth:sanctum')->group(function(){
+    Route::get('filterFreelancers','filterAll');
+});

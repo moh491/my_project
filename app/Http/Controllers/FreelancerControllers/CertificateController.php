@@ -4,6 +4,7 @@ namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CertificateRequest;
+use App\Http\Requests\CertificateUpdateRequest;
 use App\Models\Certification;
 use App\Models\Freelancer;
 use App\Services\CertificateService;
@@ -33,11 +34,11 @@ class CertificateController extends Controller
         }
 
     }
-    public function update(Request $request,string $id){
+    public function update(CertificateUpdateRequest $request,string $id){
         try {
-            $data = $request->all();
+            $data = $request->validated();
             $certification=Certification::find($id);
-            if( Auth::guard('Freelancer')->user()->can('update', [ Certification::class, $certification ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Certification::class, $certification ] ) ){
                 $this->certificateService->update($id, $data);
                 return $this->success('updated successful');
             }else{
@@ -52,7 +53,7 @@ class CertificateController extends Controller
     public function delete(string $id){
         try {
             $certification=Certification::find($id);
-            if( Auth::guard('Freelancer')->user()->can('delete', [ Certification::class, $certification ] ) ){
+            if( Auth::guard('Freelancer')->user()->can('access', [ Certification::class, $certification ] ) ){
                 $this->certificateService->delete($id);
                 return $this->success('deleted successful');
             }else{

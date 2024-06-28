@@ -19,8 +19,8 @@ class ProjectOwnerSeeder extends Seeder
             'first_name'=>'Loujain',
             'last_name'=>'Diab',
             'email'=>'loujain@gmail.com',
+            'email_verified_at'=>'2023-06-11 19:25:02',
             'password'=>'1245667',
-            'field_id'=>1,
             'about'=>'The description of the project owner',
             'location'=>'Damascus, Syria',
             'time_zone'=>'EET UTC+3'
@@ -28,9 +28,9 @@ class ProjectOwnerSeeder extends Seeder
         Project_Owners::create([
             'first_name'=>'Huda',
             'last_name'=>'Shaker',
+            'email_verified_at'=>'2023-06-11 19:25:02',
             'email'=>'Huda@gmail.com',
             'password'=>'1245667',
-            'field_id'=>1,
             'about'=>'The description of the project owner',
             'location'=>'Damascus, Syria',
             'time_zone'=>'EET UTC+3'
@@ -39,8 +39,8 @@ class ProjectOwnerSeeder extends Seeder
             'first_name'=>'Sara',
             'last_name'=>'Mak',
             'email'=>'Sara@gmail.com',
+            'email_verified_at'=>'2023-06-11 19:25:02',
             'password'=>'1245667',
-            'field_id'=>1,
             'about'=>'The description of the project owner',
             'location'=>'Damascus, Syria',
             'time_zone'=>'EET UTC+3'

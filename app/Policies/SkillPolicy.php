@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Education;
 use App\Models\Freelancer;
+use App\Models\Team;
 use App\Models\User;
 
-class EducationPolicy
+class SkillPolicy
 {
     /**
      * Create a new policy instance.
@@ -15,10 +15,7 @@ class EducationPolicy
     {
         //
     }
-    public function access(Freelancer $freelancer, Education $education)
-    {
-        return $freelancer->id === $education->freelancer_id;
+    public function isMemberOfTeam(Freelancer $freelancer,Team $team){
+        return $team->freelancers->contains($freelancer->id);
     }
-
-
 }

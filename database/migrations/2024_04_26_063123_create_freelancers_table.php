@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Eloquent\Builder;
 
 return new class extends Migration
 {
@@ -18,8 +19,6 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('code')->nullable();
-            $table->dateTime('expire_at')->nullable();
             $table->string('location');
             $table->string('time_zone');
             $table->string('profile')->nullable();
@@ -40,4 +39,5 @@ return new class extends Migration
     {
         Schema::dropIfExists('freelancers');
     }
+
 };
