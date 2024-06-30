@@ -62,11 +62,11 @@ class JobController extends Controller
         }
     }
 
-    public function browseJobs(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function browseJobs(): \Illuminate\Pagination\LengthAwarePaginator|\Illuminate\Http\JsonResponse|AnonymousResourceCollection
     {
         try {
-            $jobs = $this->jobService->getAllJobs();
-            return BrowseJobs::collection($jobs);
+            $jobs = BrowseJobs::collection($this->jobService->getAllJobs()) ;
+            return $this->success('Get jobs successfully',$jobs);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
