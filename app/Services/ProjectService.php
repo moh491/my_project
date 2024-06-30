@@ -33,15 +33,7 @@ class ProjectService
 
             return $project;
         });
-//        $data = $request->validated();
-//
-//        $data['project_owner_id'] = auth()->id();
-//
-//        if (!empty($data['skills'])) {
-//            $data->skills()->attach($data['skills']);
-//        }
-//
-//        return Project::create($data);
+
     }
 
     public function getProjectById($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
