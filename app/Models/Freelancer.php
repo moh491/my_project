@@ -28,6 +28,28 @@ class Freelancer extends Authenticatable
         'profile',
     ];
 
+
+    public function conversations(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Conversation::class, 'source')
+            ->orWhere(function ($query) {
+                $query->where('destination_type', self::class)
+                    ->where('destination_id', $this->id);
+            });
+    }
+
+
+    public function sentMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function receivedMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'receiver');
+    }
+
+
     public function scopeName(Builder $query, $name)
     {
         return $query->where('first_name', 'like', "%{$name}%")

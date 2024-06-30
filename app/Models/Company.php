@@ -22,6 +22,28 @@ class Company extends Authenticatable
         'background_image',
     ];
 
+
+    public function conversations(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Conversation::class, 'source')
+            ->orWhere(function ($query) {
+                $query->where('destination_type', self::class)
+                    ->where('destination_id', $this->id);
+            });
+    }
+
+
+    public function sentMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function receivedMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'receiver');
+    }
+
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',

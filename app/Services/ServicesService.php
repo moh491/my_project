@@ -11,6 +11,7 @@ use App\Models\Plan;
 use App\Models\Request;
 use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ServicesService
 {
@@ -109,7 +110,17 @@ class ServicesService
 
     public function requestService($id, $data)
     {
-
+        $request = Request::create([
+            'budget' => $data['budget'],
+            'project_owner_id' => $id,
+            'delivery_option_id' => $data['delivery_option_id'],
+            'note' => $data['note']
+        ]);
+        if (isset($data['files'])) {
+            $fileName = Str::uuid() . '.' . $data['files']->getClientOriginalExtension();
+            $path = $data['files']->storeAs('Request', $fileName, 'public');
+            $request->update(['files' => $path]);
+        }
     }
 
 
