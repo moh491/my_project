@@ -52,6 +52,7 @@ class ProjectDetialsResource extends JsonResource
             'offers_average' => $this->offers()->avg('budget'),
             'offers_number' => $this->offers()->count(),
             'required_skills' => $this->skills->pluck('name'),
+            'ideal_skills' => json_decode($this->ideal_skills)
         ];
 
         if ($this->worker_type === 'App\Models\Freelancer') {
