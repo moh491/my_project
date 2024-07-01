@@ -13,7 +13,7 @@ class Project extends Model
 
     public function project_owner(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Project_Owners::class);
+        return $this->belongsTo(Project_Owners::class,'project_owner_id');
     }
 
     public function field(): \Illuminate\Database\Eloquent\Relations\BelongsTo

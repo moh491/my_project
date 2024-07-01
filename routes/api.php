@@ -21,6 +21,7 @@ use App\Http\Controllers\FreelancerControllers\ServiceController;
 use App\Http\Controllers\FreelancerControllers\SkillController;
 use App\Http\Controllers\FreelancerControllers\WorkProfileController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\Project_OwnersControllers\DashboardOwnerController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use App\Http\Controllers\Project_OwnersControllers\RequestServiceController;
@@ -204,4 +205,7 @@ Route::controller(MessagesController::class)->prefix('chat')->middleware('auth:s
 Route::controller(FilterFreelancerController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('filterFreelancers', 'filterAll');
 
+});
+Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(function (){
+   Route::get('/owner/{id}','endPoint');
 });

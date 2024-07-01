@@ -71,8 +71,9 @@ class Project_Owners extends Authenticatable
     public function field(){
         return $this->belongsTo(Field::class);
     }
-    public function Projects(){
-        return $this->hasMany(Project::class);
+    public function Projects(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Project::class,'project_owner_id');
     }
     public function requests(){
         return $this->hasMany(Request::class);
