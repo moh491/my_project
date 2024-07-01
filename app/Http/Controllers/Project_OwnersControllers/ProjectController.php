@@ -55,8 +55,8 @@ class ProjectController extends Controller
     public function browseProjects(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         try {
-            $projects = $this->projectService->getAllProjects();
-            return ProjectResource::collection($projects);
+            $projects = ProjectResource::collection($this->projectService->getAllProjects());
+            return $this->success('Get projects successfully',$projects);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
