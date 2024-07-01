@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('password');
             $table->string('location');
             $table->string('time_zone');
+            $table->decimal('withdrawal_balance')->default(0);
+            $table->decimal('available_balance')->default(0);
+            $table->decimal('suspended_balance')->default(0);
             $table->string('profile')->nullable();
             $table->text('about');
             $table->timestamps();
