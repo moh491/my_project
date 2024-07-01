@@ -26,6 +26,6 @@ class ProjectSeeder extends Seeder
 //            'worker_id'=>1,
 //        ]);
 
-        Project::factory(10);
+        Project::factory(10)->create();
     }
 }
