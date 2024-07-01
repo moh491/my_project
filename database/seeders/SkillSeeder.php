@@ -31,6 +31,21 @@ class SkillSeeder extends Seeder
             'skillable_id'=>1,
         ]);
         Skillable_Skill::create([
+            'skill_id'=>1,
+            'skillable_type'=> 'App\\Models\\Project',
+            'skillable_id'=>1,
+        ]);
+        Skillable_Skill::create([
+            'skill_id'=>2,
+            'skillable_type'=> 'App\\Models\\Project',
+            'skillable_id'=>1,
+        ]);
+        Skillable_Skill::create([
+            'skill_id'=>3,
+            'skillable_type'=> 'App\\Models\\Project',
+            'skillable_id'=>1,
+        ]);
+        Skillable_Skill::create([
             'skill_id'=>2,
             'skillable_type'=> 'App\\Models\\Freelancer',
             'skillable_id'=>1,

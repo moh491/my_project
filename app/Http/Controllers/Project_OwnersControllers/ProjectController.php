@@ -32,11 +32,11 @@ class ProjectController extends Controller
         }
 
     }
-    public function projectDetails($id): ProjectDetialsResource
+    public function projectDetails($id)
     {
         try {
             $project = $this->projectService->getProjectById($id);
-            return new ProjectDetialsResource($project);
+            return $this->success('GEt project details' ,new ProjectDetialsResource($project)) ;
 
         }catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
