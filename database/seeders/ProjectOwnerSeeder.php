@@ -23,7 +23,10 @@ class ProjectOwnerSeeder extends Seeder
             'password'=>'1245667',
             'about'=>'The description of the project owner',
             'location'=>'Damascus, Syria',
-            'time_zone'=>'EET UTC+3'
+            'time_zone'=>'EET UTC+3',
+            'withdrawal_balance'=>'200000',
+            'available_balance'=>'20000',
+            'suspended_balance'=>'2000'
         ]);
         Project_Owners::create([
             'first_name'=>'Huda',
@@ -33,7 +36,10 @@ class ProjectOwnerSeeder extends Seeder
             'password'=>'1245667',
             'about'=>'The description of the project owner',
             'location'=>'Damascus, Syria',
-            'time_zone'=>'EET UTC+3'
+            'time_zone'=>'EET UTC+3',
+            'withdrawal_balance'=>'200000',
+            'available_balance'=>'20000',
+            'suspended_balance'=>'2000'
         ]);
         Project_Owners::create([
             'first_name'=>'Sara',
@@ -43,7 +49,10 @@ class ProjectOwnerSeeder extends Seeder
             'password'=>'1245667',
             'about'=>'The description of the project owner',
             'location'=>'Damascus, Syria',
-            'time_zone'=>'EET UTC+3'
+            'time_zone'=>'EET UTC+3',
+            'withdrawal_balance'=>'200000',
+            'available_balance'=>'20000',
+            'suspended_balance'=>'2000'
         ]);
     }
 }
