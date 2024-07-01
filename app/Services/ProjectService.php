@@ -24,24 +24,19 @@ class ProjectService
         $skills = $data['skills'];
         unset($data['skills']);
 
+        if (isset($data['ideal_skills'])) {
+            $data['ideal_skills'] = json_encode($data['ideal_skills']);
+        }
+
         return DB::transaction(function () use ($data, $skills) {
 
             $project = Project::create($data);
             if (!empty($skills)) {
                 $project->skills()->attach($skills);
             }
-
             return $project;
         });
-//        $data = $request->validated();
-//
-//        $data['project_owner_id'] = auth()->id();
-//
-//        if (!empty($data['skills'])) {
-//            $data->skills()->attach($data['skills']);
-//        }
-//
-//        return Project::create($data);
+
     }
 
     public function getProjectById($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
@@ -55,7 +50,7 @@ class ProjectService
             ->select('id', 'name')
             ->get();
 
-        $skills = Skill::select(DB::raw('name as skill_name'))
+        $skills = Skill::select('id',DB::raw('name as skill_name'))
             ->distinct()
             ->get();
 
