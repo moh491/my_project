@@ -35,6 +35,7 @@ class ProjectDetialsResource extends JsonResource
             $timeSincePosted = $diffInMinutes . ' minutes ago';
         }
         $projectData = [
+            'id' => $this->id,
             'title' => $this->title,
             'status' => $this->status,
             'min_budget' => $this->min_budget,
