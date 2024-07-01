@@ -50,11 +50,11 @@ class ProjectService
             ->select('id', 'name')
             ->get();
 
-        $skills = Skill::select('id',DB::raw('name as skill_name'))
+        $skills = Skill::select('id','name')
             ->distinct()
             ->get();
 
-        $deliveryDurations = Project::select('duration as delivery_duration')
+        $deliveryDurations = Project::select('duration')
             ->distinct()
             ->get();
 
