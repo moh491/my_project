@@ -53,8 +53,8 @@ class OfferController extends Controller
     public function browseOffers(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         try {
-            $offers = $this->offerService->getAllOffers();
-            return OfferResource::collection($offers);
+            $offers = OfferResource::collection($this->offerService->getAllOffers());
+            return $this->success('Get offers successfully',$offers) ;
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
