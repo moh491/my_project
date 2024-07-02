@@ -50,7 +50,7 @@ class ProjectService
             ->select('id', 'name')
             ->get();
 
-        $skills = Skill::select('name')
+        $skills = Skill::select('id','name')
             ->distinct()
             ->get();
 
