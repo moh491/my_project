@@ -78,12 +78,12 @@ Route::controller(FreelancerController::class)->middleware('auth:sanctum')->grou
 Route::controller(WorkProfileController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/work-profile/{id?}', 'getWorkProfile');
 });
-Route::controller(PortfolioController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('/portfolio/{id?}/{type?}', 'getPortfolios');
+Route::controller(PortfolioController::class)->prefix('portfolio')->middleware('auth:sanctum')->group(function () {
+    Route::get('/{id?}/{type?}', 'getPortfolios');
     Route::post('/insert/{TeamId?}', 'insert');
-    Route::post('delete/{portfolioId}', 'delete');
-    Route::get('detailsPortfolio/{portfolioId}', 'getDetailsPortfolios');
-    Route::post('updatePortfolio/{portfolioId}', 'update');
+    Route::post('/delete/{portfolioId}', 'delete');
+    Route::get('/detailsPortfolio/{portfolioId}', 'getDetailsPortfolios');
+    Route::post('/updatePortfolio/{portfolioId}', 'update');
 });
 Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/services/{id?}/{type?}', 'getServices');
@@ -116,6 +116,7 @@ Route::controller(LanguageController::class)->middleware('auth:sanctum')->group(
     Route::post('delete-lan/{id}', 'delete');
 });
 Route::controller(SkillController::class)->middleware('auth:sanctum')->group(function () {
+    Route::get('skills','index');
     Route::post('insert-skill/{teamId?}', 'insert');
     Route::post('delete-skill/{skillId}/{teamId?}', 'delete');
 });

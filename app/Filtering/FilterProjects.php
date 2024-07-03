@@ -11,6 +11,7 @@ class FilterProjects {
     {
         return [
             AllowedFilter::callback('classification', function (Builder $query, $value) {
+                info($value);
                 $query->whereHas('field', function (Builder $query) use ($value) {
                     $query->whereIn('id', $value);
                 });

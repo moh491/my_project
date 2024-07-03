@@ -14,55 +14,66 @@ use Illuminate\Support\Facades\Auth;
 class SkillController extends controller
 {
     use ApiResponseTrait;
+
     protected $skillService;
 
     public function __construct(SkillService $skillService)
     {
         $this->skillService = $skillService;
     }
-    public function insert(Request $request,$id=null){
-        try {
-            if($id){
-                $type='App\\Models\\Team';
 
-            }
-            else{
-                $type='App\\Models\\Freelancer';
+    public function index(): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $skills = Skill::all();
+            return $this->success('get skills', $skills);
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
+    public function insert(Request $request, $id = null)
+    {
+        try {
+            if ($id) {
+                $type = 'App\\Models\\Team';
+
+            } else {
+                $type = 'App\\Models\\Freelancer';
                 $id = Auth::guard('Freelancer')->user()->id;
             }
-            if($type=='App\\Models\\Team'){
+            if ($type == 'App\\Models\\Team') {
                 $team = Team::find($id);
-                if(!Auth::guard('Freelancer')->user()->can('isMemberOfTeam',[Skill::class,$team])){
+                if (!Auth::guard('Freelancer')->user()->can('isMemberOfTeam', [Skill::class, $team])) {
                     return $this->error('not authorized');
                 }
             }
             $validator = $request->all();
-            $this->skillService->create($id,$type,$validator);
+            $this->skillService->create($id, $type, $validator);
             return $this->success('insert successful');
-        }
-        catch (\throwable $throwable){
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function delete(string $skillId,$id=null){
+
+    public function delete(string $skillId, $id = null)
+    {
         try {
-            if($id){
-                $type='App\\Models\\Team';
-            }
-            else{
-                $type='App\\Models\\Freelancer';
+            if ($id) {
+                $type = 'App\\Models\\Team';
+            } else {
+                $type = 'App\\Models\\Freelancer';
                 $id = Auth::guard('Freelancer')->user()->id;
             }
-            if($type=='App\\Models\\Team'){
+            if ($type == 'App\\Models\\Team') {
                 $team = Team::find($id);
-                if(!Auth::guard('Freelancer')->user()->can('isMemberOfTeam',[Skill::class,$team])){
+                if (!Auth::guard('Freelancer')->user()->can('isMemberOfTeam', [Skill::class, $team])) {
                     return $this->error('not authorized');
                 }
             }
-            $this->skillService->delete($skillId,$id,$type);
+            $this->skillService->delete($skillId, $id, $type);
             return $this->success('deleted successful');
-        }
-        catch (\throwable $throwable){
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
