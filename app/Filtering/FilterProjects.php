@@ -10,7 +10,12 @@ class FilterProjects {
     public function filterAll(): array
     {
         return [
+
             AllowedFilter::callback('classification', function (Builder $query, $value) {
+                if (is_string($value) && is_array(json_decode($value, true))) {
+                    $value = json_decode($value, true);
+                }
+                $value = (array) $value;
                 info($value);
                 $query->whereHas('field', function (Builder $query) use ($value) {
                     $query->whereIn('id', $value);
