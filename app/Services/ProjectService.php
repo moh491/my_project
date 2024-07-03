@@ -50,33 +50,37 @@ class ProjectService
             ->select('id', 'name')
             ->get();
 
-        $skills = Skill::select('id','name')
+        $skills = Skill::select('id', 'name')
             ->distinct()
             ->get();
 
-        $deliveryDurations = Project::select('duration')
-            ->distinct()
-            ->get();
 
-        $dates = Project::select(DB::raw('DATE(created_at) as publish_date'))
-            ->distinct()
-             ->get();
-
-        $averageSalary = DB::table('projects')
-            ->select(DB::raw('((min_budget + max_budget) / 2) as average_salary'))
-            ->distinct()
-            ->get();
-
-        foreach ($averageSalary as  $salary) {
-            $salary->average_salary = number_format($salary->average_salary, 0, '.', '');
+        $durations = [];
+        $maxDuration = Project::max('duration');
+        $minDuration = Project::min('duration');
+        for ($i = $minDuration; $i <= $maxDuration; $i += 6) {
+            $durations [] = $i . '-' . $i + 5;
         }
+
+
+        $salaries = [];
+        $maxSalary = ceil(Project::max('max_budget'));
+        $minSalary = floor(Project::min('min_budget'));
+        for ($i = $minSalary; $i <= $maxSalary; $i += 100) {
+            $salaries [] = $i . '-' . $i + 99;
+        }
+//// Get the minimum salary
+//        $minSalary = Project::min('salary');
+
+//        foreach ($averageSalary as  $salary) {
+//            $salary->average_salary = number_format($salary->average_salary, 0, '.', '');
+//        }
 
         return [
             'classifications' => $classifications,
             'skills' => $skills,
-            'deliveryDurations'=> $deliveryDurations,
-            'salary_options' => $averageSalary,
-            'date_posted' => $dates,
+            'deliveryDurations' => $durations,
+            'salary_options' => $salaries,
         ];
     }
 

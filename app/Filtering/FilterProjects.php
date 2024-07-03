@@ -28,30 +28,28 @@ class FilterProjects {
                 $value = (array) $value;
 
                 $query->whereHas('skills', function (Builder $query) use ($value) {
+
                     if (is_string($value) && is_array(json_decode($value, true))) {
                         $value = json_decode($value, true);
                     }
+                    $value = (array) $value;
+
                     $query->whereIn('skills.id', $value);
                 });
             }),
 
             AllowedFilter::callback('deliveryDurations', function (Builder $query, $value) {
-                if (is_string($value) && is_array(json_decode($value, true))) {
-                    $value = json_decode($value, true);
-                }
-                $query->whereIn('duration', $value);
+                $value =  explode('-',$value);
+               $query->whereBetween('duration',$value);
             }),
 
-            AllowedFilter::callback('date_posted', function (Builder $query, $value) {
-                if (is_string($value) && is_array(json_decode($value, true))) {
-                    $value = json_decode($value, true);
-                }
-                $query->whereIn('created_at', $value);
-            }),
 
             AllowedFilter::callback('salary_options', function (Builder $query, $value) {
-                $query->whereRaw('((min_budget + max_budget) / 2) >= ?', [$value]);
+                $value =  explode('-',$value);
+                $query->where('min_budget', '>=' , $value[0])->
+                where('max_budget','<=' ,$value[1]);
             }),
+
 
             AllowedFilter::callback('search', function (Builder $query, $value) {
 

@@ -22,14 +22,14 @@ class ProjectFactory extends Factory
         return [
             'title' => $this->faker->sentence,
             'description' => $this->faker->paragraph,
-            'min_budget' => $this->faker->numberBetween(500, 5000),
-            'max_budget' => $this->faker->numberBetween(5000, 10000),
+            'min_budget' => $this->faker->numberBetween(100, 500),
+            'max_budget' => $this->faker->numberBetween(200, 1000),
             'status' => $this->faker->numberBetween(1, 4),
             'project_owner_id' => $this->faker->numberBetween(1, 2),
             'field_id' => $this->faker->numberBetween(1, 3),
             'worker_type' => $this->faker->randomElement(['App\\Models\\Freelancer', 'App\\Models\\Employee']),
             'worker_id' => $this->faker->numberBetween(1, 1),
-            'duration' => $this->faker->numberBetween(1, 12),
+            'duration' => $this->faker->numberBetween(1, 30),
             'ideal_skills' => json_encode($array),
         ];
     }
