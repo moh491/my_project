@@ -16,24 +16,37 @@ class FilterProjects {
                     $value = json_decode($value, true);
                 }
                 $value = (array) $value;
-                info($value);
                 $query->whereHas('field', function (Builder $query) use ($value) {
                     $query->whereIn('id', $value);
                 });
             }),
 
             AllowedFilter::callback('skills', function (Builder $query, $value) {
+                if (is_string($value) && is_array(json_decode($value, true))) {
+                    $value = json_decode($value, true);
+                }
+                $value = (array) $value;
+
                 $query->whereHas('skills', function (Builder $query) use ($value) {
+                    if (is_string($value) && is_array(json_decode($value, true))) {
+                        $value = json_decode($value, true);
+                    }
                     $query->whereIn('skills.id', $value);
                 });
             }),
 
             AllowedFilter::callback('deliveryDurations', function (Builder $query, $value) {
-                $query->where('duration', $value);
+                if (is_string($value) && is_array(json_decode($value, true))) {
+                    $value = json_decode($value, true);
+                }
+                $query->whereIn('duration', $value);
             }),
 
             AllowedFilter::callback('date_posted', function (Builder $query, $value) {
-                $query->whereDate('created_at', $value);
+                if (is_string($value) && is_array(json_decode($value, true))) {
+                    $value = json_decode($value, true);
+                }
+                $query->whereIn('created_at', $value);
             }),
 
             AllowedFilter::callback('salary_options', function (Builder $query, $value) {
