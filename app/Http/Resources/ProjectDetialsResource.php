@@ -74,7 +74,7 @@ class ProjectDetialsResource extends JsonResource
                 'details' => [
                     'id' => $this->worker->id,
                     'name' => $this->worker->name,
-                    'logo' => $this->worker->logo,
+                    'profile' => $this->worker->logo,
                     'link' => $this->worker->link,
                     'about' => $this->worker->about,
                 ],
