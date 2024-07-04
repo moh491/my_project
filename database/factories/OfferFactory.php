@@ -32,7 +32,7 @@ class OfferFactory extends Factory
             'description' => $this->faker->paragraph,
             'files' => $this->faker->randomElement(['file1.txt', 'file2.txt']),
             'project_id' => $this->faker->randomElement($projectIds),
-            'worker_type' => $freelancer ? $freelancer->getMorphClass() : 'default_worker_type',
+            'worker_type' => 'App\Models\Freelancer',
             'worker_id' => $freelancer ? $freelancer->id : 1,
         ];
     }
