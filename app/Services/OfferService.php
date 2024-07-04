@@ -68,9 +68,9 @@ class OfferService
         ];
     }
 
-    public function getAllOffers()
+    public function getAllOffers(string $projectId)
     {
-        return Offer::paginate(10);
+        return Offer::where('project_id',$projectId)->paginate(10);
     }
 
     public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection

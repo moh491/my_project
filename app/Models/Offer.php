@@ -15,7 +15,7 @@ class Offer extends Model
         return $this->belongsTo(Project::class);
     }
     //Get all of the models that own offers.
-    public function worker()
+    public function worker(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }

@@ -50,10 +50,10 @@ class OfferController extends Controller
     }
 
 
-    public function browseOffers(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function browseOffers(string $projectId): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         try {
-            $offers = OfferResource::collection($this->offerService->getAllOffers());
+            $offers = OfferResource::collection($this->offerService->getAllOffers($projectId));
             return $this->success('Get offers successfully',$offers) ;
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
