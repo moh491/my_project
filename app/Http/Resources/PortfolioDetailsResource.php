@@ -17,11 +17,11 @@ class PortfolioDetailsResource extends JsonResource
      */
     private function getImages($path)
     {
-        $imageFiles = File::files(storage_path('app/public/' . $path));
+        $imageFiles = File::files(public_path( $path));
         $images = [];
         foreach ($imageFiles as $file) {
             if($file->getFilename() !==basename($this->preview))
-            $images[] = $path . '/' . $file->getFilename();
+            $images[] = app('baseUrl') . $path . '/' . $file->getFilename();
         }
 
         return $images;

@@ -79,10 +79,10 @@ Route::controller(WorkProfileController::class)->middleware('auth:sanctum')->gro
     Route::get('/work-profile/{id?}', 'getWorkProfile');
 });
 Route::controller(PortfolioController::class)->prefix('portfolio')->middleware('auth:sanctum')->group(function () {
+    Route::get('/detailsPortfolio/{portfolioId}', 'getDetailsPortfolios');
     Route::get('/{id?}/{type?}', 'getPortfolios');
     Route::post('/insert/{TeamId?}', 'insert');
     Route::post('/delete/{portfolioId}', 'delete');
-    Route::get('/detailsPortfolio/{portfolioId}', 'getDetailsPortfolios');
     Route::post('/updatePortfolio/{portfolioId}', 'update');
 });
 Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function () {
