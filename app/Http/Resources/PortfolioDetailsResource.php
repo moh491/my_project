@@ -37,7 +37,7 @@ class PortfolioDetailsResource extends JsonResource
             'skills'=>$this->skills()->pluck('name'),
             'contributors' => $this->freelancers->map(function ($freelancer) {
                 return [
-                    'profile' => $freelancer->profile,
+                    'profile' => app('baseUrl') . $freelancer->profile,
                     'id' => $freelancer->id,
                 ];
             }),

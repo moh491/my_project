@@ -3,7 +3,7 @@
 /public/build
 /public/hot
 /public/freelancer-profile
-/public/portfolio
+/storage/app/public/portfolio
 /public/storage
 /storage/*.key
 /vendor
