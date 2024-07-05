@@ -10,6 +10,7 @@ use App\Models\Feature;
 use App\Models\Language;
 use App\Models\Plan;
 use App\Models\Portfolio;
+use App\Models\Request;
 use App\Models\Service;
 use App\Models\Skill;
 use App\Policies\CertificatePolicy;
@@ -18,6 +19,7 @@ use App\Policies\ExperiencePolicy;
 use App\Policies\FeaturePolicy;
 use App\Policies\LanguagePolicy;
 use App\Policies\PortfloioPolicy;
+use App\Policies\RequestPolicy;
 use App\Policies\ServicePolicy;
 use App\Policies\SkillPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
@@ -40,7 +42,8 @@ class AuthServiceProvider extends ServiceProvider
         Service::class=>ServicePolicy::class,
         Feature::class=>ServicePolicy::class,
         Plan::class=>ServicePolicy::class,
-        Skill::class=>SkillPolicy::class
+        Skill::class=>SkillPolicy::class,
+        Request::class=>RequestPolicy::class,
 
     ];
 

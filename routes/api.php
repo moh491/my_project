@@ -25,6 +25,7 @@ use App\Http\Controllers\Project_OwnersControllers\DashboardOwnerController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use App\Http\Controllers\Project_OwnersControllers\RequestServiceController;
+use App\Http\Controllers\ServiceRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 
 Route::controller(FreelancerAuthController::class)->prefix('Freelancer')->group(function () {
@@ -115,6 +117,7 @@ Route::controller(LanguageController::class)->middleware('auth:sanctum')->group(
     Route::post('/insert-lan', 'insert');
     Route::post('delete-lan/{id}', 'delete');
 });
+
 Route::controller(SkillController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('skills','index');
     Route::post('insert-skill/{teamId?}', 'insert');
@@ -136,14 +139,19 @@ Route::controller(JobController::class)->prefix('job')->group(function () {
     });
 });
 
-Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('requestService', 'RequestService');
+
+Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
+    Route::post('requestService','RequestService');
+    Route::get('browseService','browseService');
 });
-Route::controller(FeatureServiceController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('createFeature/{serviceID}', 'insertFeature');
-    Route::post('deleteFeature/{featureID}', 'deleteFeature');
+
+
+Route::controller(FeatureServiceController::class)->middleware('auth:sanctum')->group(function(){
+    Route::post('createFeature/{serviceID}','insertFeature');
+    Route::post('deleteFeature/{featureID}','deleteFeature');
 
 });
+
 Route::controller(PlanServiceController::class)->middleware('auth:sanctum')->group(function () {
     Route::post('createPlan/{serviceID}', 'insert');
     Route::post('deletePlan/{id}', 'delete');
@@ -202,11 +210,11 @@ Route::controller(MessagesController::class)->prefix('chat')->middleware('auth:s
     Route::post('/', 'sendMessage');
 });
 
-
-Route::controller(FilterFreelancerController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('filterFreelancers', 'filterAll');
-
+Route::controller(ServiceRequestController::class)->middleware('auth:sanctum')->group(function(){
+    Route::post('update/{id}','update');
 });
+
+
 Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(function (){
    Route::get('/owner/{id}','endPoint');
 });

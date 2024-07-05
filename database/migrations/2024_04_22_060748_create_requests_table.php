@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('files')->nullable();
             $table->decimal('budget');
             $table->enum('status',Status::getValues())->nullable();
+            $table->integer('rating')->nullable();
             $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();;
             $table->foreignId('delivery_option_id')->constrained('delivery__options')->cascadeOnDelete();;
             $table->timestamps();

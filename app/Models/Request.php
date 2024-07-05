@@ -15,6 +15,7 @@ class Request extends Model
         'status',
         'project_owner_id',
         'delivery_option_id',
+        'rating'
     ];
     public function delivery_options(){
         return $this->belongsTo(Delivery_Option::class);
