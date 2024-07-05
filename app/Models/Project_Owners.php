@@ -24,6 +24,27 @@ class Project_Owners extends Authenticatable
         'profile'
     ];
 
+
+    public function conversations(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Conversation::class, 'source')
+            ->orWhere(function ($query) {
+                $query->where('destination_type', self::class)
+                    ->where('destination_id', $this->id);
+            });
+    }
+
+    public function sentMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function receivedMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'receiver');
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -50,8 +71,9 @@ class Project_Owners extends Authenticatable
     public function field(){
         return $this->belongsTo(Field::class);
     }
-    public function Projects(){
-        return $this->hasMany(Project::class);
+    public function Projects(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Project::class,'project_owner_id');
     }
     public function requests(){
         return $this->hasMany(Request::class);

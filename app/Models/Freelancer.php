@@ -28,6 +28,28 @@ class Freelancer extends Authenticatable
         'profile',
     ];
 
+
+    public function conversations(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Conversation::class, 'source')
+            ->orWhere(function ($query) {
+                $query->where('destination_type', self::class)
+                    ->where('destination_id', $this->id);
+            });
+    }
+
+
+    public function sentMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function receivedMessages(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Message::class, 'receiver');
+    }
+
+
     public function scopeName(Builder $query, $name)
     {
         return $query->where('first_name', 'like', "%{$name}%")
@@ -35,34 +57,50 @@ class Freelancer extends Authenticatable
     }
 
     //Get the freelancer's only otp.
-    public function otps()
+    public function otps(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
         return $this->morphOne(Otp::class, 'otpable');
     }
-    public function position(){
+
+    public function position(): BelongsTo
+    {
         return $this->belongsTo(Position::class);
     }
-    public function field(){
+
+    public function field(): BelongsTo
+    {
         return $this->belongsTo(Field::class);
     }
-    public function experiences(){
+
+    public function experiences(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Experience::class);
     }
-    public function certifications(){
+
+    public function certifications(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Certification::class);
     }
-    public function languages(){
+
+    public function languages(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Language::class);
     }
-    public function eductions(){
+
+    public function eductions(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Education::class);
     }
 
 
-    public function jobs(){
+    public function jobs(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
         return $this->belongsToMany(Job::class,'applications');
     }
-    public function teams(){
+
+
+    public function teams(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
         return $this->belongsToMany(Team::class,'freelancer__teams');
     }
 
@@ -83,12 +121,14 @@ class Freelancer extends Authenticatable
     }
 
     //Get all of the portfolios for the freelance.
-   public function portfolios(){
+   public function portfolios(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+   {
         return $this->morphToMany(Portfolio::class,'owner','owner__portfolios');
    }
 
     //Get all of the freelancer's services
-    public function services(){
+    public function services(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
         return $this->morphMany(Service::class,'owner');
     }
 

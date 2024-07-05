@@ -3,12 +3,14 @@
 namespace App\Services;
 
 use App\Filtering\FilterJob;
+use App\Filtering\FilterOffers;
 use App\Http\Resources\BrowseJobs;
 use App\Http\Resources\OfferResource;
 use App\Models\Company;
 use App\Models\Job;
 use App\Models\Offer;
 use App\Models\Position;
+use App\Models\Project;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
@@ -37,8 +39,49 @@ class OfferService
         Offer::where('id', $id)->delete();
     }
 
+    public function getOfferOptions()
+    {
 
+        $status = Project::has('offers')
+            ->select('id', 'status')
+            ->distinct()
+            ->get();
 
+        $owner = Project::has('offers')
+            ->join('project__owners', 'projects.project_owner_id', '=', 'project__owners.id')
+            ->select('projects.id', 'project__owners.first_name', 'project__owners.last_name')
+            ->distinct()
+            ->get()
+            ->map(function($project) {
+                $project->owner_name = $project->first_name . ' ' . $project->last_name;
+                return $project;
+            });
 
+        $dates =Offer::select(DB::raw('DATE(created_at) as publish_date'))
+            ->distinct()
+            ->get();
+
+        return [
+             'status' => $status,
+             'owner'=> $owner,
+             'date_posted' => $dates,
+        ];
+    }
+
+    public function getAllOffers(string $projectId)
+    {
+        return Offer::where('project_id',$projectId)->paginate(10);
+    }
+
+    public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+
+        $offers = QueryBuilder::for(Offer::class)
+            ->allowedFilters((new FilterOffers())->filterAll())
+            ->get();
+
+        return OfferResource::collection($offers);
+
+    }
 
 }

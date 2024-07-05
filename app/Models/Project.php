@@ -13,7 +13,7 @@ class Project extends Model
 
     public function project_owner(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Project_Owners::class);
+        return $this->belongsTo(Project_Owners::class,'project_owner_id');
     }
 
     public function field(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -39,7 +39,8 @@ class Project extends Model
     }
 
     //get all of the offers for the project
-    public function offers(){
+    public function offers(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Offer::class);
     }
 

@@ -16,6 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description');
+            $table->integer('duration');
             $table->decimal('min_budget');
             $table->decimal('max_budget');
             $table->enum('status',Status::getValues());

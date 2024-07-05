@@ -32,11 +32,11 @@ class ProjectController extends Controller
         }
 
     }
-    public function projectDetails($id): ProjectDetialsResource
+    public function projectDetails($id)
     {
         try {
             $project = $this->projectService->getProjectById($id);
-            return new ProjectDetialsResource($project);
+            return $this->success('GEt project details' ,new ProjectDetialsResource($project)) ;
 
         }catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());
@@ -55,8 +55,8 @@ class ProjectController extends Controller
     public function browseProjects(): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         try {
-            $projects = $this->projectService->getAllProjects();
-            return ProjectResource::collection($projects);
+            $projects = ProjectResource::collection($this->projectService->getAllProjects());
+            return $this->success('Get projects successfully',$projects);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }

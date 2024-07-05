@@ -25,7 +25,7 @@ class StoreFreelancerRequset extends FormRequest
         return [
             'first_name' => 'required|string|max:255',
             'Last_name' => ['required' , 'string' , 'max:255'] ,
-            'email' => ['required' , 'string' , 'max:255' ] ,
+            'email' => ['required' , 'string' , 'max:255' , 'unique:freelancers' ] ,
             'password' => ['required'],
             'about'=>['required','string' ],
             'location'=>['required']    ,

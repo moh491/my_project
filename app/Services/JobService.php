@@ -37,7 +37,7 @@ class JobService
 
     public function getAllJobs()
     {
-        return Job::paginate(10);
+        return Job::paginate(2);
     }
 
     public function getJobById($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null

@@ -4,10 +4,20 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
 class PortfolioResource extends JsonResource
 {
+
+    public static function collection($resource): LengthAwarePaginator|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    {
+        if ($resource instanceof LengthAwarePaginator) {
+            return $resource->setCollection($resource->getCollection()->mapInto(static::class));
+        }
+
+        return parent::collection($resource);
+    }
     /**
      * Transform the resource into an array.
      *
@@ -31,12 +41,12 @@ class PortfolioResource extends JsonResource
                 )
                 ->map(function ($freelancer) {
                     return [
-                        'profile' => $freelancer->profile,
+                        'profile' =>app('baseUrl') . $freelancer->profile,
                         'id' => $freelancer->id,
                     ];
                 })
                 ->values(),
-            'preview_image'=>$this->preview,
+            'preview_image'=> app('baseUrl') . $this->preview,
         ];
     }
 }

@@ -18,20 +18,20 @@ class PortfoliosService
     {
 
         $user = $model::find($id);
-        $portfolios = $user->portfolios;
+        $portfolios = $user->portfolios()->paginate(3);
         if ($model == 'App\\Models\\Freelancer') {
             return PortfolioResource::collection($portfolios);
         }
         return PortfolioTeamResource::collection($portfolios);
     }
 
-    public function getDetailsPortfolio(string $id)
+    public function getDetailsPortfolio(string $id): PortfolioDetailsResource
     {
         $portfolio = Portfolio::find($id);
         return new PortfolioDetailsResource($portfolio);
     }
 
-    public function createPortfolio(string $id, $type, $data)
+    public function createPortfolio(string $id, $type, $data): void
     {
         $portfolio = Portfolio::create([
             'title' => $data['title'],
@@ -65,14 +65,14 @@ class PortfoliosService
 
     }
 
-    public function delete(string $id)
+    public function delete(string $id): void
     {
         Portfolio::where('id', $id)->delete();
         $folderPath = 'public/portfolio/' . $id;
         Storage::deleteDirectory($folderPath);
     }
 
-    public function update(string $id, array $data)
+    public function update(string $id, array $data): void
     {
         $freelancer = Auth::guard('Freelancer')->user();
         $portfolio = Portfolio::find($id);
