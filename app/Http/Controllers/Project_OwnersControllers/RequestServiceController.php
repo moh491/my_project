@@ -29,4 +29,13 @@ class RequestServiceController extends Controller
             return $this->serverError($throwable->getMessage());
         }
     }
+    public function browseService(){
+        try {
+           $services= $this->servicesService->browseService();
+            return $this->success('get Services',$services);
+        }
+        catch (\throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
+    }
 }

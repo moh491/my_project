@@ -2,6 +2,9 @@
 
 namespace App\Services;
 
+use App\Filtering\Search1Filter;
+use App\Filtering\SearchFilter;
+use App\Filtering\SearchServiceFilter;
 use App\Http\Resources\ServiceDetailsResource;
 use App\Http\Resources\ServiceResource;
 use App\Models\Delivery_Option;
@@ -12,6 +15,8 @@ use App\Models\Request;
 use App\Models\Service;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedFilter;
+use Spatie\QueryBuilder\QueryBuilder;
 
 class ServicesService
 {
@@ -121,6 +126,24 @@ class ServicesService
             $path = $data['files']->storeAs('Request', $fileName, 'public');
             $request->update(['files' => $path]);
         }
+    }
+
+    public function browseService()
+    {
+        $services = QueryBuilder::for(Service::class)
+            ->allowedFilters([
+                AllowedFilter::exact('skills.id'),
+                AllowedFilter::custom('search', new Search1Filter(['title', 'description'])),
+            ])->get();
+        return $services;
+    }
+    public function updateStatus($data,$id){
+       $request= Request::find($id);
+       $request->update(['status'=>$data['status']]);
+    }
+    public function updateRating($data,$id){
+        $request= Request::find($id);
+        $request->update(['rating'=>$data['rating']]);
     }
 
 

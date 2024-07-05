@@ -22,6 +22,7 @@ use App\Http\Controllers\FreelancerControllers\WorkProfileController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use App\Http\Controllers\Project_OwnersControllers\RequestServiceController;
+use App\Http\Controllers\ServiceRequestController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -134,7 +135,9 @@ Route::controller(JobController::class)->prefix('job')->group(function (){
 
 Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::post('requestService','RequestService');
+    Route::get('browseService','browseService');
 });
+
 Route::controller(FeatureServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::post('createFeature/{serviceID}','insertFeature');
     Route::post('deleteFeature/{featureID}','deleteFeature');
@@ -176,4 +179,7 @@ Route::controller(FilterFreelancerController::class)->middleware('auth:sanctum')
     Route::get('filterFreelancers','filterAll');
 });
 
+Route::controller(ServiceRequestController::class)->middleware('auth:sanctum')->group(function(){
+    Route::post('update/{id}','update');
+});
 
