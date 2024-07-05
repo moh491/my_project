@@ -25,7 +25,7 @@ class PortfoliosService
         return PortfolioTeamResource::collection($portfolios);
     }
 
-    public function getDetailsPortfolio(string $id)
+    public function getDetailsPortfolio(string $id): PortfolioDetailsResource
     {
         $portfolio = Portfolio::find($id);
         return new PortfolioDetailsResource($portfolio);

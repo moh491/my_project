@@ -40,7 +40,7 @@ class PortfolioController extends Controller
         }
     }
 
-    public function getDetailsPortfolios(string $portfolioId)
+    public function getDetailsPortfolios(string $portfolioId): \Illuminate\Http\JsonResponse
     {
         try {
             $information = $this->portfoliosService->getDetailsPortfolio($portfolioId);
