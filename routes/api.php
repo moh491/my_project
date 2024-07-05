@@ -75,53 +75,53 @@ Route::controller(AuthController::class)->middleware('auth:sanctum')->group(func
 Route::controller(FreelancerController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/basic-info/{id?}', 'getBasicInformation');
     Route::get('/reviews/{id?}', 'getReviews');
-    Route::post('updateAbout', 'updateAbout');
+    Route::put('updateAbout', 'updateAbout');
 });
 Route::controller(WorkProfileController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('/work-profile/{id?}', 'getWorkProfile');
 });
 Route::controller(PortfolioController::class)->prefix('portfolio')->middleware('auth:sanctum')->group(function () {
-    Route::get('/detailsPortfolio/{portfolioId}', 'getDetailsPortfolios');
+    Route::get('/{portfolioId}', 'getDetailsPortfolios');
     Route::get('/{id?}/{type?}', 'getPortfolios');
-    Route::post('/insert/{TeamId?}', 'insert');
-    Route::post('/delete/{portfolioId}', 'delete');
-    Route::post('/updatePortfolio/{portfolioId}', 'update');
+    Route::post('/{TeamId?}', 'insert');
+    Route::delete('/{portfolioId}', 'delete');
+    Route::put('/{portfolioId}', 'update');
 });
-Route::controller(ServiceController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('/services/{id?}/{type?}', 'getServices');
-    Route::get('service-details/{id}', 'detailService');
-    Route::post('/insertService/{TeamId?}', 'insertService');
-    Route::post('/updateService/{id}', 'update');
-    Route::post('deleteService/{id}', 'delete');
+Route::controller(ServiceController::class)->prefix('service')->middleware('auth:sanctum')->group(function () {
+    Route::get('/index/{id?}/{type?}', 'getServices');
+    Route::get('/{id}', 'detailService');
+    Route::post('/{TeamId?}', 'insertService');
+    Route::put('/{id}', 'update');
+    Route::delete('/{id}', 'delete');
 });
-Route::controller(ProfilePageController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('/freelancer/{id?}', 'getProfilePage');
-    Route::post('update-profile', 'updateProfile');
+Route::controller(ProfilePageController::class)->prefix('profile')->middleware('auth:sanctum')->group(function () {
+    Route::get('/{id?}', 'getProfilePage');
+    Route::put('/', 'updateProfile');
 });
-Route::controller(CertificateController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('/insert-certificate', 'insert');
-    Route::post('update-certificate/{id}', 'update');
-    Route::post('delete-certificate/{id}', 'delete');
+Route::controller(CertificateController::class)->prefix('certification')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', 'insert');
+    Route::put('/{id}', 'update');
+    Route::delete('/{id}', 'delete');
 });
-Route::controller(ExperienceController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('/insert-experience', 'insert');
-    Route::post('update-experience/{id}', 'update');
-    Route::post('delete-experience/{id}', 'delete');
+Route::controller(ExperienceController::class)->prefix('experience')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', 'insert');
+    Route::put('/{id}', 'update');
+    Route::delete('/{id}', 'delete');
 });
-Route::controller(EducationController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('/insert-education', 'insert');
-    Route::post('update-education/{id}', 'update');
-    Route::post('delete-education/{id}', 'delete');
+Route::controller(EducationController::class)->prefix('education')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', 'insert');
+    Route::put('/{id}', 'update');
+    Route::delete('/{id}', 'delete');
 });
-Route::controller(LanguageController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('/insert-lan', 'insert');
-    Route::post('delete-lan/{id}', 'delete');
+Route::controller(LanguageController::class)->prefix('language')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', 'insert');
+    Route::delete('/{id}', 'delete');
 });
 
-Route::controller(SkillController::class)->middleware('auth:sanctum')->group(function () {
-    Route::get('skills','index');
-    Route::post('insert-skill/{teamId?}', 'insert');
-    Route::post('delete-skill/{skillId}/{teamId?}', 'delete');
+Route::controller(SkillController::class)->prefix('skill')->middleware('auth:sanctum')->group(function () {
+    Route::get('/','index');
+    Route::post('/{teamId?}', 'insert');
+    Route::delete('/{skillId}/{teamId?}', 'delete');
 });
 
 
@@ -141,21 +141,21 @@ Route::controller(JobController::class)->prefix('job')->group(function () {
 
 
 Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('requestService','RequestService');
+    Route::post('/request','RequestService');
     Route::get('browseService','browseService');
 });
 
 
-Route::controller(FeatureServiceController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('createFeature/{serviceID}','insertFeature');
-    Route::post('deleteFeature/{featureID}','deleteFeature');
+Route::controller(FeatureServiceController::class)->prefix('feature')->middleware('auth:sanctum')->group(function(){
+    Route::post('/{serviceID}','insertFeature');
+    Route::delete('/{featureID}','deleteFeature');
 
 });
 
-Route::controller(PlanServiceController::class)->middleware('auth:sanctum')->group(function () {
-    Route::post('createPlan/{serviceID}', 'insert');
-    Route::post('deletePlan/{id}', 'delete');
-    Route::post('updatePlan/{id}', 'update');
+Route::controller(PlanServiceController::class)->prefix('plan')->middleware('auth:sanctum')->group(function () {
+    Route::post('/{serviceID}', 'insert');
+    Route::delete('/{id}', 'delete');
+    Route::put('/{id}', 'update');
 });
 
 
@@ -198,7 +198,6 @@ Route::controller( ApplicationController::class)->prefix('app')->group(function 
 
 Route::controller(FilterFreelancerController::class)->middleware('auth:sanctum')->group(function(){
     Route::get('filterFreelancers','filterAll');
-
 });
 
 
@@ -210,8 +209,8 @@ Route::controller(MessagesController::class)->prefix('chat')->middleware('auth:s
     Route::post('/', 'sendMessage');
 });
 
-Route::controller(ServiceRequestController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('update/{id}','update');
+Route::controller(ServiceRequestController::class)->prefix('serviceRequest')->middleware('auth:sanctum')->group(function(){
+    Route::put('/{id}','update');
 });
 
 

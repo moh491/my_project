@@ -26,7 +26,7 @@ class FreelancerResource extends JsonResource
                 'name' => $this->position->field->name,
             ],
             'time_zone'=>$this->time_zone,
-            'profile'=>$this->profile,
+            'profile'=>app('baseUrl').$this->profile,
         ];
     }
 }

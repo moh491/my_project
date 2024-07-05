@@ -21,7 +21,7 @@ class CertificationResource extends JsonResource
             'end_date'=>$this->end_date,
             'link'=>$this->link,
             'credentials_id'=>$this->credentials_id,
-            'image'=>$this->image,
+            'image'=>app('baseUrl').$this->image,
         ];
     }
 }

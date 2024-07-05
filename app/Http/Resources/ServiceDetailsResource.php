@@ -30,7 +30,7 @@ class ServiceDetailsResource extends JsonResource
         $images = [];
         foreach ($imageFiles as $file) {
             if($file->getFilename() !==basename($this->preview))
-                $images[] = $path . '/' . $file->getFilename();
+                $images[] =app('baseUrl'). $path . '/' . $file->getFilename();
         }
 
         return $images;
@@ -42,7 +42,7 @@ class ServiceDetailsResource extends JsonResource
             'title'=>$this->title,
             'description'=>$this->description,
             'images' => $this->getImages($this->image),
-            'preview'=>$this->preview,
+            'preview'=>app('baseUrl').$this->preview,
             'plans' => $this->plans->map(function ($plan) {
                 return [
                     'id'=>$plan->id,

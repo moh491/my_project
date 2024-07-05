@@ -18,7 +18,7 @@ class PortfoliosService
     {
 
         $user = $model::find($id);
-        $portfolios = $user->portfolios()->paginate(3);
+        $portfolios = $user->portfolios;
         if ($model == 'App\\Models\\Freelancer') {
             return PortfolioResource::collection($portfolios);
         }

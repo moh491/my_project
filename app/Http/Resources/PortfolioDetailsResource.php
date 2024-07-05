@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
 class PortfolioDetailsResource extends JsonResource
@@ -17,7 +18,7 @@ class PortfolioDetailsResource extends JsonResource
      */
     private function getImages($path)
     {
-        $imageFiles = File::files(public_path( $path));
+        $imageFiles = File::files(storage_path( 'app/public/' . $path));
         $images = [];
         foreach ($imageFiles as $file) {
             if($file->getFilename() !==basename($this->preview))
@@ -35,15 +36,25 @@ class PortfolioDetailsResource extends JsonResource
             'date'=>$this->date,
             'description'=>$this->description,
             'skills'=>$this->skills()->pluck('name'),
-            'contributors' => $this->freelancers->map(function ($freelancer) {
-                return [
-                    'profile' => $freelancer->profile,
-                    'id' => $freelancer->id,
-                ];
-            }),
+            'contributors' => $this->freelancers
+                ->when(
+                    Auth::guard('Freelancer')->check(),
+                    function ($collection) {
+                        return $collection->reject(function ($freelancer) {
+                            return $freelancer->id == Auth::guard('Freelancer')->user()->id;
+                        });
+                    }
+                )
+                ->map(function ($freelancer) {
+                    return [
+                        'profile' =>app('baseUrl') . $freelancer->profile,
+                        'id' => $freelancer->id,
+                    ];
+                })
+                ->values(),
             'demo'=>$this->demo,
             'link'=>$this->link,
-            'preview'=>$this->preview,
+            'preview'=>app('baseUrl').$this->preview,
             'images' => $this->getImages($this->images),
         ];
     }
