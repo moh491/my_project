@@ -18,8 +18,9 @@ class Field extends Model
     {
         return $this->hasMany(Company::class);
     }
-    public function project_owners(){
-        return $this->hasMany(Project_Owners::class);
+    public function project_owners(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Project_Owners::class,'field__project_owners');
     }
 
     public function projects(): \Illuminate\Database\Eloquent\Relations\HasMany

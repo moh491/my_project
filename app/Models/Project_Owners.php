@@ -68,8 +68,10 @@ class Project_Owners extends Authenticatable
     {
         return $this->morphOne(Otp::class, 'otpable');
     }
-    public function field(){
-        return $this->belongsTo(Field::class);
+
+    public function fields(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Field::class,'field__project_owners');
     }
     public function Projects(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

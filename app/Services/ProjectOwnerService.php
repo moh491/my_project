@@ -15,7 +15,6 @@ class ProjectOwnerService
             'last_name' => $projectownerData['last_name'],
             'email' => $projectownerData['email'],
             'password' => bcrypt($projectownerData ['password']),
-            'field_id'=>$projectownerData['field_id'],
             'about'=>$projectownerData['about'],
             'location'=>$projectownerData['location'],
             'time_zone'=>$projectownerData['time_zone'],
@@ -25,6 +24,7 @@ class ProjectOwnerService
             $path = $projectownerData['profile']->storeAs( 'project-owner-profile', $imageName, 'public');
             $project_owner->update(['profile'=>$path]);
         }
+        $project_owner->fields()->attach($projectownerData['field_id']);
         $project_owner['token'] =  $project_owner->createToken('auth-project-owner-token',['role:project_owner'])->plainTextToken;
         $code = mt_rand(100000, 999999);
         while(Otp::where('otp', $code)->exists()){

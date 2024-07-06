@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('field__project_owners', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();
+            $table->foreignId('project__owners_id')->constrained('project__owners')->cascadeOnDelete();
             $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();
             $table->timestamps();
         });

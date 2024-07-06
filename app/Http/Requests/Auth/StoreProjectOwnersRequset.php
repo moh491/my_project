@@ -30,7 +30,7 @@ class StoreProjectOwnersRequset extends FormRequest
             'about'=>['required','string' ],
             'location'=>['required'],
             'time_zone'=>['required'],
-            'field_id'=>['required'],
+            'field_id'=>['required','array'],
             'profile'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
