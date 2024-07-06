@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Requests\AboutRequest;
+use App\Http\Resources\FreeResource;
+use App\Models\Freelancer;
 use App\Models\Portfolio;
 use App\Services\FreelancerService;
 use App\Traits\ApiResponseTrait;
@@ -52,6 +54,15 @@ class FreelancerController
             return $this->serverError($throwable->getMessage());
         }
 
+    }
+    public function index(): \Illuminate\Http\JsonResponse
+    {
+        try {
+            $freelancer= FreeResource::collection(Freelancer::all());
+            return $this->success('get freelancers', $freelancer);
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
     }
 
 }

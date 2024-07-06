@@ -73,6 +73,8 @@ Route::controller(AuthController::class)->middleware('auth:sanctum')->group(func
 });
 
 Route::controller(FreelancerController::class)->middleware('auth:sanctum')->group(function () {
+
+    Route::get('freelancer','index');
     Route::get('/basic-info/{id?}', 'getBasicInformation');
     Route::get('/reviews/{id?}', 'getReviews');
     Route::put('updateAbout', 'updateAbout');
