@@ -18,8 +18,13 @@ class PortfolioTeamResource extends JsonResource
             'id'=>$this->id,
             'title'=>$this->title,
             'description'=>$this->description,
-            'skills'=>$this->skills()->pluck('name'),
-            'preview_image'=>$this->preview,
+            'skills' => $this->skills()->select('skills.id as skill_id', 'skills.name')->get()->map(function ($skill) {
+                return [
+                    'id' => $skill->skill_id,
+                    'name' => $skill->name,
+                ];
+            }),
+            'preview'=>$this->preview,
         ];
     }
 }
