@@ -51,7 +51,7 @@ public function createFreelancer(array $freelancerData){
   }
   foreach ($freelancerData['languages'] as $language){
       Language::create([
-          'language'=>$language['lang'],
+          'language'=>$language['name'],
           'level'=>$language['level'],
           'freelancer_id'=>$freelancer->id,
       ]);

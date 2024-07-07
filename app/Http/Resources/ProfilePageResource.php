@@ -34,7 +34,18 @@ class ProfilePageResource extends JsonResource
             'completed_offers'=>3,
             'rejected_offers'=>2,
             'about'=>$this->about,
-            'languages'=>$this->languages()->select('language', 'level')->get(),
+            'languages' => $this->languages()->select('language as name', 'level')->get()->map(function($language) {
+                return [
+                    'name' => $language->name,
+                    'level' => $language->level,
+                ];
+            }),
+            'skills' => $this->skills()->select('skills.id as skill_id', 'skills.name')->get()->map(function ($skill) {
+                return [
+                    'id' => $skill->skill_id,
+                    'name' => $skill->name,
+                ];
+            }),
         ];
     }
 }
