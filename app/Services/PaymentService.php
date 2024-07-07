@@ -9,9 +9,9 @@ use Stripe\Stripe;
 
 class PaymentService
 {
-    public function confirm(Request $request)
+    public function confirm( $request)
     {
-        $amount = $request->input('amount'); // amount in dollars
+        $amount = $request['amount'];// amount in dollars
         // Convert amount to cents
         $amountInCents = $amount * 100;
 
@@ -42,7 +42,7 @@ class PaymentService
         return $session;
     }
 
-    public function success(Request $request, $id)
+    public function success(Request $request,$id)
     {
         $sessionId = $request->query('session_id');
         info($sessionId);
@@ -66,13 +66,13 @@ class PaymentService
 
     }
 
-    public function refund(Request $request, $id): \Stripe\Refund
+    public function refund($request, $id): \Stripe\Refund
     {
 
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 
         // Retrieve the Checkout Session by the session id
-        $session = \Stripe\Checkout\Session::retrieve($request->session_id);
+        $session = \Stripe\Checkout\Session::retrieve($request['session_id']);
 
         // Get the PaymentIntent id
         $paymentIntentId = $session->payment_intent;
@@ -80,10 +80,10 @@ class PaymentService
         // Retrieve the PaymentIntent by the id
         $paymentIntent = \Stripe\PaymentIntent::retrieve($paymentIntentId);
 
-        if ($request->has('amount')) {
+        if (isset($request['amount'])) {
             $refund = \Stripe\Refund::create([
                 'payment_intent' => $paymentIntentId,
-                'amount' => $request->amount,
+                'amount' => $request['amount'],
             ]);
 
         } else {
@@ -94,7 +94,7 @@ class PaymentService
         }
 
         Payment::create([
-            'session_id' => $request->session_id,
+            'session_id' => $request['session_id'],
             'refund_id' => $refund->id,
             'status' => 'refunded',
             'amount' => $refund->amount,

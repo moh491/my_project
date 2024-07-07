@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\ConfirmRequest;
+use App\Http\Requests\RefundRequest;
 use App\Models\Payment;
 use App\Services\PaymentService;
 use App\Traits\ApiResponseTrait;
@@ -20,26 +22,28 @@ class StripePaymentController extends Controller
         $this->paymentService = $paymentService;
     }
 
-    public function confirm(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function confirm(ConfirmRequest $confirmRequest): \Illuminate\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
         try {
+            $data = $confirmRequest->validated();
             if (!Auth::guard('Project_Owner')->user()) {
                 return $this->error('You dont have the authority');
             }
-            $session = $this->paymentService->confirm($request);
+            $session = $this->paymentService->confirm($data);
             return redirect($session->url);
         } catch (\Exception $th) {
             return $this->serverError($th->getMessage());
         }
     }
 
-    public function refund(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function refund(RefundRequest $refundRequest): \Illuminate\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
         try {
-            $payment = Payment::where('session_id', $request->session_id)->first();
+            $data = $refundRequest->validated();
+            $payment = Payment::where('session_id', $data['session_id'])->first();
             $id = Auth::guard('Project_Owner')->user()->id;
             if ($payment->project_owner_id == $id) {
-                $refund = $this->paymentService->refund($request, $id);
+                $refund = $this->paymentService->refund($data, $id);
                 return $this->success('refund successfully', $refund);
             }
             return $this->error('You dont have the authority');
