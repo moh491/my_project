@@ -219,3 +219,14 @@ Route::controller(ServiceRequestController::class)->prefix('serviceRequest')->mi
 Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(function (){
    Route::get('/owner/{id}','endPoint');
 });
+
+Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix('payment')->group(function ($router) {
+    Route::get('/success', 'successPayment')->name('checkout.success');
+    Route::get('/cancel', 'cancel')->name('checkout.cancel');
+    Route::post('/confirm', 'confirm')->name('confirm');
+    Route::post('/refund', 'refund')->name('refund');
+
+
+
+});
+

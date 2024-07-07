@@ -80,4 +80,10 @@ class Project_Owners extends Authenticatable
     public function requests(){
         return $this->hasMany(Request::class);
     }
+
+    public function payments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
 }
