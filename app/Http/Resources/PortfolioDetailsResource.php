@@ -35,7 +35,12 @@ class PortfolioDetailsResource extends JsonResource
             'title'=>$this->title,
             'date'=>$this->date,
             'description'=>$this->description,
-            'skills'=>$this->skills()->pluck('name'),
+            'skills' => $this->skills()->select('skills.id as skill_id', 'skills.name')->get()->map(function ($skill) {
+                return [
+                    'id' => $skill->skill_id,
+                    'name' => $skill->name,
+                ];
+            }),
             'contributors' => $this->freelancers
                 ->when(
                     Auth::guard('Freelancer')->check(),

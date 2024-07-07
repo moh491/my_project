@@ -18,6 +18,7 @@ class PortfolioResource extends JsonResource
 
         return parent::collection($resource);
     }
+
     /**
      * Transform the resource into an array.
      *
@@ -26,10 +27,15 @@ class PortfolioResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->id,
-            'title'=>$this->title,
-            'description'=>$this->description,
-            'skills'=>$this->skills()->pluck('name'),
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'skills' => $this->skills()->select('skills.id as skill_id', 'skills.name')->get()->map(function ($skill) {
+                return [
+                    'id' => $skill->skill_id,
+                    'name' => $skill->name,
+                ];
+            }),
             'contributors' => $this->freelancers
                 ->when(
                     Auth::guard('Freelancer')->check(),
@@ -41,12 +47,12 @@ class PortfolioResource extends JsonResource
                 )
                 ->map(function ($freelancer) {
                     return [
-                        'profile' =>app('baseUrl') . $freelancer->profile,
+                        'profile' => app('baseUrl') . $freelancer->profile,
                         'id' => $freelancer->id,
                     ];
                 })
                 ->values(),
-            'preview_image'=> app('baseUrl') . $this->preview,
+            'preview' => app('baseUrl') . $this->preview,
         ];
     }
 }
