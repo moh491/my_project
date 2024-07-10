@@ -17,20 +17,35 @@ class ServiceResource extends JsonResource
 
         return parent::collection($resource);
     }
+
     /**
      * Transform the resource into an array.
      *
      * @return array<string, mixed>
      */
+    public function averageRating()
+    {
+        return $this->allRequests()
+            ->whereNotNull('rating')
+            ->avg('rating');
+    }
+
+    public function ratingCount()
+    {
+        return $this->allRequests()
+            ->whereNotNull('rating')
+            ->count();
+    }
+
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->id,
-            'title'=>$this->title,
-            'starting_price'=>200,
-            'rating' =>4,
-            'ratings_count' => 24,
-            'image' =>app('baseUrl').$this->preview,
+            'id' => $this->id,
+            'title' => $this->title,
+            'starting_price' => 200,
+            'rating' => $this->averageRating(),
+            'ratings_count' => $this->ratingCount(),
+            'image' => app('baseUrl') . $this->preview,
         ];
     }
 }

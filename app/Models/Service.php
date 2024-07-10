@@ -32,6 +32,16 @@ class Service extends Model
     public function owner(){
         return $this->morphTo();
     }
+    public function allRequests()
+    {
+        return Request::query()
+            ->join('delivery__options', 'requests.delivery_option_id', '=', 'delivery__options.id')
+            ->join('plans', 'delivery__options.plan_id', '=', 'plans.id')
+            ->where('plans.service_id', $this->id)
+            ->select('requests.*')
+            ->get();
+    }
+
 
 
 }
