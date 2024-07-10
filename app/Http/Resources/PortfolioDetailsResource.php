@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 
-
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -18,30 +17,26 @@ class PortfolioDetailsResource extends JsonResource
      */
     private function getImages($path)
     {
-        $imageFiles = File::files(storage_path( 'app/public/' . $path));
+        $imageFiles = File::files(storage_path('app/public/' . $path));
         $images = [];
         foreach ($imageFiles as $file) {
-            if($file->getFilename() !==basename($this->preview))
-            $images[] = app('baseUrl') . $path . '/' . $file->getFilename();
+            if ($file->getFilename() !== basename($this->preview))
+                $images[] = app('baseUrl') . $path . '/' . $file->getFilename();
         }
 
         return $images;
     }
+
     public function toArray(Request $request): array
     {
 
         return [
-            'id'=>$this->id,
-            'title'=>$this->title,
-            'date'=>$this->date,
-            'description'=>$this->description,
-            'skills' => $this->skills()->select('skills.id as skill_id', 'skills.name')->get()->map(function ($skill) {
-                return [
-                    'id' => $skill->skill_id,
-                    'name' => $skill->name,
-                ];
-            }),
-            'contributors' => $this->freelancers
+            'id' => $this->id,
+            'title' => $this->title,
+            'date' => $this->date,
+            'description' => $this->description,
+            'skills' => SkillResource::collection($this['skills']),
+            'contributors' => FreelancerResource::collection($this->freelancers
                 ->when(
                     Auth::guard('Freelancer')->check(),
                     function ($collection) {
@@ -49,17 +44,11 @@ class PortfolioDetailsResource extends JsonResource
                             return $freelancer->id == Auth::guard('Freelancer')->user()->id;
                         });
                     }
-                )
-                ->map(function ($freelancer) {
-                    return [
-                        'profile' =>app('baseUrl') . $freelancer->profile,
-                        'id' => $freelancer->id,
-                    ];
-                })
-                ->values(),
-            'demo'=>$this->demo,
-            'link'=>$this->link,
-            'preview'=>app('baseUrl').$this->preview,
+                )),
+
+            'demo' => $this->demo,
+            'link' => $this->link,
+            'preview' => app('baseUrl') . $this->preview,
             'images' => $this->getImages($this->images),
         ];
     }
