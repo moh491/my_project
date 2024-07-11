@@ -79,7 +79,7 @@ public function basicInformation(string $id){
 public function getReviews(string $id)
 {
     $freelancer = Freelancer::find($id);
-    $projects = $freelancer->projects;
+    $projects = $freelancer->projects()->has('review')->get();
     return ProjectReviewsResource::collection($projects);
 }
 public function updateAbout($about){
