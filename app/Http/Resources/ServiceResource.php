@@ -36,13 +36,17 @@ class ServiceResource extends JsonResource
             ->whereNotNull('rating')
             ->count();
     }
+    public function getStartingPrice()
+    {
+        return $this->plans()->min('price');
+    }
 
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'starting_price' => 200,
+            'starting_price' => $this->getStartingPrice(),
             'rating' => $this->averageRating(),
             'ratings_count' => $this->ratingCount(),
             'image' => app('baseUrl') . $this->preview,

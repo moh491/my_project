@@ -25,24 +25,14 @@ class ReviewResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'=>$this->review->id,
-            'professionalism'=>$this->review->professionalism,
-            'communication'=>$this->review->communication,
-            'commit_to_deadlines'=>$this->review->commit_to_deadlines,
-            'quality'=>$this->review->quality ,
-            'experience'=>$this->review->experience,
-            're_employee'=>$this->review->re_employee,
-            'description'=>$this->review->description,
-            'project' => [
-                'id' => $this->id,
-                'title' => $this->title,
-                'project_owner' => [
-                    'id' => $this->worker_id,
-                    'full_name' => $this->project_owner->first_name.' '.$this->project_owner->last_name,
-                    'profile' => $this->project_owner->profile
-                ]
-            ],
-            'created_at'=>$this->created_at,
+            'id'=>$this->id,
+            'professionalism'=>$this->professionalism,
+            'communication'=>$this->communication,
+            'commit_to_deadlines'=>$this->commit_to_deadlines,
+            'quality'=>$this->quality ,
+            'experience'=>$this->experience,
+            're_employee'=>$this->re_employee,
+            'description'=>$this->description,
         ];
     }
 }

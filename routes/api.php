@@ -91,6 +91,7 @@ Route::controller(PortfolioController::class)->prefix('portfolio')->middleware('
 });
 Route::controller(ServiceController::class)->prefix('service')->middleware('auth:sanctum')->group(function () {
     Route::get('/index/{id?}/{type?}', 'getServices');
+    Route::get('/requested/{id?}','browseRequestedServices');
     Route::get('/{id}', 'detailService');
     Route::post('/{TeamId?}', 'insertService');
     Route::put('/{id}', 'update');
@@ -145,6 +146,7 @@ Route::controller(JobController::class)->prefix('job')->group(function () {
 Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::post('/request','RequestService');
     Route::get('browseService','browseService');
+    Route::get('/requestedServices','browseRequestedServices');
 });
 
 

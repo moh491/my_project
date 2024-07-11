@@ -5,14 +5,17 @@ namespace App\Services;
 use App\Filtering\Search1Filter;
 use App\Filtering\SearchFilter;
 use App\Filtering\SearchServiceFilter;
+use App\Filtering\ServiceTitleFilter;
 use App\Http\Resources\ServiceDetailsResource;
 use App\Http\Resources\ServiceResource;
 use App\Models\Delivery_Option;
 use App\Models\Feature;
 use App\Models\Freelancer;
 use App\Models\Plan;
+use App\Models\Project_Owners;
 use App\Models\Request;
 use App\Models\Service;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -137,13 +140,62 @@ class ServicesService
             ])->get();
         return $services;
     }
-    public function updateStatus($data,$id){
-       $request= Request::find($id);
-       $request->update(['status'=>$data['status']]);
+
+    public function updateStatus($data, $id)
+    {
+        $request = Request::find($id);
+        $request->update(['status' => $data['status']]);
     }
-    public function updateRating($data,$id){
-        $request= Request::find($id);
-        $request->update(['rating'=>$data['rating']]);
+
+    public function updateRating($data, $id)
+    {
+        $request = Request::find($id);
+        $request->update(['rating' => $data['rating']]);
+    }
+
+    public function browseRequestedServicesforproject_owner()
+    {
+        $project_owner = Auth::guard('Project_Owner')->user();
+
+        $requests = QueryBuilder::for(Request::query()
+            ->join('delivery__options', 'requests.delivery_option_id', '=', 'delivery__options.id')
+            ->join('plans', 'delivery__options.plan_id', '=', 'plans.id')
+            ->join('services', 'plans.service_id', '=', 'services.id')
+            ->where('requests.project_owner_id', $project_owner->id)
+            ->select('requests.*'))
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+                AllowedFilter::callback('service_title', function ($query, $value) {
+                    return $query->where('services.title', 'like', '%' . $value . '%');
+                })
+            ])
+            ->get();
+
+        return $requests;
+
+
+    }
+
+    public function browseRequestedServicesforfreelancer($id, $type)
+    {
+
+        $requests = QueryBuilder::for(Request::query()
+            ->join('delivery__options', 'requests.delivery_option_id', '=', 'delivery__options.id')
+            ->join('plans', 'delivery__options.plan_id', '=', 'plans.id')
+            ->join('services', 'plans.service_id', '=', 'services.id')
+            ->where('services.owner_type', $type)
+            ->where('services.owner_id', $id)
+            ->select('requests.*'))
+            ->allowedFilters([
+                AllowedFilter::exact('status'),
+                AllowedFilter::callback('service_title', function ($query, $value) {
+                    return $query->where('services.title', 'like', '%' . $value . '%');
+                })
+            ])
+            ->get();
+        return $requests;
+
+
     }
 
 

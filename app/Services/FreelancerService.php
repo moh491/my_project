@@ -8,6 +8,7 @@ use App\Http\Resources\EducationResource;
 use App\Http\Resources\ExperienceResource;
 use App\Http\Resources\FreelancerResource;
 use App\Http\Resources\PortfolioResource;
+use App\Http\Resources\ProjectReviewsResource;
 use App\Http\Resources\ReviewResource;
 use App\Http\Resources\ServiceResource;
 use App\Mail\SendCodeEmail;
@@ -79,7 +80,7 @@ public function getReviews(string $id)
 {
     $freelancer = Freelancer::find($id);
     $projects = $freelancer->projects;
-    return ReviewResource::collection($projects);
+    return ProjectReviewsResource::collection($projects);
 }
 public function updateAbout($about){
     $freelancer=Auth::guard('Freelancer')->user();

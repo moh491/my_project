@@ -12,29 +12,42 @@ use Illuminate\Support\Facades\Auth;
 class RequestServiceController extends Controller
 {
     use ApiResponseTrait;
+
     protected $servicesService;
 
     public function __construct(ServicesService $servicesService)
     {
         $this->servicesService = $servicesService;
     }
-    public function RequestService(RequestAServiceRequest $request){
+
+    public function RequestService(RequestAServiceRequest $request)
+    {
         try {
             $id = Auth::guard('Project_Owner')->user()->id;
-            $data=$request->validated();
-            $this->servicesService->requestService($id,$data);
+            $data = $request->validated();
+            $this->servicesService->requestService($id, $data);
             return $this->success('Service requested successfully');
-        }
-        catch (\throwable $throwable){
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
-    public function browseService(){
+
+    public function browseService()
+    {
         try {
-           $services= $this->servicesService->browseService();
-            return $this->success('get Services',$services);
+            $services = $this->servicesService->browseService();
+            return $this->success('get Services', $services);
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
         }
-        catch (\throwable $throwable){
+    }
+
+    public function browseRequestedServices()
+    {
+        try {
+            $services = $this->servicesService->browseRequestedServicesforproject_owner();
+            return $this->success('get requested services', $services);
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }

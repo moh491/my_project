@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
+
 
 class Request extends Model
 {
@@ -19,5 +21,8 @@ class Request extends Model
     ];
     public function delivery_options(){
         return $this->belongsTo(Delivery_Option::class);
+    }
+    public function project_owners(){
+        return $this->belongsTo(Project_Owners::class);
     }
 }

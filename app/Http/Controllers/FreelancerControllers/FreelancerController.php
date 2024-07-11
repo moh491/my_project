@@ -33,16 +33,13 @@ class FreelancerController
     }
 
     public function getReviews($id =null){
-        try {
             if(!$id){
                 $id = Auth::guard('Freelancer')->user()->id;
             }
             $information = $this->freelancerService->getReviews($id);
             return $this->success('get reviews',$information);
-        }
-        catch (\throwable $throwable){
-            return $this->serverError($throwable->getMessage());
-        }
+
+
     }
     public function updateAbout(AboutRequest $request){
         try {
