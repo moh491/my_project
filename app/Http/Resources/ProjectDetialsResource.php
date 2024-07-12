@@ -46,7 +46,7 @@ class ProjectDetialsResource extends JsonResource
             'description' => $this->description,
             'project_owner' => [
                 'id' => $this->project_owner->id,
-                'name' => $this->project_owner->first_name . ' ' . $this->project_owner->last_name,
+                'full_name' => $this->project_owner->first_name . ' ' . $this->project_owner->last_name,
                 'profile'=>$this->project_owner->profile,
                 'about' => $this->project_owner->about,
             ],
