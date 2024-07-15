@@ -89,7 +89,7 @@ Route::controller(PortfolioController::class)->prefix('portfolio')->middleware('
     Route::delete('/{portfolioId}', 'delete');
     Route::put('/{portfolioId}', 'update');
 });
-Route::controller(ServiceController::class)->prefix('service')->middleware('auth:sanctum')->group(function () {
+Route::controller(ServiceController::class)->prefix('service')->group(function () {
     Route::get('/index/{id?}/{type?}', 'getServices');
     Route::get('/requested/{id?}','browseRequestedServices');
     Route::get('/{id}', 'detailService');

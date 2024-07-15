@@ -19,21 +19,6 @@ class ProjectDetialsResource extends JsonResource
     public function toArray(Request $request): array
     {
 
-        $createdAt = Carbon::parse($this->created_at);
-        $now = Carbon::now();
-        $diffInDays = $createdAt->diffInDays($now);
-        $diffInHours = $createdAt->diffInHours($now);
-        $diffInMinutes = $createdAt->diffInMinutes($now);
-
-        $timeSincePosted = '';
-
-        if ($diffInDays > 0) {
-            $timeSincePosted = $diffInDays . ' days ago';
-        } elseif ($diffInHours > 0) {
-            $timeSincePosted = $diffInHours . ' hours ago';
-        } else {
-            $timeSincePosted = $diffInMinutes . ' minutes ago';
-        }
         $projectData = [
             'id' => $this->id,
             'title' => $this->title,
@@ -42,7 +27,7 @@ class ProjectDetialsResource extends JsonResource
             'max_budget' => $this->max_budget,
             'duration' => $this->duration,
             'date_posted' => $this->created_at->format('Y,m,d'),
-            'time_since_posted' => $timeSincePosted,
+            'time_since_posted' => $this['created_at']->diffForHumans(),
             'description' => $this->description,
             'project_owner' => [
                 'id' => $this->project_owner->id,

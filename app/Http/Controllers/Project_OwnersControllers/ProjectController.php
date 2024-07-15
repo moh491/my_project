@@ -26,28 +26,29 @@ class ProjectController extends Controller
         try {
             $this->projectService->createProject($request);
             return $this->success('insert has been successfully');
-        }
-            catch (\Throwable $throwable){
+        } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
 
     }
+
     public function projectDetails($id)
     {
         try {
             $project = $this->projectService->getProjectById($id);
-            return $this->success('GEt project details' ,new ProjectDetialsResource($project)) ;
+            return $this->success('GEt project details', new ProjectDetialsResource($project));
 
-        }catch (\throwable $throwable){
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
+
     public function projectOptions(): \Illuminate\Http\JsonResponse
     {
         try {
             $options = $this->projectService->getProjcetOptions();
-            return $this->success('successfully',$options);
-        }catch (\throwable $throwable){
+            return $this->success('successfully', $options);
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
@@ -56,7 +57,7 @@ class ProjectController extends Controller
     {
         try {
             $projects = ProjectResource::collection($this->projectService->getAllProjects());
-            return $this->success('Get projects successfully',$projects);
+            return $this->success('Get projects successfully', $projects);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
@@ -66,8 +67,8 @@ class ProjectController extends Controller
     {
         try {
             $projects = $this->projectService->filterAll();
-            return $this->success('success',$projects);
-        } catch  (\throwable $throwable){
+            return $this->success('success', $projects);
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
