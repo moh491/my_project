@@ -23,7 +23,7 @@ class PlanRequest extends FormRequest
     {
         return [
             'price' => 'required',
-            'description' => 'required',
+            'description' => 'required|max:100',
             'type'=>'required',
             'features'=>'array',
             'features.*.id'=>'required',

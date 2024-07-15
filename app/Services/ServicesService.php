@@ -6,6 +6,7 @@ use App\Filtering\Search1Filter;
 use App\Filtering\SearchFilter;
 use App\Filtering\SearchServiceFilter;
 use App\Filtering\ServiceTitleFilter;
+use App\Http\Resources\RequestResource;
 use App\Http\Resources\ServiceDetailsResource;
 use App\Http\Resources\ServiceResource;
 use App\Models\Delivery_Option;
@@ -138,7 +139,7 @@ class ServicesService
                 AllowedFilter::exact('skills.id'),
                 AllowedFilter::custom('search', new Search1Filter(['title', 'description'])),
             ])->get();
-        return $services;
+        return ServiceDetailsResource::collection($services);
     }
 
     public function updateStatus($data, $id)
@@ -171,7 +172,7 @@ class ServicesService
             ])
             ->get();
 
-        return $requests;
+        return RequestResource::collection($requests);
 
 
     }
@@ -193,7 +194,7 @@ class ServicesService
                 })
             ])
             ->get();
-        return $requests;
+        return RequestResource::collection($requests);
 
 
     }

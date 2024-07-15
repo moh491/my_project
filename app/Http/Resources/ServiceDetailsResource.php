@@ -37,11 +37,20 @@ class ServiceDetailsResource extends JsonResource
     }
     public function toArray(Request $request): array
     {
+        if($request->routeIs('service.show')){
+            return [
+                'id'=>$this->id,
+                'title'=>$this->title,
+                'description'=>$this->description,
+                'image' => $this->getImages($this->image),
+                'preview'=>app('baseUrl').$this->preview,
+            ];
+        }
         return [
             'id'=>$this->id,
             'title'=>$this->title,
             'description'=>$this->description,
-            'images' => $this->getImages($this->image),
+            'image' => $this->getImages($this->image),
             'preview'=>app('baseUrl').$this->preview,
             'plans' => $this->plans->map(function ($plan) {
                 return [

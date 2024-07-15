@@ -22,25 +22,22 @@ class ProjectReviewsResource extends JsonResource
 
         return parent::collection($resource);
     }
+
     public function toArray(Request $request): array
     {
-        if ($this->review) {
-            return [
-                'review' => new ReviewResource($this->review),
-                'project' => [
-                    'id' => $this->id,
-                    'title' => $this->title,
-                    'project_owner' => [
-                        'id' => $this->worker_id,
-                        'full_name' => $this->project_owner->first_name . ' ' . $this->project_owner->last_name,
-                        'profile' => $this->project_owner->profile
-                    ]
-                ],
-                'created_at' => $this->created_at,
-            ];
-        } else {
-            return [];
-        }
+        return [
+            'review' => new ReviewResource($this->review),
+            'project' => [
+                'id' => $this->id,
+                'title' => $this->title,
+                'project_owner' => [
+                    'id' => $this->worker_id,
+                    'full_name' => $this->project_owner->first_name . ' ' . $this->project_owner->last_name,
+                    'profile' => app('baseUrl').$this->project_owner->profile
+                ]
+            ],
+            'created_at' => $this->created_at->format('Y,m,d'),
+        ];
 
 
     }
