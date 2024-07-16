@@ -13,10 +13,6 @@ class FilterOffers {
     {
         return [
 
-            AllowedFilter::callback('date_created', function (Builder $query, $value) {
-                return $query->whereDate('created_at', $value);
-            }),
-
             AllowedFilter::callback('status', function ($query, $status) {
                 $query->whereHas('project', function ($query) use ($status) {
                     $query->where('status', $status);

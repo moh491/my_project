@@ -14,7 +14,7 @@ class FilterJob {
 
             AllowedFilter::callback('company', function (Builder $query, $value) {
                 $query->whereHas('company', function (Builder $query) use ($value) {
-                    $query->whereIn('id', $value);
+                    $query->where('id', $value);
                 });
             }),
 
@@ -28,9 +28,6 @@ class FilterJob {
                 $query->whereRaw('(? BETWEEN min_salary AND max_salary)', [$value]);
             }),
 
-            AllowedFilter::callback('date_posted', function (Builder $query, $value) {
-                $query->whereDate('created_at', $value);
-            }),
 
             AllowedFilter::callback('search', function (Builder $query, $value) {
 
