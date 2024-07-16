@@ -75,10 +75,7 @@ class OfferService
 
     public function getOffers(string $id , $model)
     {
-        if($model == 'App\\Models\\Team'){
-            return Offer::where('worker_type', $model)->where('worker_id',$id)->paginate(10);
-        }
-        return Offer::where('worker_type', $model)->paginate(10);
+        return Offer::where('worker_type', $model)->where('worker_id',$id)->paginate(10);
     }
 
     public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
