@@ -49,7 +49,7 @@ class ServiceResource extends JsonResource
             'starting_price' => $this->getStartingPrice(),
             'rating' => $this->averageRating(),
             'ratings_count' => $this->ratingCount(),
-            'image' => app('baseUrl') . $this->preview,
+            'preview' => app('baseUrl') . $this['preview'],
         ];
     }
 }
