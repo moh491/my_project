@@ -66,7 +66,7 @@ class JobService
 
         return [
             'companies' => $companies,
-            'locations' => $locations,
+            'locations' => $locations->pluck('location'),
             'salary_options' => $salaries,
         ];
     }
