@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Offer_Type;
 use App\Filtering\FilterJob;
 use App\Filtering\FilterOffers;
 use App\Http\Resources\BrowseJobs;
@@ -42,10 +43,6 @@ class OfferService
     public function getOfferOptions()
     {
 
-        $status = Project::has('offers')
-            ->select('id', 'status')
-            ->distinct()
-            ->get();
 
         $owner = Project::has('offers')
             ->join('project__owners', 'projects.project_owner_id', '=', 'project__owners.id')
@@ -59,7 +56,7 @@ class OfferService
 
 
         return [
-            'status' => $status,
+            'status' => Offer_Type::getValues(),
             'owner' => $owner,
         ];
     }
