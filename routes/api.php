@@ -145,7 +145,7 @@ Route::controller(JobController::class)->prefix('job')->group(function () {
 
 Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
     Route::post('/request','RequestService');
-    Route::get('browseService','browseService');
+    Route::get('browseService','browseService')->name('service.show');
     Route::get('/requestedServices','browseRequestedServices');
 });
 
