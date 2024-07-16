@@ -2,9 +2,6 @@
 /node_modules
 /public/build
 /public/hot
-/storage/app/public/freelancer-profile
-/storage/app/public/portfolio
-/public/storage
 /storage/*.key
 /vendor
 .env
