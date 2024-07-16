@@ -24,7 +24,7 @@ class OfferController extends Controller
     {
         try {
             $offers = OfferResource::collection($this->offerService->getAll($projectId));
-            return $this->success('Get offers successfully', $offers);
+            return $this->success('Get index successfully', $offers);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
@@ -72,7 +72,7 @@ class OfferController extends Controller
                 $model = 'App\\Models\\Team';
 
             $offers = OfferResource::collection($this->offerService->getOffers($id,$model));
-            return $this->success('Get offers successfully', $offers);
+            return $this->success('Get browse successfully', $offers);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }

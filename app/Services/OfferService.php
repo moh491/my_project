@@ -57,14 +57,10 @@ class OfferService
                 return $project;
             });
 
-        $dates = Offer::select(DB::raw('DATE(created_at) as publish_date'))
-            ->distinct()
-            ->get();
 
         return [
             'status' => $status,
             'owner' => $owner,
-            'date_posted' => $dates,
         ];
     }
 
