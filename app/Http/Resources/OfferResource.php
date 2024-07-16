@@ -29,6 +29,7 @@ class OfferResource extends JsonResource
             'budget' => $this->budget,
             'description' => $this->description,
             'worker_type' => $this['worker_type'],
+            'status' => $this['status'],
             'created_at' => $this->created_at->format('Y,m,d'),
         ];
 

@@ -176,9 +176,10 @@ Route::controller(ProjectController::class)->prefix('project')->group(function (
 
 });
 
-Route::controller(OfferController::class)->prefix('offer')->group(function () {
+Route::controller(OfferController::class)->prefix('offer')->middleware('auth:sanctum')->group(function () {
+    Route::get('/{projectId}', 'index');
     Route::get('/project-options', 'offerOptions');
-    Route::get('/browse-offers/{projectId}', 'browseOffers');
+    Route::get('/browse-offers/{id?}', 'browseOffers');
     Route::get('/filter', 'filterAll');
 
     Route::middleware('auth:sanctum')->group(function () {

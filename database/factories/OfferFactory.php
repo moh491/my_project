@@ -30,6 +30,7 @@ class OfferFactory extends Factory
             'duration' => $this->faker->numberBetween(1, 30),
             'budget' => $this->faker->randomFloat(2, 100, 10000),
             'description' => $this->faker->paragraph,
+            'status' => $this->faker->numberBetween(1, 3),
             'files' => $this->faker->randomElement(['file1.txt', 'file2.txt']),
             'project_id' => $this->faker->randomElement($projectIds),
             'worker_type' => 'App\Models\Freelancer',

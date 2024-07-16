@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Offer_Type;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,6 +17,7 @@ return new class extends Migration
             $table->bigInteger('duration');
             $table->decimal('budget');
             $table->text('description');
+            $table->enum('status',Offer_Type::getValues());
             $table->string('files')->nullable();
             $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete();
             $table->morphs('worker');

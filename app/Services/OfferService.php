@@ -23,7 +23,7 @@ class OfferService
 
     public function create(array $data): Offer
     {
-      $freelancer = auth()->guard('Freelancer')->user();
+        $freelancer = auth()->guard('Freelancer')->user();
         $data['worker_type'] = get_class($freelancer);
         $data['worker_id'] = $freelancer->id;
 
@@ -52,25 +52,33 @@ class OfferService
             ->select('projects.id', 'project__owners.first_name', 'project__owners.last_name')
             ->distinct()
             ->get()
-            ->map(function($project) {
+            ->map(function ($project) {
                 $project->owner_name = $project->first_name . ' ' . $project->last_name;
                 return $project;
             });
 
-        $dates =Offer::select(DB::raw('DATE(created_at) as publish_date'))
+        $dates = Offer::select(DB::raw('DATE(created_at) as publish_date'))
             ->distinct()
             ->get();
 
         return [
-             'status' => $status,
-             'owner'=> $owner,
-             'date_posted' => $dates,
+            'status' => $status,
+            'owner' => $owner,
+            'date_posted' => $dates,
         ];
     }
 
-    public function getAllOffers(string $projectId)
+    public function getAll(string $projectId)
     {
-        return Offer::where('project_id',$projectId)->paginate(10);
+        return Offer::where('project_id', $projectId)->paginate(10);
+    }
+
+    public function getOffers(string $id , $model)
+    {
+        if($model == 'App\\Models\\Team'){
+            return Offer::where('worker_type', $model)->where('worker_id',$id)->paginate(10);
+        }
+        return Offer::where('worker_type', $model)->paginate(10);
     }
 
     public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
