@@ -3,19 +3,11 @@
 namespace App\Services;
 
 use App\Enums\Offer_Type;
-use App\Filtering\FilterJob;
 use App\Filtering\FilterOffers;
-use App\Http\Resources\BrowseJobs;
 use App\Http\Resources\OfferResource;
-use App\Models\Company;
-use App\Models\Job;
 use App\Models\Offer;
-use App\Models\Position;
 use App\Models\Project;
 use App\Traits\ApiResponseTrait;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class OfferService

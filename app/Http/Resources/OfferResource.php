@@ -25,6 +25,7 @@ class OfferResource extends JsonResource
     {
         $array =  [
             'id' => $this->id,
+            'title' => $this['project']->title,
             'duration' => $this->duration,
             'budget' => $this->budget,
             'description' => $this->description,

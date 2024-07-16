@@ -11,7 +11,8 @@ class Offer extends Model
 
     protected $guarded=[];
      //Get the project that are assigned this offer
-    public function project(){
+    public function project(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Project::class);
     }
     //Get all of the models that own offers.
