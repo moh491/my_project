@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::useBootstrap();
-        $baseUrl = "https://hirelo.serv00.net/storage/";
+        $baseUrl = "https://hirelo.serv00.net/public/storage/";
 //        $baseUrl = "http://localhost:8000/storage/";
         app()->singleton('baseUrl', function () use ($baseUrl) {
             return $baseUrl;
