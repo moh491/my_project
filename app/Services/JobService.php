@@ -45,8 +45,8 @@ class JobService
         return Job::with('company')->findOrFail($id);
     }
 
-    #[ArrayShape(['companies' => "mixed", 'locations' => "\Illuminate\Support\Collection", 'salary_options' => "\Illuminate\Support\Collection", 'date_posted_options' => "mixed"])] public function getJobOptions()
-    {
+     public function getJobOptions(): array
+     {
         $companies = Company::has('jobs')->select('id', 'name')->get();
 
         $locations = DB::table('companies')
@@ -55,24 +55,19 @@ class JobService
             ->distinct()
             ->get();
 
-        $dates = Job::select(DB::raw('DATE(created_at) as date_posted'))
-            ->distinct()
-            ->get();
 
-        $averageSalary = DB::table('jobs')
-            ->select(DB::raw('((min_salary + max_salary) / 2) as average_salary'))
-            ->distinct()
-            ->get();
+         $salaries = [];
+         $maxSalary = ceil(Job::max('max_salary'));
+         $minSalary = floor(Job::min('min_salary'));
+         for ($i = $minSalary; $i <= $maxSalary; $i += 100) {
+             $salaries [] = $i . '-' . $i + 99;
+         }
 
-        foreach ($averageSalary as $salary) {
-            $salary->average_salary = number_format($salary->average_salary, 0, '.', '');
-        }
 
         return [
             'companies' => $companies,
             'locations' => $locations,
-            'salary_options' => $averageSalary,
-            'date_posted_options' => $dates,
+            'salary_options' => $salaries,
         ];
     }
 
