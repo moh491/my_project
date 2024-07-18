@@ -4,12 +4,12 @@ namespace App\Enums;
 
 use BenSampo\Enum\Enum;
 
-class Status extends Enum
+class ProjectStatus extends Enum
 {
-    const PENDING = 'Pending';
-    const ACCEPTED = 'Accepted';
+    const Open = 'Open';
     const UNDERWAY = 'Underway';
     const COMPLETED = 'Completed';
+    const UnderReview = 'Under Review';
     const CLOSED = 'Closed';
-    const EXCLUDED = 'Excluded';
+
 }
