@@ -75,6 +75,7 @@ class ServiceDetailsResource extends JsonResource
                     })
                 ];
             }),
+            'skills'=>SkillResource::collection($this->skills)
         ];
     }
 }
