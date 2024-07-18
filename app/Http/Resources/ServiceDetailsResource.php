@@ -46,7 +46,7 @@ class ServiceDetailsResource extends JsonResource
                 'preview'=>app('baseUrl').$this->preview,
             ];
         }
-        return [
+        return [    
             'id'=>$this->id,
             'title'=>$this->title,
             'description'=>$this->description,
