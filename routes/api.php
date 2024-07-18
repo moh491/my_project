@@ -180,8 +180,8 @@ Route::controller(ProjectController::class)->prefix('project')->group(function (
 Route::controller(OfferController::class)->prefix('offer')->middleware('auth:sanctum')->group(function () {
     Route::get('/offer-options', 'offerOptions');
     Route::get('/browse-offers/{id?}', 'browseOffers');
-    Route::get('/{projectId}', 'index');
     Route::get('/filter', 'filterAll');
+    Route::get('/{projectId}', 'index');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('store', 'insert');
