@@ -147,6 +147,7 @@ Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->
     Route::post('/request','RequestService');
     Route::get('browseService','browseService')->name('service.show');
     Route::get('/requestedServices','browseRequestedServices');
+    Route::delete('/request/{id}','deleteRequestService');
 });
 
 
@@ -231,4 +232,6 @@ Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix(
 
 
 });
+
+Route::get('generate-cv', [\App\Http\Controllers\FreelancerControllers\PdfController::class, 'generateCV'])->middleware('auth:sanctum');
 
