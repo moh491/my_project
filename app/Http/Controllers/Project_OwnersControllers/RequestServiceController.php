@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Project_OwnersControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestAServiceRequest;
+use App\Models\Request;
 use App\Services\ServicesService;
 use App\Traits\ApiResponseTrait;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class RequestServiceController extends Controller
@@ -50,5 +51,23 @@ class RequestServiceController extends Controller
         } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
+    }
+
+    public function deleteRequestService($id){
+        try{
+            $request=Request::find($id);
+            if(Auth::guard('Project_Owner')->user()->id==$request->project_owner_id && $request->status =='Underway'){
+                $this->servicesService->deleteRequest($id);
+                return $this->success('deleted successfully');
+            }
+            else{
+                return $this->error(" You can't delete");
+            }
+
+        }
+        catch (\throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
+
     }
 }

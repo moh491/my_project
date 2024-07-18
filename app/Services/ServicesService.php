@@ -199,5 +199,12 @@ class ServicesService
 
     }
 
+    public function deleteRequest($id)
+    {
+        $request = Request::find($id);
+        Storage::disk('public')->delete($request->files);
+        $request->delete();
+    }
+
 
 }
