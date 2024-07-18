@@ -12,6 +12,12 @@ class ProfilePageResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    public function projectCompletedCount()
+    {
+        return $this->projects()
+            ->where('status','Closed')
+            ->count();
+    }
     public function toArray(Request $request): array
     {
         return [
@@ -22,14 +28,14 @@ class ProfilePageResource extends JsonResource
             'rating'=>5,
             'location'=>$this->location,
             'time_zone'=>$this->time_zone,
-            'completion_rate'=>80,
-            'completed_projects'=>10,
+            'completion_rate'=>$this->projectCompletedCount()/$this->projects()->count()*100,
+            'completed_projects'=>$this->projectCompletedCount(),
             're_employment_rate'=>90,
             'response_speed'=>"2 h and 30 min",
-            'total_balance'=>240,
-            'suspended_balance'=>150,
-            'available_balance'=>50,
-            'withdrawal_balance'=>40,
+            'total_balance'=>$this->suspended_balance+$this->available_balance+$this->withdrawal_balance,
+            'suspended_balance'=>$this->suspended_balance,
+            'available_balance'=>$this->available_balance,
+            'withdrawal_balance'=>$this->withdrawal_balance,
             'bending_offers'=>10,
             'in_progress_offers'=>3,
             'completed_offers'=>3,

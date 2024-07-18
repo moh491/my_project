@@ -30,6 +30,9 @@ class FreelancerSeeder extends Seeder
             'about'=>'The description of the freelancer',
             'location'=>'Damascus, Syria',
             'profile'=>'freelancer-profile/OIP (1).jpg',
+            'suspended_balance'=>100,
+            'available_balance'=>200,
+            'withdrawal_balance'=>400,
             'time_zone'=>'EET UTC+3',
         ]);
         Freelancer::create([
@@ -42,6 +45,9 @@ class FreelancerSeeder extends Seeder
             'about'=>'The description of the freelancer',
             'location'=>'Damascus, Syria',
             'profile'=>'freelancer-profile/OIP (1).jpg',
+            'suspended_balance'=>100,
+            'available_balance'=>200,
+            'withdrawal_balance'=>400,
             'time_zone'=>'EET UTC+3',
         ]);
 
