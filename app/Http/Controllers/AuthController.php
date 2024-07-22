@@ -51,6 +51,7 @@ class AuthController extends Controller
             return $this->error('Please verified your email to allow login');
         }
         $token = $user->createToken('auth_' . $data['user_type'] . '_ token', ['*'])->plainTextToken;
+        $user['type'] = get_class($user);
         return $this->success('login successful', $user, $token);
     }
 
