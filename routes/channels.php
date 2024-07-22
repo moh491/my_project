@@ -18,14 +18,10 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('conversation.{conversationId}', function ($user, $conversationId) {
     // Ensure the user is part of the conversation
     $conversation = Conversation::find($conversationId);
-    info('enter here');
     if (!$conversation) {
         return false;
     }
 
-    $test =  $conversation->source_id == $user->id ||  $conversation->destination_id == $user->id;
-    info('enter tetst');
-    info($test);
     // Assuming `participants` is a relation or method that returns users in the conversation
     return $conversation->source_id == $user->id ||  $conversation->destination_id == $user->id;
 });
