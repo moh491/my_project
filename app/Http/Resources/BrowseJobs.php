@@ -31,6 +31,7 @@ class BrowseJobs extends JsonResource
             'title' => $this->title,
             'location' => $this->company->location,
             'location_type' => $this->location_type,
+            'description' => $this['description'],
             'employment_type' => $this->employment_type,
             'level' => $this->level,
             'min_salary' => $this->min_salary,

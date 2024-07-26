@@ -9,6 +9,7 @@ use App\Models\Message;
 use App\Models\Project_Owners;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class MessagesController extends Controller
 {
@@ -43,12 +44,22 @@ class MessagesController extends Controller
     {
         $user = auth::user();
 
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $imageName = $file->getClientOriginalName();
+
+            $filePath = $file->storeAs('attachments', $imageName, 'public'); // Store the file in the public disk under 'attachments' directory
+            $path = app('baseUrl') . $filePath;
+        }
+
         $message = Message::create([
             'source_id' => $user->id,
             'source_type' => get_class($user),
             'destination_id' => $request['destination_id'],
             'destination_type' => $request['destination_type'],
-            'body' => $request['body'],
+            'body' => $request->hasFile('file') ? $filePath : $request['body'],
+            'attachment' => $request->hasFile('file') ? $path : null,
             'conversation_id' => $request['conversation_id']
         ]);
 
@@ -61,16 +72,26 @@ class MessagesController extends Controller
     public function fetchMessages(string $conversationId): \Illuminate\Http\JsonResponse
     {
         $messages = Message::where('conversation_id', $conversationId)->get();
-        $con= Conversation::find($conversationId);
+        $con = Conversation::find($conversationId);
+
+
+        $user = auth()->user();
+        if (get_class($user) == $con->source_type) {
+            $name = $con->destination->first_name . ' ' . $con->destination->last_name;
+        } else {
+            $name = $con->source->first_name . ' ' . $con->source->last_name;
+        }
+
         $data = [
             'user_des' => [
-                'id' =>  $con->destination_id,
-                'type' => $con->destination_type
-            ] ,
+                'id' => $con->destination_id,
+                'type' => $con->destination_type,
+                'name' => $name
+            ],
             'user_source' => [
-                'id' =>  $con->source_id,
+                'id' => $con->source_id,
                 'type' => $con->source_type
-            ] ,
+            ],
             'messages' => $messages
         ];
         return response()->json($data);

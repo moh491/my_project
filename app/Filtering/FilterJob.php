@@ -6,7 +6,8 @@ use Spatie\QueryBuilder\AllowedFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filtering\SearchFilter;
 
-class FilterJob {
+class FilterJob
+{
 
     public function filterAll(): array
     {
@@ -39,7 +40,8 @@ class FilterJob {
 
                 $query->orWhere(function ($query) use ($value) {
                     $query->whereRaw('? BETWEEN min_salary AND max_salary', [$value])
-                        ->orwhere('description','like',"%$value%")
+                        ->orwhere('description', 'like', "%$value%")
+                        ->orWhere('title', 'like', "%$value%")
                         ->orWhereDate('created_at', $value);
                 });
             }),
