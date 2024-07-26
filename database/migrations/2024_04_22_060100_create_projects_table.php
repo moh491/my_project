@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();;
             $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();;
             $table->nullableMorphs('worker');
+            $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->timestamps();
         });

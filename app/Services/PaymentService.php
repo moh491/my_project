@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Payment;
+use App\Models\Project_Owners;
 use Illuminate\Http\Request;
 use Stripe\Checkout\Session;
 use Stripe\Stripe;
@@ -35,7 +36,7 @@ class PaymentService
                 'quantity' => 1,
             ]],
             'mode' => 'payment',
-            'success_url' => route('checkout.success', [], true) . '?session_id={CHECKOUT_SESSION_ID}',
+            'success_url' => route('checkout.success', [], true) . '?session_id={CHECKOUT_SESSION_ID}&price={price}',
             'cancel_url' => route('checkout.cancel', [], true),
         ]);
 
@@ -63,6 +64,8 @@ class PaymentService
             'status' => 'paid',
             'session_id' => $sessionId,
         ]);
+        $project_owner= Project_Owners::find($id);
+        $project_owner->update(['suspended_balance'=>$request->query('price')]);
 
     }
 
