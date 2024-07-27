@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Team extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'name',
+        'logo',
+        'link',
+        'about',
+        'withdrawal_balance',
+        'available_balance',
+        'suspended_balance'
+    ];
     public function freelancers(){
         return $this->belongsToMany(Freelancer::class,'freelancer__teams');
     }

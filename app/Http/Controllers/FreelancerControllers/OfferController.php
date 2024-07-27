@@ -5,6 +5,7 @@ namespace App\Http\Controllers\FreelancerControllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOfferRequest;
 use App\Http\Resources\OfferResource;
+use App\Models\Team;
 use App\Services\OfferService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
@@ -31,10 +32,20 @@ class OfferController extends Controller
     }
 
 
-    public function insert(StoreOfferRequest $request): \Illuminate\Http\JsonResponse
+    public function insert(StoreOfferRequest $request, $id = null): \Illuminate\Http\JsonResponse
     {
         try {
-            $this->offerService->create($request->validated());
+            if ($id == null) {
+                $id = Auth::guard('Freelancer')->user()->id;
+                $type = 'App\\Models\\Freelancer';
+            } else {
+                $type = 'App\\Models\\Team';
+                $team = Team::find($id);
+                if (!$team->freelancers->contains(Auth::guard('Freelancer')->user()->id)) {
+                    return $this->error('not authorized');
+                }
+            }
+            $this->offerService->create($request->validated(), $id, $type);
             return $this->success('insert successful');
         } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
@@ -71,7 +82,7 @@ class OfferController extends Controller
             } else
                 $model = 'App\\Models\\Team';
 
-            $offers = OfferResource::collection($this->offerService->getOffers($id,$model));
+            $offers = OfferResource::collection($this->offerService->getOffers($id, $model));
             return $this->success('Get browse successfully', $offers);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());

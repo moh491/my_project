@@ -24,6 +24,7 @@ class Project_Owners extends Authenticatable
         'profile',
         'suspended_balance',
         'withdrawal_balance'
+
     ];
 
 

@@ -14,11 +14,11 @@ class OfferService
 {
     use ApiResponseTrait;
 
-    public function create(array $data): Offer
+    public function create(array $data, $id, $type): Offer
     {
-        $freelancer = auth()->guard('Freelancer')->user();
-        $data['worker_type'] = get_class($freelancer);
-        $data['worker_id'] = $freelancer->id;
+
+        $data['worker_type'] = $type;
+        $data['worker_id'] = $id;
 
         if (isset($data['files']) && $data['files'] instanceof \Illuminate\Http\UploadedFile) {
             $data['files'] = $data['files']->store('offers', 'public');
@@ -58,9 +58,9 @@ class OfferService
         return Offer::where('project_id', $projectId)->paginate(10);
     }
 
-    public function getOffers(string $id , $model)
+    public function getOffers(string $id, $model)
     {
-        return Offer::where('worker_type', $model)->where('worker_id',$id)->paginate(10);
+        return Offer::where('worker_type', $model)->where('worker_id', $id)->paginate(10);
     }
 
     public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection

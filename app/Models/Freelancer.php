@@ -26,6 +26,9 @@ class Freelancer extends Authenticatable
         'time_zone',
         'location',
         'profile',
+        'withdrawal_balance',
+        'available_balance',
+        'suspended_balance'
     ];
 
 
