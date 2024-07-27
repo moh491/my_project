@@ -13,11 +13,11 @@ class FilterOffers {
     {
         return [
 
-            AllowedFilter::callback('status', function ($query, $status) {
-                $query->whereHas('project', function ($query) use ($status) {
-                    $query->where('status', $status);
-                });
-            }),
+//            AllowedFilter::callback('status', function ($query, $status) {
+//                $query->whereHas('project', function ($query) use ($status) {
+//                    $query->where('status', $status);
+//                });
+//            }),
 
             AllowedFilter::callback('owner', function ($query, $owner) {
                 $query->whereHas('project', function ($query) use ($owner) {
@@ -27,12 +27,13 @@ class FilterOffers {
 
             AllowedFilter::callback('search', function (Builder $query, $value) {
                 $query->whereHas('project', function (Builder $projectQuery) use ($value) {
-                    (new SearchFilter(['status', 'project_owner_id']))->__invoke($projectQuery, $value, 'projects');
+                    (new SearchFilter(['title']))->__invoke($projectQuery, $value, 'projects');
                 });
 
                 $query->orWhere(function ($query) use ($value) {
                     $query->Where('duration', $value)
                         ->orWhere('description', 'like', "%$value%")
+                        ->orWhere('status', 'like', "%$value%")
                         ->orWhereDate('created_at', $value);
                 });
             }),

@@ -22,8 +22,8 @@ class Project_Owners extends Authenticatable
         'location',
         'time_zone',
         'profile',
-        'withdrawal_balance',
         'suspended_balance',
+        'withdrawal_balance'
     ];
 
 

@@ -23,7 +23,7 @@ class CompanySeeder extends Seeder
             'password'=>'111111',
             'field_id'=>1,
             'about'=>'The description of the company',
-            'location'=>'Damascus, Syria',
+            'location'=>'Damascus-Syria',
 
         ]);
         Company::create([
@@ -35,7 +35,7 @@ class CompanySeeder extends Seeder
             'password'=>'111111',
             'field_id'=>2,
             'about'=>'The description of the company',
-            'location'=>'Damascus, Syria',
+            'location'=>'Damascus-Syria',
         ]);
 
 

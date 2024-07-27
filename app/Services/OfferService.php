@@ -67,8 +67,9 @@ class OfferService
     {
 
         $offers = QueryBuilder::for(Offer::class)
-            ->allowedFilters((new FilterOffers())->filterAll())
+            ->allowedFilters((new FilterOffers())->filterAll())->with('project')
             ->get();
+
 
         return OfferResource::collection($offers);
 

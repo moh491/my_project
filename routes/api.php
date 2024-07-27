@@ -181,8 +181,8 @@ Route::controller(ProjectController::class)->prefix('project')->group(function (
 Route::controller(OfferController::class)->prefix('offer')->middleware('auth:sanctum')->group(function () {
     Route::get('/offer-options', 'offerOptions');
     Route::get('/browse-offers/{id?}', 'browseOffers');
-    Route::get('/{projectId}', 'index');
     Route::get('/filter', 'filterAll');
+    Route::get('/{projectId}', 'index');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('store/{id?}', 'insert');
@@ -225,11 +225,11 @@ Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(f
    Route::get('/owner/{id}','endPoint');
 });
 
-Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix('payment')->middleware('auth:sanctum')->group(function ($router) {
+Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix('payment')->group(function ($router) {
     Route::get('/success', 'successPayment')->name('checkout.success');
     Route::get('/cancel', 'cancel')->name('checkout.cancel');
-    Route::post('/confirm', 'confirm')->name('confirm');
-    Route::post('/refund', 'refund')->name('refund');
+    Route::post('/confirm', 'confirm')->name('confirm')->middleware('auth:sanctum');
+    Route::post('/refund', 'refund')->name('refund')->middleware('auth:sanctum');
 
 
 
