@@ -224,11 +224,11 @@ Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(f
    Route::get('/owner/{id}','endPoint');
 });
 
-Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix('payment')->middleware('auth:sanctum')->group(function ($router) {
+Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix('payment')->group(function ($router) {
     Route::get('/success', 'successPayment')->name('checkout.success');
     Route::get('/cancel', 'cancel')->name('checkout.cancel');
-    Route::post('/confirm', 'confirm')->name('confirm');
-    Route::post('/refund', 'refund')->name('refund');
+    Route::post('/confirm', 'confirm')->name('confirm')->middleware('auth:sanctum');
+    Route::post('/refund', 'refund')->name('refund')->middleware('auth:sanctum');
 
 
 

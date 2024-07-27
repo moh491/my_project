@@ -10,6 +10,7 @@ use App\Services\PaymentService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 
 class StripePaymentController extends Controller
 {
@@ -29,14 +30,14 @@ class StripePaymentController extends Controller
             if (!Auth::guard('Project_Owner')->user()) {
                 return $this->error('You dont have the authority');
             }
-            $session = $this->paymentService->confirm($data);
-            return redirect($session->url);
+            $session = $this->paymentService->confirm($confirmRequest);
+            return $this->success('success',$session->url);
         } catch (\Exception $th) {
             return $this->serverError($th->getMessage());
         }
     }
 
-    public function refund(RefundRequest $refundRequest): \Illuminate\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
+    public function refund(RefundRequest $refundRequest): \Illuminate\Http\JsonResponse
     {
         try {
             $data = $refundRequest->validated();
@@ -52,12 +53,16 @@ class StripePaymentController extends Controller
         }
     }
 
-    public function successPayment(Request $request): \Illuminate\Http\JsonResponse
+    public function successPayment(Request $request): \Illuminate\Foundation\Application|\Illuminate\Http\JsonResponse|\Illuminate\Routing\Redirector|\Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse
     {
+        $token = $request->query('token');
+        if (!$token) {
+            return response()->json(['error' => 'Token not provided'], 403);
+        }
+        $user = PersonalAccessToken::findToken($token)->tokenable;
         try {
-            $id = Auth::guard('Project_Owner')->user()->id;
-            $this->paymentService->success($request, $id);
-            return $this->success('payment successfully');
+            $this->paymentService->success($request, $user->id);
+            return redirect('http://localhost:5173/projectOwner');
 
         } catch (\Exception $th) {
             return $this->serverError($th->getMessage());
