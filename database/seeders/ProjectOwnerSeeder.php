@@ -25,7 +25,6 @@ class ProjectOwnerSeeder extends Seeder
             'location'=>'Damascus, Syria',
             'time_zone'=>'EET UTC+3',
             'withdrawal_balance'=>'200000',
-            'available_balance'=>'20000',
             'suspended_balance'=>'2000',
             'profile'=>'project-owner-profile/OIP (1).jpg',
         ]);
@@ -39,7 +38,6 @@ class ProjectOwnerSeeder extends Seeder
             'location'=>'Damascus, Syria',
             'time_zone'=>'EET UTC+3',
             'withdrawal_balance'=>'200000',
-            'available_balance'=>'20000',
             'suspended_balance'=>'2000',
             'profile'=>'project-owner-profile/OIP (1).jpg',
         ]);
@@ -53,7 +51,6 @@ class ProjectOwnerSeeder extends Seeder
             'location'=>'Damascus, Syria',
             'time_zone'=>'EET UTC+3',
             'withdrawal_balance'=>'200000',
-            'available_balance'=>'20000',
             'suspended_balance'=>'2000',
             'profile'=>'project-owner-profile/OIP (1).jpg',
         ]);

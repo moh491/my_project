@@ -173,6 +173,7 @@ Route::controller(ProjectController::class)->prefix('project')->group(function (
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('store', 'store');
+        Route::post('AcceptOffer/{id}','AcceptOffer');
     });
 
 });
@@ -184,7 +185,7 @@ Route::controller(OfferController::class)->prefix('offer')->middleware('auth:san
     Route::get('/filter', 'filterAll');
 
     Route::middleware('auth:sanctum')->group(function () {
-        Route::post('store', 'insert');
+        Route::post('store/{id?}', 'insert');
         Route::delete('delete/{id}', 'delete');
     });
 

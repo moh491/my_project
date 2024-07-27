@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('logo');
             $table->string('link');
             $table->text('about');
+            $table->decimal('withdrawal_balance')->nullable();
+            $table->decimal('available_balance')->nullable();
+            $table->decimal('suspended_balance')->nullable();
             $table->timestamps();
         });
     }

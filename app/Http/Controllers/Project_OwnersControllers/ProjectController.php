@@ -6,9 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Resources\ProjectDetialsResource;
 use App\Http\Resources\ProjectResource;
+use App\Models\Offer;
+use App\Models\Project;
+use App\Models\Project_Owners;
 use App\Models\Request;
 use App\Services\ProjectService;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -24,12 +28,34 @@ class ProjectController extends Controller
     public function store(StoreProjectRequest $request): \Illuminate\Http\JsonResponse
     {
         try {
-            $this->projectService->createProject($request);
+            $data = $request->validated();
+            $id = Auth::guard('Project_Owner')->user()->id;
+            $projectOwner = Project_Owners::find($id);
+            if ($projectOwner->withdrawal_balance < $data['max_budget']) {
+                return $this->error('Please recharge before republishing the project');
+            }
+            $this->projectService->createProject($data, $id);
             return $this->success('insert has been successfully');
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
 
+    }
+
+    public function AcceptOffer($id)
+    {
+        try {
+            $offer = Offer::find($id);
+            $project = Project::find($offer['project_id']);
+            if ($project['project_owner_id'] == Auth::guard('Project_Owner')->user()->id) {
+                $this->projectService->AcceptOffer($id);
+                return $this->success('Accept Offer Successfully');
+            } else {
+                return $this->error('not authorized');
+            }
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
     }
 
     public function projectDetails($id)
