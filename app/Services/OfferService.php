@@ -14,11 +14,18 @@ class OfferService
 {
     use ApiResponseTrait;
 
-    public function create(array $data, $id, $type): Offer
+    public function create(array $data, $id, $type): void
     {
         $data['worker_type'] = $type;
         $data['worker_id'] = $id;
-        $offer = Offer::create($data);
+        $offer = Offer::create([
+            'project_id' => $data['project_id'],
+            'duration' => $data['duration'],
+            'budget' => $data['budget'],
+            'description' => $data['description'],
+            'worker_type' => $data['worker_type'],
+            'worker_id' => $data['worker_id'],
+        ]);
 
 
         if (isset($data['files'])) {
@@ -30,8 +37,8 @@ class OfferService
             $offer->update(['files' => $folderPath]);
         }
 
-        return $offer;
     }
+
 
     public function delete(string $id): void
     {
