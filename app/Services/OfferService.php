@@ -17,18 +17,31 @@ class OfferService
 {
     use ApiResponseTrait;
 
-    public function create(array $data, $id, $type): Offer
+    public function create(array $data, $id, $type): void
     {
-
         $data['worker_type'] = $type;
         $data['worker_id'] = $id;
+        $offer = Offer::create([
+            'project_id' => $data['project_id'],
+            'duration' => $data['duration'],
+            'budget' => $data['budget'],
+            'description' => $data['description'],
+            'worker_type' => $data['worker_type'],
+            'worker_id' => $data['worker_id'],
+        ]);
 
-        if (isset($data['files']) && $data['files'] instanceof \Illuminate\Http\UploadedFile) {
-            $data['files'] = $data['files']->store('offers', 'public');
+
+        if (isset($data['files'])) {
+            $folderPath = 'offer/' . $offer->id;
+            foreach ($data['files'] as $file) {
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs($folderPath, $fileName, 'public');
+            }
+            $offer->update(['files' => $folderPath]);
         }
 
-        return Offer::create($data);
     }
+
 
     public function AcceptOffer($id)
     {
