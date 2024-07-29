@@ -38,7 +38,7 @@ class ProfilePageResource extends JsonResource
             $totalReemployments += $projectCount > 1 ? $projectCount - 1 : 0;
         }
         $overallReEmploymentRate = $totalProjects > 0 ? ($totalReemployments / $totalProjects) * 100 : 0;
-        return $overallReEmploymentRate;
+        return (int)$overallReEmploymentRate;
     }
 
     public function calculateOnTimeDeliveryRate()
@@ -59,8 +59,28 @@ class ProfilePageResource extends JsonResource
             }
         }
         $onTimeDeliveryRate = $totalProjects > 0 ? ($onTimeProjects / $totalProjects) * 100 : 0;
-        return $onTimeDeliveryRate;
+        return (int)$onTimeDeliveryRate;
     }
+
+    public function Offer($status)
+    {
+
+        if (!$this->offers()->count() == 0) {
+            $number = $this->offers()->where('status', $status)->count() / $this->offers()->count() * 100;
+            return (int)$number;
+        }
+
+    }
+
+    public function comletionrate()
+    {
+
+        if ($this->projects()->count() > 0) {
+            $num = $this->projectCompletedCount() / $this->projects()->count() * 100;
+            return (int)$num;
+        }
+    }
+
 
     public function toArray(Request $request): array
     {
@@ -72,7 +92,7 @@ class ProfilePageResource extends JsonResource
             'rating' => 5,
             'location' => $this->location,
             'time_zone' => $this->time_zone,
-            'completion_rate' => $this->projectCompletedCount() / $this->projects()->count() * 100,
+            'completion_rate' => $this->comletionrate(),
             'completed_projects' => $this->projectCompletedCount(),
             're_employment_rate' => $this->calculateReemploymentRate(),
             'on_time_delivery_rate' => $this->calculateOnTimeDeliveryRate(),
@@ -80,9 +100,9 @@ class ProfilePageResource extends JsonResource
             'suspended_balance' => $this->suspended_balance,
             'available_balance' => $this->available_balance,
             'withdrawal_balance' => $this->withdrawal_balance,
-            'bending_offers' => $this->offers()->where('status', 'Pending')->count() / $this->offers()->count() * 100,
-            'accept_offers' => $this->offers()->where('status', 'Accept')->count() / $this->offers()->count() * 100,
-            'rejected_offers' => $this->offers()->where('status', 'Reject')->count() / $this->offers()->count() * 100,
+            'bending_offers' => $this->Offer('Pending'),
+            'accept_offers' => $this->Offer('Accept'),
+            'rejected_offers' => $this->offer('Reject'),
             'about' => $this->about,
             'languages' => $this->languages()->select('language as name', 'level')->get()->map(function ($language) {
                 return [

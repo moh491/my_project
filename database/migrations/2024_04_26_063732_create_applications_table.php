@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_accepted');
             $table->enum('status',['reviewed','accepted','rejected','pending']);
-            $table->foreignId('job_id')->constrained('jobs')->cascadeOnDelete();;
+            $table->foreignId('job_id')->constrained('company_jobs')->cascadeOnDelete();;
             $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CompanyJob;
 use App\Models\Job;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -21,8 +22,8 @@ class JobSeeder extends Seeder
             'Solid understanding of responsive design principles and mobile-first approach',
             'Experience with version control systems (e.g., GitExcellent problem-solving skills and attention to data'
         ];
-        Job::truncate();
-        Job::create([
+        CompanyJob::truncate();
+        CompanyJob::create([
             'title' => "Backend Developer",
             'location_type' => 1,
             'employment_type' => 1,
@@ -34,7 +35,7 @@ class JobSeeder extends Seeder
             'position_id' => 1,
             'company_id' => 1,
         ]);
-        Job::create([
+        CompanyJob::create([
             'title' => "UI/UX Designer",
             'location_type' => 2,
             'employment_type' => 2,
@@ -46,7 +47,7 @@ class JobSeeder extends Seeder
             'position_id' => 2,
             'company_id' => 1,
         ]);
-        Job::create([
+        CompanyJob::create([
             'title' => "UI/UX Designer",
             'location_type' => 2,
             'employment_type' => 2,
