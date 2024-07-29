@@ -27,7 +27,7 @@ class OfferService
                 $fileName = $file->getClientOriginalName();
                 $file->storeAs($folderPath, $fileName, 'public');
             }
-            $offer->update(['images' => $folderPath]);
+            $offer->update(['files' => $folderPath]);
         }
 
         return $offer;
