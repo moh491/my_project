@@ -16,15 +16,21 @@ class OfferService
 
     public function create(array $data, $id, $type): Offer
     {
-
         $data['worker_type'] = $type;
         $data['worker_id'] = $id;
+        $offer = Offer::create($data);
 
-        if (isset($data['files']) && $data['files'] instanceof \Illuminate\Http\UploadedFile) {
-            $data['files'] = $data['files']->store('offers', 'public');
+
+        if (isset($data['files'])) {
+            $folderPath = 'offer/' . $offer->id;
+            foreach ($data['files'] as $file) {
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs($folderPath, $fileName, 'public');
+            }
+            $offer->update(['images' => $folderPath]);
         }
 
-        return Offer::create($data);
+        return $offer;
     }
 
     public function delete(string $id): void
