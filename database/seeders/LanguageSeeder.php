@@ -15,13 +15,13 @@ class LanguageSeeder extends Seeder
     {
         Language::truncate();
         Language::create([
-            'language'=>'en',
+            'language'=>'English',
             'level'=>1,
             'freelancer_id'=>1
 
         ]);
         Language::create([
-            'language'=>'ar',
+            'language'=>'Arabic',
             'level'=>3,
             'freelancer_id'=>1
 

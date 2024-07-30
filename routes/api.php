@@ -97,7 +97,7 @@ Route::controller(ServiceController::class)->prefix('service')->group(function (
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
 });
-Route::controller(ProfilePageController::class)->prefix('profile')->middleware('auth:sanctum')->group(function () {
+Route::controller(ProfilePageController::class)->prefix('freelancer/profile')->middleware('auth:sanctum')->group(function () {
     Route::get('/{id?}', 'getProfilePage');
     Route::put('/', 'updateProfile');
 });
@@ -190,6 +190,7 @@ Route::controller(OfferController::class)->prefix('offer')->middleware('auth:san
         Route::post('store/{id?}', 'insert');
         Route::post('cancel/{id}','Cancelreceiptproject');
         Route::post('Accept/{offerId}','Accept');
+        Route::post('Reject/{id}','Reject');
     });
 
 
@@ -239,4 +240,6 @@ Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix(
 });
 
 Route::get('generate-cv', [\App\Http\Controllers\FreelancerControllers\PdfController::class, 'generateCV'])->middleware('auth:sanctum');
-
+Route::controller(\App\Http\Controllers\TeamController::class)->prefix('team')->group(function(){
+    Route::get('profile/{id}','getProfilePage')->name('team.show');
+});

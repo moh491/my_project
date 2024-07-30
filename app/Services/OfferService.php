@@ -56,6 +56,13 @@ class OfferService
         //mail
     }
 
+    public function RejectOffer($id)
+    {
+        $offer = Offer::find($id);
+        $offer->update(['status' => 'Reject']);
+        //mail
+    }
+
     public function cancel($id)
     {
         $offer = Offer::find($id);

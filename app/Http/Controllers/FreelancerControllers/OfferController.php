@@ -91,6 +91,23 @@ class OfferController extends Controller
         }
     }
 
+    public function Reject($id)
+    {
+        try {
+            $offer = Offer::find($id);
+            $project = Project::find($offer['project_id']);
+            if ($project['project_owner_id'] == Auth::guard('Project_Owner')->user()->id) {
+                $this->offerService->RejectOffer($id);
+                return $this->success('Reject Offer Successfully');
+            } else {
+                return $this->error('not authorized');
+            }
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+
+    }
+
 
     public function offerOptions(): \Illuminate\Http\JsonResponse
     {
