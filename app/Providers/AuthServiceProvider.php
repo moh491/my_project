@@ -13,6 +13,7 @@ use App\Models\Portfolio;
 use App\Models\Request;
 use App\Models\Service;
 use App\Models\Skill;
+use App\Models\Team;
 use App\Policies\CertificatePolicy;
 use App\Policies\EducationPolicy;
 use App\Policies\ExperiencePolicy;
@@ -22,6 +23,7 @@ use App\Policies\PortfloioPolicy;
 use App\Policies\RequestPolicy;
 use App\Policies\ServicePolicy;
 use App\Policies\SkillPolicy;
+use App\Policies\TeamPolicy;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -44,6 +46,7 @@ class AuthServiceProvider extends ServiceProvider
         Plan::class=>ServicePolicy::class,
         Skill::class=>SkillPolicy::class,
         Request::class=>RequestPolicy::class,
+        Team::class => TeamPolicy::class,
 
     ];
 

@@ -19,6 +19,7 @@ use App\Http\Controllers\FreelancerControllers\PortfolioController;
 use App\Http\Controllers\FreelancerControllers\ProfilePageController;
 use App\Http\Controllers\FreelancerControllers\ServiceController;
 use App\Http\Controllers\FreelancerControllers\SkillController;
+
 use App\Http\Controllers\FreelancerControllers\WorkProfileController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\Project_OwnersControllers\DashboardOwnerController;
@@ -26,6 +27,7 @@ use App\Http\Controllers\Project_OwnersControllers\ProjectController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use App\Http\Controllers\Project_OwnersControllers\RequestServiceController;
 use App\Http\Controllers\ServiceRequestController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -237,3 +239,10 @@ Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix(
 
 Route::get('generate-cv', [\App\Http\Controllers\FreelancerControllers\PdfController::class, 'generateCV'])->middleware('auth:sanctum');
 
+
+Route::controller(TeamController::class)->prefix('team')->middleware('auth:Freelancer')->group(function () {
+    Route::post('/store',  'store');
+    Route::put('/update/{team}',  'update');
+    Route::post('/teams/{team}/add-member','addMember');
+    Route::delete('/teams/{team}/remove-member', 'removeMember');
+});
