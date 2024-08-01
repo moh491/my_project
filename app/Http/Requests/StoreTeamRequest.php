@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTeamRequest extends FormRequest
@@ -17,14 +18,14 @@ class StoreTeamRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     * @return array<string, ValidationRule|array|string>
      */
     public function rules(): array
     {
         return [
             'name' => 'required|string|max:255',
-            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'link' => 'nullable|url|max:255',
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'link' => 'required|url|max:255',
             'about' => 'required|string',
             'withdrawal_balance' => 'nullable|numeric',
             'available_balance' => 'nullable|numeric',

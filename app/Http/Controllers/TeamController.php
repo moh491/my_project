@@ -9,6 +9,7 @@ use App\Http\Requests\RemoveMemberRequest;
 use App\Models\Team;
 use App\Services\TeamService;
 use App\Traits\ApiResponseTrait;
+use http\Client\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -36,13 +37,17 @@ class TeamController extends Controller
 
     }
 
-    public function update(UpdateTeamRequest $request, Team $team): JsonResponse
+
+
+    public function update(UpdateTeamRequest $request, Team $team)
     {
         try {
+
             $freelancer = Auth::guard('Freelancer')->user();
             $this->authorize('update', $team);
 
            $this->teamService->updateTeam($freelancer, $team, $request);
+
             return $this->success('updated successful');
         }
         catch (\throwable $throwable){
@@ -51,7 +56,7 @@ class TeamController extends Controller
 
     }
 
-    public function addMember(AddMemberRequest $request, Team $team): JsonResponse
+    public function addMember(AddMemberRequest $request, Team $team)
     {
         try {
             $freelancer = Auth::guard('Freelancer')->user();
@@ -66,18 +71,18 @@ class TeamController extends Controller
 
     }
 
-    public function removeMember(RemoveMemberRequest $request, Team $team): JsonResponse
+    public function removeMember(RemoveMemberRequest $request, Team $team)
     {
         try {
+
             $freelancer = Auth::guard('Freelancer')->user();
             $this->authorize('update', $team);
 
-            $team = $this->teamService->removeMember($team, $request);
-            return $this->success('remove member successful');
-        }
-        catch (\throwable $throwable){
-            return $this->serverError($throwable->getMessage());
-        }
+            $this->teamService->removeMember($team, $request->freelancer_id);
 
+            return response()->json(['message' => 'Member removed successfully'], 200);
+        } catch (\Throwable $throwable) {
+            return response()->json(['error' => $throwable->getMessage()], 500);
+        }
     }
 }

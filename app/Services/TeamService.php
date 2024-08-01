@@ -40,9 +40,15 @@ class TeamService
         return $team;
     }
 
-    public function removeMember(Team $team, Request $request)
+    public function removeMember(Team $team, $freelancerId)
     {
-        $team->freelancers()->detach($request->freelancer_id);
-        return $team;
+        // إزالة العلاقة بين الفريق والعضو
+        $team->freelancers()->detach($freelancerId);
     }
+
+//    public function removeMember(Team $team, Request $request)
+//    {
+//        $team->freelancers()->detach($request->freelancer_id);
+//        return $team;
+//    }
 }

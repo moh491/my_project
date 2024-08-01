@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Resources\CompanyResource;
 use App\Mail\SendCodeEmail;
 use App\Models\Company;
 use App\Models\Otp;
@@ -35,5 +36,11 @@ class CompanyService
         ]);
         Mail::to($company->email)->send(new SendCodeEmail($code));
         return $company;
+    }
+
+    public function getCompanyProfile($companyId)
+    {
+        $company = Company::with('jobs')->findOrFail($companyId);
+        return new CompanyResource($company);
     }
 }

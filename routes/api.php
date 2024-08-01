@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
+use App\Http\Controllers\CompanyControllers\CompanyController;
 use App\Http\Controllers\CompanyControllers\JobController;
 //use App\Http\Controllers\Controller1;
 use App\Http\Controllers\FilterFreelancerController;
@@ -129,6 +130,9 @@ Route::controller(SkillController::class)->prefix('skill')->middleware('auth:san
     Route::delete('/{skillId}/{teamId?}', 'delete');
 });
 
+Route::controller(CompanyController::class)->prefix('companies')->group(function (){
+    Route::get('/{id}/profile', 'getProfile');
+});
 
 Route::controller(JobController::class)->prefix('job')->group(function () {
 
@@ -243,6 +247,6 @@ Route::get('generate-cv', [\App\Http\Controllers\FreelancerControllers\PdfContro
 Route::controller(TeamController::class)->prefix('team')->middleware('auth:Freelancer')->group(function () {
     Route::post('/store',  'store');
     Route::put('/update/{team}',  'update');
-    Route::post('/teams/{team}/add-member','addMember');
-    Route::delete('/teams/{team}/remove-member', 'removeMember');
+    Route::post('/{team}/add-member','addMember');
+    Route::delete('/{team}/remove-member', 'removeMember');
 });

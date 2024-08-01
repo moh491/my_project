@@ -44,8 +44,8 @@ class TeamPolicy
         return $freelancer->teams()->where('team_id', $team->id)->exists();
     }
 
-    public function delete(Freelancer $freelancer, Team $team)
-    {
-        return $freelancer->teams()->where('team_id', $team->id)->exists();
-    }
+//    public function delete(Freelancer $freelancer, Team $team)
+//    {
+//        return $freelancer->teams()->where('team_id', $team->id)->exists();
+//    }
 }
