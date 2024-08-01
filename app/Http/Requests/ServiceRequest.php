@@ -30,6 +30,7 @@ class ServiceRequest extends FormRequest
             'plans'=>'required',
             'plans.*.features'=>'array',
             'plans.*.delivery_options'=>'array',
+            'skills'=>'required|array'
         ];
     }
 }

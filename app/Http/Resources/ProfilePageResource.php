@@ -6,6 +6,7 @@ use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 
 class ProfilePageResource extends JsonResource
@@ -81,6 +82,39 @@ class ProfilePageResource extends JsonResource
         }
     }
 
+    public function avarageReviewProject()
+    {
+
+        $projects = $this->projects()->where('status', 'Closed')->has('review')->get();
+        $totalScore = 0;
+        $totalReviews = 0;
+        foreach ($projects as $project) {
+            $review = $project->review;
+            $overallScore = ($review->professionalism +
+                    $review->communication +
+                    $review->quality +
+                    $review->commit_to_deadlines +
+                    $review->re_employee +
+                    $review->experience) / 6;
+            $totalScore += $overallScore;
+            $totalReviews++;
+        }
+        return $totalReviews > 0 ? round($totalScore / $totalReviews) : 0;
+
+    }
+
+    public function avarageRatingRequests()
+    {
+        $services = $this->services()->get();
+        $allRatings = new Collection();
+        foreach ($services as $service) {
+            $requests = $service->allRequests()->where('status', 'Closed')->whereNotNull('rating');
+            $ratings = $requests->pluck('rating');
+            $allRatings = $allRatings->concat($ratings);
+        }
+        return $allRatings->count() > 0 ? round($allRatings->avg()) : 0;
+    }
+
 
     public function toArray(Request $request): array
     {
@@ -89,7 +123,7 @@ class ProfilePageResource extends JsonResource
             'profile' => app('baseUrl') . $this->profile,
             'full_name' => $this->first_name . ' ' . $this->last_name,
             'position' => $this->position->name,
-            'rating' => 5,
+            'rating' => round(($this->avarageReviewProject() + $this->avarageRatingRequests()) / 2),
             'location' => $this->location,
             'time_zone' => $this->time_zone,
             'completion_rate' => $this->comletionrate(),

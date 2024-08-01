@@ -81,7 +81,7 @@ class OfferController extends Controller
             $offer = Offer::find($id);
             if (($offer['worker_type'] == 'App\\Models\\Freelancer' && $offer['worker_id'] == Auth::guard('Freelancer')->user()->id) || ($offer['worker_type'] == 'App\\Models\\Team' && Team::find($offer['worker_id'])->freelancers->contains(Auth::guard('Freelancer')->user()->id))) {
                 $this->offerService->cancel($id);
-                return $this->success('cancel receipt project successfully');
+                return $this->success('cancel receipt of the project successfully');
             } else {
                 return $this->error('not authorized');
             }

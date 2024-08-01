@@ -7,6 +7,7 @@ use App\Filtering\FilterProjects;
 use App\Http\Resources\BrowseJobs;
 use App\Http\Resources\ProjectResource;
 use App\Jobs\CloseProjectJob;
+use App\Mail\SentMail;
 use App\Models\Field;
 use App\Models\Job;
 use App\Models\Offer;
@@ -18,6 +19,7 @@ use App\Models\Skill;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ProjectService
@@ -46,7 +48,15 @@ class ProjectService
 
         $project = Project::find($id);
         $project->update(['status' => 'Completed']);
-        //mail
+        $user = $project['worker_type']::find($project['worker_id']);
+        $owner = Project_Owners::find($project['project_owner_id']);
+        if ($project['worker_type'] == 'App\\Models\\Freelancer') {
+            $description = $user->first_name . ' ' . $user->last_name . ' has delivery of the project ' . $project->title;
+        } else {
+            $description = $user->name . ' has delivery of the project ' . $project->title;
+        }
+        $title = 'Project Delivery';
+        Mail::to($owner->email)->send(new SentMail($title, $description));
     }
 
     //project_owner
@@ -55,6 +65,7 @@ class ProjectService
         $offer = Offer::find($id);
         $project = Project::find($offer['project_id']);
         $project->update(['status' => 'Under Review']);
+        $project_owner = Project_Owners::find(Auth::guard('Project_Owner')->user()->id);
         $user = $project['worker_type']::find($project['worker_id']);
         $user->update(['suspended_balance' => $user['suspended_balance'] - ($offer['budget'] - $offer['budget'] * 0.15), 'available_balance' => $user['available_balance'] - ($offer['budget'] - $offer['budget'] * 0.15)]);
         //  return redirect('');
@@ -63,9 +74,14 @@ class ProjectService
         $futureDate = $now->copy()->addDays(14);
         $secondsDifference = $futureDate->diffInSeconds($now);
         CloseProjectJob::dispatch($id)->delay($secondsDifference);
-        //mail
-
-
+        $description = $project_owner->first_name . ' ' . $project_owner->last_name . ' has accepted the project ' . $project->title;
+        $title = 'Accept Project';
+        if ($offer['worker_type'] == 'App\\Models\\Freelancer') {
+            Mail::to($user->email)->send(new SentMail($title, $description));
+        } else {
+            $owner_team = $user->freelancers()->where('is_owner', 1)->first();
+            Mail::to($owner_team->email)->send(new SentMail($title, $description));
+        }
     }
 
     public function rating($data, $id)
