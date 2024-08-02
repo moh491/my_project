@@ -6,6 +6,7 @@ use App\Mail\SendCodeEmail;
 use App\Models\Otp;
 use App\Models\Project_Owners;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectOwnerService
 {
@@ -39,5 +40,23 @@ class ProjectOwnerService
         Mail::to($project_owner->email)->send(new SendCodeEmail($code));
         return $project_owner;
     }
+
+    public function updateProjectOwner(Project_Owners $projectOwner, array $data)
+    {
+         if (isset($data['profile'])) {
+
+             if ($projectOwner->profile && Storage::exists($projectOwner->profile)) {
+                Storage::delete($projectOwner->profile);
+            }
+
+             $path = $data['profile']->store('profiles', 'public');
+            $data['profile'] = $path;
+        }
+
+         $projectOwner->update($data);
+
+        return $projectOwner;
+    }
+
 
 }

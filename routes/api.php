@@ -229,6 +229,11 @@ Route::controller(ServiceRequestController::class)->prefix('serviceRequest')->mi
 
 Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(function (){
    Route::get('/owner/{id}','endPoint');
+
+    Route::middleware('auth:Project_Owner')->group(function () {
+        Route::post('/update','update');
+    });
+
 });
 
 Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix('payment')->group(function ($router) {

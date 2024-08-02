@@ -38,11 +38,27 @@ class TeamController extends Controller
     }
 
 
+//    public function update(UpdateTeamRequest $request, string $id)
+//    {
+//        try {
+//            $data = $request->validated();
+//            $experience = Team::find($id);
+//            $freelancer = Auth::guard('Freelancer')->user();
+//
+//            if ($freelancer && $freelancer->can('update', [ Team::class, $experience ])) {
+//                $this->teamService->updateTeam($freelancer, $experience, $data);
+//                return $this->success('updated successful');
+//            } else {
+//                return $this->error('not authorized');
+//            }
+//        } catch (\Throwable $throwable) {
+//            return $this->serverError($throwable->getMessage());
+//        }
+//    }
 
     public function update(UpdateTeamRequest $request, Team $team)
     {
         try {
-
             $freelancer = Auth::guard('Freelancer')->user();
             $this->authorize('update', $team);
 
