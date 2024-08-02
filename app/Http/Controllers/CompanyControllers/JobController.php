@@ -1,17 +1,10 @@
 <?php
 
 namespace App\Http\Controllers\CompanyControllers;
-use App\Filtering\FilterJob;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
-use Spatie\QueryBuilder\QueryBuilder;
-use Spatie\QueryBuilder\AllowedFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\JobRequest;
 use App\Http\Resources\BrowseJobs;
 use App\Http\Resources\JobResource;
-use App\Models\Company;
-use App\Models\Job;
 use App\Services\JobService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
