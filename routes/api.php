@@ -94,11 +94,13 @@ Route::controller(PortfolioController::class)->prefix('portfolio')->middleware('
 });
 Route::controller(ServiceController::class)->prefix('service')->group(function () {
     Route::get('/index/{id?}/{type?}', 'getServices');
-    Route::get('/requested/{id?}','browseRequestedServices');
+    Route::get('/filter','browseService')->name('service.show');
     Route::get('/{id}', 'detailService');
     Route::post('/{TeamId?}', 'insertService');
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
+    Route::post('delivery/{requestId}','delivery');
+    Route::post('Accept/{requestId}','Accept');
 });
 Route::controller(ProfilePageController::class)->prefix('freelancer/profile')->middleware('auth:sanctum')->group(function () {
     Route::get('/{id?}', 'getProfilePage');
@@ -149,11 +151,20 @@ Route::controller(JobController::class)->prefix('job')->group(function () {
 });
 
 
-Route::controller(RequestServiceController::class)->middleware('auth:sanctum')->group(function(){
-    Route::post('/request','RequestService');
-    Route::get('browseService','browseService')->name('service.show');
-    Route::get('/requestedServices','browseRequestedServices');
-    Route::delete('/request/{id}','deleteRequestService');
+
+Route::controller(RequestServiceController::class)->prefix('request')->middleware('auth:sanctum')->group(function(){
+    Route::post('/','RequestService');
+    Route::get('/requestedServicesOwner','browseRequestedServicesforowner');
+    Route::get('/requestedServicesUser/{id?}','browseRequestedServicesforUser');
+    Route::delete('/{id}','deleteRequestService');
+    Route::put('/{requestId}','rating');
+    Route::post('Accept/{requestId}','Accept');
+    Route::post('Reject/{requestId}','Reject');
+    Route::post('Cancel/{requestId}','Cancel');
+
+
+
+
 });
 
 
@@ -226,9 +237,7 @@ Route::controller(MessagesController::class)->prefix('chat')->middleware('auth:s
     Route::post('/', 'sendMessage');
 });
 
-Route::controller(ServiceRequestController::class)->prefix('serviceRequest')->middleware('auth:sanctum')->group(function(){
-    Route::put('/{id}','update');
-});
+
 
 
 Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(function (){
