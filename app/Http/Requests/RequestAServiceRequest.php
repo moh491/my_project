@@ -24,7 +24,6 @@ class RequestAServiceRequest extends FormRequest
         return [
             'note' => 'required',
             'files' => 'sometimes|file',
-            'budget' => 'required',
             'delivery_option_id' => 'required',
         ];
     }

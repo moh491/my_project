@@ -16,7 +16,6 @@ return new class extends Migration
             $table->id();
             $table->text('note');
             $table->string('files')->nullable();
-            $table->decimal('budget');
             $table->enum('status',Status::getValues())->default(Status::PENDING);
             $table->integer('rating')->nullable();
             $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();;
