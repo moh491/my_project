@@ -90,6 +90,7 @@ class ProfilePageTeamResource extends JsonResource
             'id' => $this->id,
             'logo' => $this->logo,
             'name' => $this->name,
+            'link'=>$this->link,
             'completion_rate' => $this->comletionrate(),
             'completed_projects' => $this->projectCompletedCount(),
             're_employment_rate' => $this->calculateReemploymentRate(),

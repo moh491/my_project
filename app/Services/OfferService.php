@@ -5,12 +5,14 @@ namespace App\Services;
 use App\Enums\Offer_Type;
 use App\Filtering\FilterOffers;
 use App\Http\Resources\OfferResource;
+use App\Mail\SentMail;
 use App\Models\Offer;
 use App\Models\Project;
 use App\Models\Project_Owners;
 use App\Traits\ApiResponseTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class OfferService
@@ -53,14 +55,31 @@ class OfferService
         $user = $offer['worker_type']::find($offer['worker_id']);
         $project_owner->update(['suspended_balance' => $project_owner['suspended_balance'] + $offer['budget'], 'withdrawal_balance' => $project_owner['withdrawal_balance'] - $offer['budget']]);
         $user->update(['suspended_balance' => $user['suspended_balance'] + ($offer['budget'] - $offer['budget'] * 0.15)]);
-        //mail
+        $description = $project_owner->first_name . ' ' . $project_owner->last_name . ' has accepted the offer for the project ' . $project->title;
+        $title = 'Accept Offer';
+        if ($offer['worker_type'] == 'App\\Models\\Freelancer') {
+            Mail::to($user->email)->send(new SentMail($title, $description));
+        } else {
+            $owner_team = $user->freelancers()->where('is_owner', 1)->first();
+            Mail::to($owner_team->email)->send(new SentMail($title, $description));
+        }
     }
 
     public function RejectOffer($id)
     {
         $offer = Offer::find($id);
         $offer->update(['status' => 'Reject']);
-        //mail
+        $project = Project::find($offer['project_id']);
+        $project_owner = Project_Owners::find(Auth::guard('Project_Owner')->user()->id);
+        $user = $offer['worker_type']::find($offer['worker_id']);
+        $description = $project_owner->first_name . ' ' . $project_owner->last_name . ' has reject the offer for the project ' . $project->title;
+        $title = 'Reject Offer';
+        if ($offer['worker_type'] == 'App\\Models\\Freelancer') {
+            Mail::to($user->email)->send(new SentMail($title, $description));
+        } else {
+            $owner_team = $user->freelancers()->where('is_owner', 1)->first();
+            Mail::to($owner_team->email)->send(new SentMail($title, $description));
+        }
     }
 
     public function cancel($id)
@@ -76,8 +95,15 @@ class OfferService
             $owner->update(['suspended_balance' => $owner['suspended_balance'] - $offer['budget'], 'withdrawal_balance' => $owner['withdrawal_balance'] + $offer['budget']]);
             $user->update(['suspended_balance' => $user['suspended_balance'] - ($offer['budget'] - $offer['budget'] * 0.15)]);
             $offer->delete();
+            //mail
+            if ($offer['worker_type'] == 'App\\Models\\Freelancer') {
+                $description = $user->first_name . ' ' . $user->last_name . ' has canceled the receipt of the project ' . $project->title;
+            } else {
+                $description = $user->name . ' has canceled the receipt of the project ' . $project->title;
+            }
+            $title = 'Cancel Receipt of the Project';
+            Mail::to($owner->email)->send(new SentMail($title, $description));
         }
-        //mail
 
     }
 
