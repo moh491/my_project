@@ -9,7 +9,6 @@ use App\Http\Requests\RemoveMemberRequest;
 use App\Models\Team;
 use App\Services\TeamService;
 use App\Traits\ApiResponseTrait;
-use http\Client\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +20,17 @@ class TeamController extends Controller
     public function __construct(TeamService $teamService)
     {
         $this->teamService = $teamService;
+    }
+
+    public function getProfilePage($id): JsonResponse
+    {
+        try {
+            $information = $this->teamService->ProfilePage($id);
+            return $this->success('get Profile Page',$information);
+        }
+        catch (\throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
     }
 
     public function store(StoreTeamRequest $request): JsonResponse

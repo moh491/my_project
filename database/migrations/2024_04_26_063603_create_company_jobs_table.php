@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jobs', function (Blueprint $table) {
+        Schema::create('company_jobs', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->enum('location_type',Location_Type::getValues());

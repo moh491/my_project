@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ServiceRequest extends FormRequest
+class ProjectReviewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,15 +22,13 @@ class ServiceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'preview'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'image' => 'array',
-            'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'plans'=>'required',
-            'plans.*.features'=>'array',
-            'plans.*.delivery_options'=>'array',
-            'skills'=>'required|array'
+            'professionalism'=>'required|min:1|max:5' ,
+            'communication'=>'required|min:1|max:5' ,
+            'quality'=>'required|min:1|max:5',
+            'commit_to_deadlines'=>'required|min:1|max:5' ,
+            're_employee'=>'required|min:1|max:5' ,
+            'experience'=>'required|min:1|max:5' ,
+            'description'=>'required' ,
         ];
     }
 }

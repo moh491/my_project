@@ -5,6 +5,9 @@ namespace App\Http\Controllers\FreelancerControllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreOfferRequest;
 use App\Http\Resources\OfferResource;
+use App\Models\Offer;
+use App\Models\Project;
+use App\Models\Project_Owners;
 use App\Models\Team;
 use App\Services\OfferService;
 use App\Traits\ApiResponseTrait;
@@ -52,15 +55,59 @@ class OfferController extends Controller
         }
     }
 
-    public function delete(string $id): \Illuminate\Http\JsonResponse
+    public function Accept($id)
     {
         try {
-            $this->offerService->delete($id);
-            return $this->success('deleted successfully');
+            $offer = Offer::find($id);
+            $project = Project::find($offer['project_id']);
+            if ($project['project_owner_id'] == Auth::guard('Project_Owner')->user()->id) {
+                $owner = Project_Owners::find($project['project_owner_id']);
+                if ($owner->withdrawal_balance < $offer['budget']) {
+                    return $this->error('Please recharge balance before Accept Offer');
+                }
+                $this->offerService->AcceptOffer($id);
+                return $this->success('Accept Offer Successfully');
+            } else {
+                return $this->error('not authorized');
+            }
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
+    public function Cancelreceiptproject($id)
+    {
+        try {
+            $offer = Offer::find($id);
+            if (($offer['worker_type'] == 'App\\Models\\Freelancer' && $offer['worker_id'] == Auth::guard('Freelancer')->user()->id) || ($offer['worker_type'] == 'App\\Models\\Team' && Team::find($offer['worker_id'])->freelancers->contains(Auth::guard('Freelancer')->user()->id))) {
+                $this->offerService->cancel($id);
+                return $this->success('cancel receipt of the project successfully');
+            } else {
+                return $this->error('not authorized');
+            }
+
         } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
+
+    public function Reject($id)
+    {
+        try {
+            $offer = Offer::find($id);
+            $project = Project::find($offer['project_id']);
+            if ($project['project_owner_id'] == Auth::guard('Project_Owner')->user()->id) {
+                $this->offerService->RejectOffer($id);
+                return $this->success('Reject Offer Successfully');
+            } else {
+                return $this->error('not authorized');
+            }
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+
+    }
+
 
     public function offerOptions(): \Illuminate\Http\JsonResponse
     {

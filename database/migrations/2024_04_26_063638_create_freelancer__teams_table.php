@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete();;
             $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();;
             $table->foreignId('position_id')->constrained('positions')->cascadeOnDelete();;
+            $table->boolean('is_owner')->nullable();
             $table->timestamps();
         });
     }

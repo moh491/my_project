@@ -11,6 +11,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Company extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+
     protected $fillable = [
         'name',
         'logo',
@@ -49,20 +50,27 @@ class Company extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function otps()
+    public function otps(): \Illuminate\Database\Eloquent\Relations\MorphOne
     {
         return $this->morphOne(Otp::class, 'otpable');
     }
 
-    public function field(){
+
+    public function field(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Field::class);
     }
-    public function experiences(){
+
+
+    public function experiences(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(Experience::class);
     }
-    public function jobs()
+
+
+    public function jobs(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Job::class);
+        return $this->hasMany(CompanyJob::class);
     }
 
 }

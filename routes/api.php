@@ -15,12 +15,12 @@ use App\Http\Controllers\FreelancerControllers\FreelancerAuthController;
 use App\Http\Controllers\FreelancerControllers\FreelancerController;
 use App\Http\Controllers\FreelancerControllers\LanguageController;
 use App\Http\Controllers\FreelancerControllers\OfferController;
+use App\Http\Controllers\FreelancerControllers\PdfController;
 use App\Http\Controllers\FreelancerControllers\PlanServiceController;
 use App\Http\Controllers\FreelancerControllers\PortfolioController;
 use App\Http\Controllers\FreelancerControllers\ProfilePageController;
 use App\Http\Controllers\FreelancerControllers\ServiceController;
 use App\Http\Controllers\FreelancerControllers\SkillController;
-
 use App\Http\Controllers\FreelancerControllers\WorkProfileController;
 use App\Http\Controllers\MessagesController;
 use App\Http\Controllers\Project_OwnersControllers\DashboardOwnerController;
@@ -100,7 +100,7 @@ Route::controller(ServiceController::class)->prefix('service')->group(function (
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
 });
-Route::controller(ProfilePageController::class)->prefix('profile')->middleware('auth:sanctum')->group(function () {
+Route::controller(ProfilePageController::class)->prefix('freelancer/profile')->middleware('auth:sanctum')->group(function () {
     Route::get('/{id?}', 'getProfilePage');
     Route::put('/', 'updateProfile');
 });
@@ -179,7 +179,9 @@ Route::controller(ProjectController::class)->prefix('project')->group(function (
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('store', 'store');
-        Route::post('AcceptOffer/{id}','AcceptOffer');
+        Route::post('delivery/{projectId}','delivery');
+        Route::post('Accept/{offerId}','Accept');
+        Route::post('rating/{projectId}','rating');
     });
 
 });
@@ -192,7 +194,9 @@ Route::controller(OfferController::class)->prefix('offer')->middleware('auth:san
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('store/{id?}', 'insert');
-        Route::delete('delete/{id}', 'delete');
+        Route::post('cancel/{id}','Cancelreceiptproject');
+        Route::post('Accept/{offerId}','Accept');
+        Route::post('Reject/{id}','Reject');
     });
 
 
@@ -241,10 +245,10 @@ Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix(
 
 });
 
-Route::get('generate-cv', [\App\Http\Controllers\FreelancerControllers\PdfController::class, 'generateCV'])->middleware('auth:sanctum');
-
+Route::get('generate-cv', [PdfController::class, 'generateCV'])->middleware('auth:sanctum');
 
 Route::controller(TeamController::class)->prefix('team')->middleware('auth:Freelancer')->group(function () {
+    Route::get('profile/{id}','getProfilePage')->name('team.show');
     Route::post('/store',  'store');
     Route::put('/update/{team}',  'update');
     Route::post('/{team}/add-member','addMember');
