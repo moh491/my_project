@@ -5,12 +5,10 @@ namespace App\Services;
 use App\Filtering\FilterJob;
 use App\Http\Resources\BrowseJobs;
 use App\Models\Company;
-use App\Models\Job;
-use App\Models\Position;
+use App\Models\CompanyJob;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\DB;
-use JetBrains\PhpStorm\ArrayShape;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class JobService
@@ -18,7 +16,7 @@ class JobService
     use ApiResponseTrait;
     public function create(array $data): void
     {
-        Job::create(
+        CompanyJob::create(
          $data
         );
     }
@@ -27,22 +25,22 @@ class JobService
     {
         $userId = auth()->guard('Company')->user();
 
-        Job::where('id', $userId)->update($data);
+        CompanyJob::where('id', $userId)->update($data);
     }
 
     public function delete(string $id): void
     {
-        Job::where('id',$id)->delete();
+        CompanyJob::where('id',$id)->delete();
     }
 
     public function getAllJobs()
     {
-        return Job::paginate(2);
+        return CompanyJob::paginate(2);
     }
 
     public function getJobById($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
     {
-        return Job::with('company')->findOrFail($id);
+        return CompanyJob::with('company')->findOrFail($id);
     }
 
      public function getJobOptions(): array
@@ -50,15 +48,15 @@ class JobService
         $companies = Company::has('jobs')->select('id', 'name')->get();
 
         $locations = DB::table('companies')
-            ->join('jobs', 'companies.id', '=', 'jobs.company_id')
+            ->join('company_jobs', 'companies.id', '=', 'company_jobs.company_id')
             ->select('companies.location')
             ->distinct()
             ->get();
 
 
          $salaries = [];
-         $maxSalary = ceil(Job::max('max_salary'));
-         $minSalary = floor(Job::min('min_salary'));
+         $maxSalary = ceil(CompanyJob::max('max_salary'));
+         $minSalary = floor(CompanyJob::min('min_salary'));
          for ($i = $minSalary; $i <= $maxSalary; $i += 100) {
              $salaries [] = $i . '-' . $i + 99;
          }
@@ -73,7 +71,7 @@ class JobService
 
     public function filterAll(): AnonymousResourceCollection
     {
-        $jobs = QueryBuilder::for(Job::class)
+        $jobs = QueryBuilder::for(CompanyJob::class)
             ->allowedFilters((new FilterJob())->filterAll())
             ->with(['company:id,name,location'])
             ->get()
