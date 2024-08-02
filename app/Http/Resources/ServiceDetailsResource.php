@@ -18,6 +18,7 @@ class ServiceDetailsResource extends JsonResource
 
         return parent::collection($resource);
     }
+
     /**
      *
      * Transform the resource into an array.
@@ -29,53 +30,60 @@ class ServiceDetailsResource extends JsonResource
         $imageFiles = File::files(storage_path('app/public/' . $path));
         $images = [];
         foreach ($imageFiles as $file) {
-            if($file->getFilename() !==basename($this->preview))
-                $images[] =app('baseUrl'). $path . '/' . $file->getFilename();
+            if ($file->getFilename() !== basename($this->preview))
+                $images[] = app('baseUrl') . $path . '/' . $file->getFilename();
         }
 
         return $images;
     }
+
     public function toArray(Request $request): array
     {
-        if($request->routeIs('service.show')){
+        if ($request->routeIs('service.show')) {
             return [
-                'id'=>$this->id,
-                'title'=>$this->title,
-                'description'=>$this->description,
+                'id' => $this->id,
+                'title' => $this->title,
+                'description' => $this->description,
                 'image' => $this->getImages($this->image),
-                'preview'=>app('baseUrl').$this->preview,
+                'preview' => app('baseUrl') . $this->preview,
             ];
         }
-        return [    
-            'id'=>$this->id,
-            'title'=>$this->title,
-            'description'=>$this->description,
+        return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'description' => $this->description,
             'image' => $this->getImages($this->image),
-            'preview'=>app('baseUrl').$this->preview,
+            'preview' => app('baseUrl') . $this->preview,
             'plans' => $this->plans->map(function ($plan) {
                 return [
-                    'id'=>$plan->id,
+                    'id' => $plan->id,
                     'type' => $plan->type,
                     'price' => $plan->price,
-                    'description'=>$plan->description,
-                    'features'=>$plan->features->map(function ($feature){
-                    return [
-                        'id'=>$feature->id,
-                        'name'=>$feature->name,
-                        'is_boolean'=>$feature->is_boolean,
-                        'value'=>$feature->pivot['value'],
-                    ];
-                    }),
-                    'delivery_options'=>$plan->delivery_options->map(function ($delivery){
+                    'description' => $plan->description,
+                    'features' => $plan->features->map(function ($feature) {
                         return [
-                            'id'=>$delivery->id,
-                            'days'=>$delivery->days,
-                            'increase'=>$delivery->increase,
+                            'id' => $feature->id,
+                            'name' => $feature->name,
+                            'is_boolean' => $feature->is_boolean,
+                            'value' => $feature->pivot['value'],
                         ];
+                    }),
+                    'delivery_options' => $plan->delivery_options->map(function ($delivery) {
+                        $array = [
+                            'id' => $delivery->id,
+                            'days' => $delivery->days,
+                        ];
+                        if ($delivery->increase == 0) {
+                            return $array;
+                        } else {
+                            $array['increase'] = $delivery->increase;
+                            return $array;
+                        }
+
                     })
                 ];
             }),
-            'skills'=>SkillResource::collection($this->skills)
+            'skills' => SkillResource::collection($this->skills)
         ];
     }
 }

@@ -2,14 +2,15 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Freelancer;
 use App\Models\Project;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 
-class ProfilePageResource extends JsonResource
+class ProfilePageTeamResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -25,9 +26,9 @@ class ProfilePageResource extends JsonResource
 
     public function calculateReemploymentRate()
     {
-        $freelancerId = Auth::guard('Freelancer')->user()->id;
-        $projects = Project::where('worker_id', $freelancerId)
-            ->where('worker_type', 'App\Models\Freelancer')
+        ;
+        $projects =$this->projects()
+            ->where('worker_type', 'App\Models\Team')
             ->where('status', 'Closed')
             ->get()
             ->groupBy('project_owner_id');
@@ -44,11 +45,10 @@ class ProfilePageResource extends JsonResource
 
     public function calculateOnTimeDeliveryRate()
     {
-        $freelancerId = Auth::guard('Freelancer')->user()->id;
-        $projects = Project::where('worker_id', $freelancerId)
-            ->where('worker_type', 'App\Models\Freelancer')
-            ->where('status', 'Closed')
-            ->get();
+
+        $projects =$this->projects()
+            ->where('worker_type', 'App\Models\Team')
+            ->where('status', 'Closed')->get();
         $totalProjects = $projects->count();
         $onTimeProjects = 0;
         foreach ($projects as $project) {
@@ -82,50 +82,15 @@ class ProfilePageResource extends JsonResource
         }
     }
 
-    public function avarageReviewProject()
-    {
-
-        $projects = $this->projects()->where('status', 'Closed')->has('review')->get();
-        $totalScore = 0;
-        $totalReviews = 0;
-        foreach ($projects as $project) {
-            $review = $project->review;
-            $overallScore = ($review->professionalism +
-                    $review->communication +
-                    $review->quality +
-                    $review->commit_to_deadlines +
-                    $review->re_employee +
-                    $review->experience) / 6;
-            $totalScore += $overallScore;
-            $totalReviews++;
-        }
-        return $totalReviews > 0 ? round($totalScore / $totalReviews) : 0;
-
-    }
-
-    public function avarageRatingRequests()
-    {
-        $services = $this->services()->get();
-        $allRatings = new Collection();
-        foreach ($services as $service) {
-            $requests = $service->allRequests()->where('status', 'Closed')->whereNotNull('rating');
-            $ratings = $requests->pluck('rating');
-            $allRatings = $allRatings->concat($ratings);
-        }
-        return $allRatings->count() > 0 ? round($allRatings->avg()) : 0;
-    }
 
 
     public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
-            'profile' => app('baseUrl') . $this->profile,
-            'full_name' => $this->first_name . ' ' . $this->last_name,
-            'position' => $this->position->name,
-            'rating' => round(($this->avarageReviewProject() + $this->avarageRatingRequests()) / 2),
-            'location' => $this->location,
-            'time_zone' => $this->time_zone,
+            'logo' => $this->logo,
+            'name' => $this->name,
+            'link'=>$this->link,
             'completion_rate' => $this->comletionrate(),
             'completed_projects' => $this->projectCompletedCount(),
             're_employment_rate' => $this->calculateReemploymentRate(),
@@ -138,18 +103,10 @@ class ProfilePageResource extends JsonResource
             'accept_offers' => $this->Offer('Accept'),
             'rejected_offers' => $this->offer('Reject'),
             'about' => $this->about,
-            'languages' => $this->languages()->select('language as name', 'level')->get()->map(function ($language) {
-                return [
-                    'name' => $language->name,
-                    'level' => $language->level,
-                ];
-            }),
-            'skills' => $this->skills()->select('skills.id as skill_id', 'skills.name')->get()->map(function ($skill) {
-                return [
-                    'id' => $skill->skill_id,
-                    'name' => $skill->name,
-                ];
-            }),
+            'skills' => SkillResource::collection($this->skills),
+            'members' => FreelancerResource::collection($this->freelancers),
+
+
         ];
     }
 }

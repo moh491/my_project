@@ -1,12 +1,20 @@
 <?php
 namespace App\Services;
 
+use App\Http\Resources\ProfilePageTeamResource;
 use App\Models\Freelancer;
 use App\Models\Team;
 use Illuminate\Http\Request;
 
 class TeamService
 {
+
+    public function ProfilePage($id): ProfilePageTeamResource
+    {
+        $team = Team::find($id);
+        return new ProfilePageTeamResource($team);
+    }
+
     public function createTeam(Freelancer $freelancer, Request $request)
     {
         $data = $request->except('logo');
@@ -21,7 +29,7 @@ class TeamService
         return $team;
     }
 
-    public function updateTeam(Freelancer $freelancer, Team $team, Request $request)
+    public function updateTeam(Freelancer $freelancer, Team $team, Request $request): Team
     {
         $data = $request->except('logo');
 
@@ -34,13 +42,13 @@ class TeamService
         return $team;
     }
 
-    public function addMember(Team $team, Request $request)
+    public function addMember(Team $team, Request $request): Team
     {
         $team->freelancers()->attach($request->freelancer_id, ['position_id' => $request->position_id]);
         return $team;
     }
 
-    public function removeMember(Team $team, $freelancerId)
+    public function removeMember(Team $team, $freelancerId): void
     {
         // إزالة العلاقة بين الفريق والعضو
         $team->freelancers()->detach($freelancerId);

@@ -45,6 +45,7 @@ class ServicesService
             'owner_type' => $model,
             'owner_id' => $id
         ]);
+        $service->skills()->attach($data['skills']);
         if (isset($data['image'])) {
             $folderPath = 'service/' . $service->id;
             foreach ($data['image'] as $image) {
