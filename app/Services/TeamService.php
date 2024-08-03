@@ -29,7 +29,7 @@ class TeamService
         return $team;
     }
 
-    public function updateTeam(Freelancer $freelancer, Team $team, Request $request): Team
+    public function updateTeam(Freelancer $freelancer, Team $team, Request $request)
     {
         $data = $request->except('logo');
 
@@ -42,7 +42,7 @@ class TeamService
         return $team;
     }
 
-    public function addMember(Team $team, Request $request): Team
+    public function addMember(Team $team, Request $request)
     {
         $team->freelancers()->attach($request->freelancer_id, ['position_id' => $request->position_id]);
         return $team;
@@ -50,13 +50,7 @@ class TeamService
 
     public function removeMember(Team $team, $freelancerId): void
     {
-        // إزالة العلاقة بين الفريق والعضو
         $team->freelancers()->detach($freelancerId);
     }
 
-//    public function removeMember(Team $team, Request $request)
-//    {
-//        $team->freelancers()->detach($request->freelancer_id);
-//        return $team;
-//    }
 }
