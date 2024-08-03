@@ -17,6 +17,8 @@ class Team extends Model
         'available_balance',
         'suspended_balance'
     ];
+    public $timestamps = true;
+
     public function freelancers(){
         return $this->belongsToMany(Freelancer::class,'freelancer__teams');
     }

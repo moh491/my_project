@@ -25,7 +25,11 @@ class TeamService
         }
 
         $team = Team::create($data);
-        $team->freelancers()->attach($freelancer->id, ['position_id' => $request->position_id]);
+
+        $team->freelancers()->attach($freelancer->id, [
+            'position_id' => $request->position_id,
+            'is_owner' => true
+        ]);
         return $team;
     }
 
@@ -39,6 +43,7 @@ class TeamService
         }
 
         $team->update($data);
+        $team->save();
         return $team;
     }
 

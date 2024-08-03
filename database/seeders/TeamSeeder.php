@@ -20,7 +20,11 @@ class TeamSeeder extends Seeder
             'about'=>'this  is team 1 ',
             'link'=>'link',
             'logo'=>'logo',
-        ]);
+            'withdrawal_balance'=>'200',
+            'available_balance'=>'500',
+            'suspended_balance'=>'50',
+
+            ]);
         Freelancer_Team::create([
             'freelancer_id'=>1,
             'team_id'=>1,
