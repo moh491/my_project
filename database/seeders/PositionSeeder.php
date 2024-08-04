@@ -14,12 +14,12 @@ class PositionSeeder extends Seeder
      */
     public function run(): void
     {
-        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-       //  Position::truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        Position::truncate();
         $positions = [
             ['name' => 'Senior Developer', 'field_id' => 1],
             ['name' => 'Junior Developer', 'field_id' => 1],
-            ['name' => 'Mobile App Developer', 'field_id' => 1],
+            ['name' => 'Mobile App Developer', 'field_id' => 3],
             ['name' => 'Data Analyst', 'field_id' => 5],
             ['name' => 'System Administrator', 'field_id' => 6],
             ['name' => 'UX Designer', 'field_id' => 7],
@@ -35,6 +35,6 @@ class PositionSeeder extends Seeder
 
         DB::table('positions')->insert($positions);
 
-        // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+         DB::statement('SET FOREIGN_KEY_CHECKS=1;');
      }
 }

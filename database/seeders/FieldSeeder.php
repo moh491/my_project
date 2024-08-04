@@ -14,8 +14,8 @@ class FieldSeeder extends Seeder
      */
     public function run(): void
     {
-       // DB::statement('SET FOREIGN_KEY_CHECKS=0;');
-       // DB::table('fields')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('fields')->truncate();
 
         $fields = [
             ['name' => 'Full Stack Developer'],
@@ -41,6 +41,6 @@ class FieldSeeder extends Seeder
             ['name' => 'Game Developer']
         ];
         DB::table('fields')->insert($fields);
-       // DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
     }
 }
