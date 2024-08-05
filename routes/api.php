@@ -134,6 +134,7 @@ Route::controller(SkillController::class)->prefix('skill')->middleware('auth:san
 
 Route::controller(CompanyController::class)->prefix('companies')->group(function (){
     Route::get('/{id}/profile', 'getProfile');
+    Route::get('/','index')->name('company.show');
 });
 
 Route::controller(JobController::class)->prefix('job')->group(function () {

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 class CompanyController extends Controller
 {
     use ApiResponseTrait;
+
     protected $companyService;
 
     public function __construct(CompanyService $companyService)
@@ -19,13 +20,24 @@ class CompanyController extends Controller
         $this->companyService = $companyService;
     }
 
+    public function index()
+    {
+        try {
+            $companies = Company::all();
+            return $this->success('get company', CompanyResource::collection($companies));
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+
+
+    }
+
     public function getProfile($id)
     {
         try {
-            $data= $this->companyService->getCompanyProfile($id);
+            $data = $this->companyService->getCompanyProfile($id);
             return $this->success('Get company profile', $data);
-        }
-        catch (\throwable $throwable) {
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
 
