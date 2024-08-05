@@ -22,14 +22,14 @@ class ExperienceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'company_name'=>'required',
+            'company_name'=>'sometimes',
             'employment_type'=>'required',
             'location_type'=>'required',
             'location'=>'required',
             'start_date'=>'required',
             'end_date'=>'required',
             'position_id'=>'required',
-            'company_id'=>'required',
+            'company_id'=>'sometimes',
             'description'=>'required',
         ];
     }
