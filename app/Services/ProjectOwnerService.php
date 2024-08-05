@@ -43,17 +43,25 @@ class ProjectOwnerService
 
     public function updateProjectOwner(Project_Owners $projectOwner, array $data)
     {
-         if (isset($data['profile'])) {
-
-             if ($projectOwner->profile && Storage::exists($projectOwner->profile)) {
+        if (isset($data['profile'])) {
+            if ($projectOwner->profile && Storage::exists($projectOwner->profile)) {
                 Storage::delete($projectOwner->profile);
             }
 
-             $path = $data['profile']->store('profiles', 'public');
+            $path = $data['profile']->store('profiles', 'public');
             $data['profile'] = $path;
         }
 
-         $projectOwner->update($data);
+        $updateData = array_filter($data, function($key) {
+            return $key !== 'field_ids';
+        }, ARRAY_FILTER_USE_KEY);
+
+        $projectOwner->update($updateData);
+
+
+        if (isset($data['field_ids'])) {
+            $projectOwner->fields()->sync($data['field_ids']);
+        }
 
         return $projectOwner;
     }

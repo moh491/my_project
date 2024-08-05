@@ -24,11 +24,14 @@ class UpdateProjectOwnerRequest extends FormRequest
         return [
             'first_name' => 'sometimes|string|max:255',
             'last_name' => 'sometimes|string|max:255',
-            'email' => 'sometimes|string|email|max:255|unique:project__owners,email,' . $this->user()->id,
+            //'email' => 'sometimes|string|email|max:255|unique:project__owners,email,' . $this->user()->id,
             'location' => 'sometimes|string|max:255',
             'time_zone' => 'sometimes|string|max:255',
             'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'about' => 'sometimes|string',
+            'field_ids' => 'sometimes|array',
+            'field_ids.*' => 'required|exists:fields,id',
+
         ];
     }
 }

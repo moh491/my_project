@@ -16,15 +16,20 @@ class CompanyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
+
             'id' => $this->id,
             'name' => $this->name,
-            'logo' => $this->logo,
+            'logo' => app('baseUrl') .$this->logo,
             'email' => $this->email,
             'location' => $this->location,
             'website' => $this->website,
-            'background_image' => $this->background_image,
+            'background_image' =>app('baseUrl') . $this->background_image,
             'about' => $this->about,
             //'field_id'
+            'field' => [
+                'id' => $this->field->id,
+                'name' => $this->field->name,
+            ],
             'jobs' => $this->jobs->map(function($job) {
                 return [
                     'id' => $job->id,

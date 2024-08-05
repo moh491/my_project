@@ -20,7 +20,8 @@ class Team extends Model
     public $timestamps = true;
 
     public function freelancers(){
-        return $this->belongsToMany(Freelancer::class,'freelancer__teams');
+        return $this->belongsToMany(Freelancer::class,'freelancer__teams')->withPivot('position_id', 'is_owner')
+            ->withTimestamps();
     }
     //Get all of the team's projects
     public function projects(){
