@@ -35,6 +35,7 @@ class FreelancerSeeder extends Seeder
             'withdrawal_balance'=>400,
             'time_zone'=>'EET UTC+3',
         ]);
+
         Freelancer::create([
             'first_name'=>'Sara',
             'last_name'=>'Mak',

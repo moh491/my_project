@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CompanyControllers\CompanyAuthController;
+use App\Http\Controllers\CompanyControllers\CompanyController;
 use App\Http\Controllers\CompanyControllers\JobController;
 //use App\Http\Controllers\Controller1;
 use App\Http\Controllers\FilterFreelancerController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\FreelancerControllers\FreelancerAuthController;
 use App\Http\Controllers\FreelancerControllers\FreelancerController;
 use App\Http\Controllers\FreelancerControllers\LanguageController;
 use App\Http\Controllers\FreelancerControllers\OfferController;
+use App\Http\Controllers\FreelancerControllers\PdfController;
 use App\Http\Controllers\FreelancerControllers\PlanServiceController;
 use App\Http\Controllers\FreelancerControllers\PortfolioController;
 use App\Http\Controllers\FreelancerControllers\ProfilePageController;
@@ -26,6 +28,7 @@ use App\Http\Controllers\Project_OwnersControllers\ProjectController;
 use App\Http\Controllers\Project_OwnersControllers\ProjectOwnersAuthController;
 use App\Http\Controllers\Project_OwnersControllers\RequestServiceController;
 use App\Http\Controllers\ServiceRequestController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
@@ -129,6 +132,9 @@ Route::controller(SkillController::class)->prefix('skill')->middleware('auth:san
     Route::delete('/{skillId}/{teamId?}', 'delete');
 });
 
+Route::controller(CompanyController::class)->prefix('companies')->group(function (){
+    Route::get('/{id}/profile', 'getProfile');
+});
 
 Route::controller(JobController::class)->prefix('job')->group(function () {
 
@@ -248,7 +254,12 @@ Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix(
 
 });
 
-Route::get('generate-cv', [\App\Http\Controllers\FreelancerControllers\PdfController::class, 'generateCV'])->middleware('auth:sanctum');
-Route::controller(\App\Http\Controllers\TeamController::class)->prefix('team')->group(function(){
+Route::get('generate-cv', [PdfController::class, 'generateCV'])->middleware('auth:sanctum');
+
+Route::controller(TeamController::class)->prefix('team')->middleware('auth:Freelancer')->group(function () {
     Route::get('profile/{id}','getProfilePage')->name('team.show');
+    Route::post('/store',  'store');
+    Route::put('/update/{team}',  'update');
+    Route::post('/{team}/add-member','addMember');
+    Route::delete('/{team}/remove-member', 'removeMember');
 });
