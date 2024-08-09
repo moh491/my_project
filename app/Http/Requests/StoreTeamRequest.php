@@ -27,10 +27,15 @@ class StoreTeamRequest extends FormRequest
             'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'link' => 'required|url|max:255',
             'about' => 'required|string',
-            'withdrawal_balance' => 'nullable|numeric',
-            'available_balance' => 'nullable|numeric',
-            'suspended_balance' => 'nullable|numeric',
+//            'withdrawal_balance' => 'nullable|numeric',
+//            'available_balance' => 'nullable|numeric',
+//            'suspended_balance' => 'nullable|numeric',
             'position_id' => 'required|exists:positions,id',
+            'members' => 'sometimes|array',
+            'members.*.id' => 'required|exists:freelancers,id',
+            'members.*.position_id' => 'required|exists:positions,id',
+            'skills' => 'sometimes|array',
+            'skills.*' => 'required|exists:skills,id',
         ];
     }
 }

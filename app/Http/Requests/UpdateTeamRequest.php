@@ -26,6 +26,8 @@ class UpdateTeamRequest extends FormRequest
             'logo' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'link' => 'sometimes|url|max:255',
             'about' => 'sometimes|string',
+            'skills' => 'sometimes|array',
+            'skills.*' => 'required|exists:skills,id',
         ];
     }
 }
