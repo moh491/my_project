@@ -101,14 +101,19 @@ class ServicesService
         }
         if (isset($data['image'])) {
             $files = Storage::files('public/' . $service->image);
-            foreach ($files as $file) {
-                if ($file !== 'public/' . $service->preview) {
-                    Storage::delete($file);
-                }
-            }
+//            foreach ($files as $file) {
+//                if ($file !== 'public/' . $service->preview) {
+//                    Storage::delete($file);
+//                }
+//            }
             foreach ($data['image'] as $image) {
-                $imageName = $image->getClientOriginalName();
-                $image->storeAs('service/' . $service->id, $imageName, 'public');
+                if (is_file($image)) {
+                    $imageName = $image->getClientOriginalName();
+                    $image->storeAs('service/' . $service->id, $imageName, 'public');
+                } else {
+                    if (!in_array($image, $files))
+                        Storage::delete($image);
+                }
             }
             $service->update(['image' => 'service/' . $service->id]);
         }

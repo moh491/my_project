@@ -26,7 +26,6 @@ class ServiceUpdateRequest extends FormRequest
             'description' => 'required',
             'preview' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'image' => 'array',
-            'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }
