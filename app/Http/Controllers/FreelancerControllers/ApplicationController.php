@@ -18,7 +18,7 @@ class ApplicationController extends Controller
         $this->applicationService = $applicationService;
     }
 
-    public function insert(StoreApplicationRequest $request ): \Illuminate\Http\JsonResponse
+    public function insert(StoreApplicationRequest $request )
     {
         try {
             $this->applicationService->applyForJob($request->validated());
@@ -40,7 +40,7 @@ class ApplicationController extends Controller
         }
     }
 
-    public function applicationOptions(): \Illuminate\Http\JsonResponse
+    public function applicationOptions()
     {
         try {
             $options = $this->applicationService->getApplicationOptions();
@@ -51,7 +51,7 @@ class ApplicationController extends Controller
     }
 
 
-    public function browseApplications(Request $request): \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function browseApplications(Request $request)
     {
         try {
             $freelancer_id = $request->query('freelancer_id');
@@ -63,7 +63,7 @@ class ApplicationController extends Controller
     }
 
 
-    public function filterAll(Request $request): \Illuminate\Http\JsonResponse
+    public function filterAll(Request $request)
     {
         try {
             $applications = $this->applicationService->filterAll();

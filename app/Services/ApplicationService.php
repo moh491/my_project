@@ -29,7 +29,7 @@ class ApplicationService
         return Application::where('freelancer_id', $freelancer_id)->get();
     }
 
-    public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function filterAll()
     {
 
         $applications = QueryBuilder::for(Application::class)

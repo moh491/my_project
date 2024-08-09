@@ -106,7 +106,7 @@ class ProjectSeeder extends Seeder
                 'updated_at' => now(),
             ]);
 
-            // Attach random skills to the project
+
             $randomSkillsCount = min(2, $skills->count()); // Ensure we don't request more skills than available
             $randomSkills = $skills->random($randomSkillsCount)->pluck('id')->toArray();
             foreach ($randomSkills as $skillId) {

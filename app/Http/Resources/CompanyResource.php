@@ -25,7 +25,6 @@ class CompanyResource extends JsonResource
             'website' => $this->website,
             'background_image' =>app('baseUrl') . $this->background_image,
             'about' => $this->about,
-            //'field_id'
             'field' => [
                 'id' => $this->field->id,
                 'name' => $this->field->name,
