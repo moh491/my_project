@@ -24,6 +24,7 @@ class SkillSeeder extends Seeder
         Skill::create([
             'name'=>'Flutter',
         ]);
+
         Skillable_Skill::create([
             'skill_id'=>1,
             'skillable_type'=> 'App\\Models\\Freelancer',
