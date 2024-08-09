@@ -23,7 +23,6 @@ class UpdateRequestRequest extends FormRequest
     {
         return [
             'rating' => 'numeric|min:1|max:5',
-            'status' => 'in:' . implode(',', \App\Enums\Status::getValues())
         ];
     }
 }

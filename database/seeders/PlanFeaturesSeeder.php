@@ -13,7 +13,6 @@ class PlanFeaturesSeeder extends Seeder
      */
     public function run(): void
     {
-        Plan_Feature::truncate();
         Plan_Feature::create([
             'value'=>'4',
             'plan_id'=>1,

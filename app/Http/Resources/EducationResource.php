@@ -17,9 +17,10 @@ class EducationResource extends JsonResource
         return [
             'id'=>$this->id,
             'title'=>$this->title,
+            'location'=>$this->location,
             'institution'=>$this->institution,
-            'start_date'=>$this->start_year,
-            'end_date'=>$this->end_year,
+            'start_year'=>$this->start_year,
+            'end_year'=>$this->end_year,
             'average'=>$this->average,
             'description'=>$this->description,
         ];

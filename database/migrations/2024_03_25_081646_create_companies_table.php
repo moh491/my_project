@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('website')->nullable();
             $table->string('background_image');
             $table->text('about');
+            $table->decimal('withdrawal_balance')->default(0);
+            $table->decimal('suspended_balance')->default(0);
             $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();;
             $table->timestamps();
         });

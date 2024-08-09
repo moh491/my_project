@@ -61,7 +61,7 @@ class OfferService
             Mail::to($user->email)->send(new SentMail($title, $description));
         } else {
             $owner_team = $user->freelancers()->where('is_owner', 1)->first();
-            Mail::to($owner_team->email)->send(new SentMail($title, $description));
+
         }
     }
 

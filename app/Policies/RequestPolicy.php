@@ -18,7 +18,7 @@ class RequestPolicy
     {
         //
     }
-    public function updateStatus(Freelancer $freelancer, Request $request )
+    public function authorized(Freelancer $freelancer, Request $request )
     {
         $delivery=Delivery_Option::find($request->delivery_option_id);
         $service=$delivery->plan->service;

@@ -13,7 +13,6 @@ class DeliveryOptionSeeder extends Seeder
      */
     public function run(): void
     {
-        Delivery_Option::truncate();
         Delivery_Option::create([
             'days'=>4,
             'increase'=>20,

@@ -8,6 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 class CompanyResource extends JsonResource
 {
 
+
     /**
      * Transform the resource into an array.
      *
@@ -15,15 +16,20 @@ class CompanyResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        if ($request->routeIs('company.show')) {
+            return [
+                'id' => $this->id,
+                'name' => $this->name,
+            ];
+        }
         return [
-
             'id' => $this->id,
             'name' => $this->name,
-            'logo' => app('baseUrl') .$this->logo,
+            'logo' => $this->logo,
             'email' => $this->email,
             'location' => $this->location,
             'website' => $this->website,
-            'background_image' =>app('baseUrl') . $this->background_image,
+            'background_image' => $this->background_image,
             'about' => $this->about,
             'field' => [
                 'id' => $this->field->id,

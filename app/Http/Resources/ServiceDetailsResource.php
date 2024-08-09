@@ -44,7 +44,7 @@ class ServiceDetailsResource extends JsonResource
                 'id' => $this->id,
                 'title' => $this->title,
                 'description' => $this->description,
-                'image' => $this->getImages($this->image),
+                'images' => $this->getImages($this->image),
                 'preview' => app('baseUrl') . $this->preview,
             ];
         }
@@ -52,7 +52,7 @@ class ServiceDetailsResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'image' => $this->getImages($this->image),
+            'images' => $this->getImages($this->image),
             'preview' => app('baseUrl') . $this->preview,
             'plans' => $this->plans->map(function ($plan) {
                 return [

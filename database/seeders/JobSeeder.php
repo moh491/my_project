@@ -305,8 +305,8 @@ class JobSeeder extends Seeder
         $location_types = ['On-site', 'Hybrid', 'Remote'];
         $employment_types = ['Full_time', 'Part_time', 'Self_employed', 'Freelance','Contract','Internship','Seasonal','Apprenticeship'];
         $levels = ['Junior', 'Mid', 'Senior'];
-        $min_salaries = [50000, 60000, 70000, 80000, 90000, 100000];
-        $max_salaries = [100000, 120000, 140000, 160000, 180000, 200000];
+        $min_salaries = [200, 300, 400, 500, 600, 700];
+        $max_salaries = [800, 900, 1000, 1200, 1300,1400];
         $position_ids = range(1, 7);
 
 

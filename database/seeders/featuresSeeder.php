@@ -13,7 +13,6 @@ class featuresSeeder extends Seeder
      */
     public function run(): void
     {
-        Feature::truncate();
         Feature::create([
             'name'=>'Core Functionality',
             'is_boolean'=>false,

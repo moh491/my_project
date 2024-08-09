@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\Status;
 use App\Filtering\Search1Filter;
 use App\Filtering\SearchFilter;
 use App\Filtering\SearchServiceFilter;
@@ -9,6 +10,9 @@ use App\Filtering\ServiceTitleFilter;
 use App\Http\Resources\RequestResource;
 use App\Http\Resources\ServiceDetailsResource;
 use App\Http\Resources\ServiceResource;
+use App\Jobs\CloseProjectJob;
+use App\Jobs\CloseServiceJob;
+use App\Mail\SentMail;
 use App\Models\Delivery_Option;
 use App\Models\Feature;
 use App\Models\Freelancer;
@@ -16,7 +20,9 @@ use App\Models\Plan;
 use App\Models\Project_Owners;
 use App\Models\Request;
 use App\Models\Service;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Spatie\QueryBuilder\AllowedFilter;
@@ -95,14 +101,23 @@ class ServicesService
         }
         if (isset($data['image'])) {
             $files = Storage::files('public/' . $service->image);
-            foreach ($files as $file) {
-                if ($file !== 'public/' . $service->preview) {
-                    Storage::delete($file);
-                }
+
+            foreach ($files as $file){
+                if(!in_array($file,$data['image']))
             }
             foreach ($data['image'] as $image) {
-                $imageName = $image->getClientOriginalName();
-                $image->storeAs('service/' . $service->id, $imageName, 'public');
+                if (is_file($image)) {
+                    $imageName = $image->getClientOriginalName();
+                    $image->storeAs('service/' . $service->id, $imageName, 'public');
+                }
+//                else {
+//                    $path = parse_url($image, PHP_URL_PATH);
+//
+//                    $relativePath = str_replace('/storage/', 'public/', $path);
+//
+//                    if (!in_array($relativePath, $files))
+//                        Storage::delete($relativePath);
+//                }
             }
             $service->update(['image' => 'service/' . $service->id]);
         }
@@ -121,11 +136,14 @@ class ServicesService
     public function requestService($id, $data)
     {
         $request = Request::create([
-            'budget' => $data['budget'],
             'project_owner_id' => $id,
             'delivery_option_id' => $data['delivery_option_id'],
             'note' => $data['note']
         ]);
+        $owner = Project_Owners::find($id);
+        $delivery = Delivery_Option::find($data['delivery_option_id']);
+        $plan = Plan::find($delivery['plan_id']);
+        $owner->update(['suspended_balance' => $owner['suspended_balance'] + $plan['price'], 'withdrawal_balance' => $owner['withdrawal_balance'] - $plan['price']]);
         if (isset($data['files'])) {
             $fileName = Str::uuid() . '.' . $data['files']->getClientOriginalExtension();
             $path = $data['files']->storeAs('Request', $fileName, 'public');
@@ -141,12 +159,6 @@ class ServicesService
                 AllowedFilter::custom('search', new Search1Filter(['title', 'description'])),
             ])->get();
         return ServiceDetailsResource::collection($services);
-    }
-
-    public function updateStatus($data, $id)
-    {
-        $request = Request::find($id);
-        $request->update(['status' => $data['status']]);
     }
 
     public function updateRating($data, $id)
@@ -203,8 +215,142 @@ class ServicesService
     public function deleteRequest($id)
     {
         $request = Request::find($id);
+        $owner = Project_Owners::find($request['project_owner_id']);
+        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
+        $plan = Plan::find($delivery_option['plan_id']);
+        $owner->update(['suspended_balance' => $owner['suspended_balance'] - $plan['price'], 'withdrawal_balance' => $owner['withdrawal_balance'] + $plan['price']]);
         Storage::disk('public')->delete($request->files);
         $request->delete();
+    }
+
+    public function AcceptRequest($id)
+    {
+        $request = Request::find($id);
+        $owner = Project_Owners::find($request['project_owner_id']);
+        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
+        $plan = Plan::find($delivery_option['plan_id']);
+        $service = Service::find($plan['service_id']);
+        $user = $service['owner_type']::find($service['owner_id']);
+        $request->update(['status' => Status::UNDERWAY]);
+        $user->update(['suspended_balance' => $user['suspended_balance'] + ($plan['price'] - $plan['price'] * 0.15)]);
+        if ($service['owner_type'] == 'App\\Models\\Freelancer') {
+            $description = $user->first_name . ' ' . $user->last_name . ' has accepted request of service ' . $service->title;
+        } else {
+            $description = $user->name . '  has accepted request of service ' . $service->title;
+        }
+        $title = 'Accept Request';
+        Mail::to($owner->email)->send(new SentMail($title, $description));
+    }
+
+    public function rejectRequest($id)
+    {
+        $request = Request::find($id);
+        $owner = Project_Owners::find($request['project_owner_id']);
+        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
+        $plan = Plan::find($delivery_option['plan_id']);
+        $service = Service::find($plan['service_id']);
+        $user = $service['owner_type']::find($service['owner_id']);
+        $request->update(['status' => Status::EXCLUDED]);
+        $owner->update(['suspended_balance' => $owner['suspended_balance'] - $plan['price'], 'withdrawal_balance' => $owner['withdrawal_balance'] + $plan['price']]);
+        if ($service['owner_type'] == 'App\\Models\\Freelancer') {
+            $description = $user->first_name . ' ' . $user->last_name . ' has reject the request for the service ' . $service->title;
+        } else {
+            $description = $user->name . '  has reject the request for the service ' . $service->title;
+        }
+        $title = 'Reject Request';
+        Mail::to($owner->email)->send(new SentMail($title, $description));
+
+    }
+
+    //status =completed,mail for owner
+    //if the service owner the freelancer or team
+    public function serviceDelivery($id)
+    {
+        $request = Request::find($id);
+        $request->update(['status' => Status::COMPLETED]);
+        $owner = Project_Owners::find($request['project_owner_id']);
+        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
+        $plan = Plan::find($delivery_option['plan_id']);
+        $service = Service::find($plan['service_id']);
+        $user = $service['owner_type']::find($service['owner_id']);
+        $title = 'Service Delivery';
+        if ($service['owner_type'] == 'App\\Models\\Freelancer') {
+            $description = $user->first_name . ' ' . $user->last_name . ' has delivery of the service ' . $service->title;
+        } else {
+            $description = $user->name . '  has delivery of the service ' . $service->title;
+        }
+        Mail::to($owner->email)->send(new SentMail($title, $description));
+    }
+
+    //owner
+    //status under review
+    //the user convert the balance suspended to balance available
+    //send mail to freelancer or team
+    //return redirect rating
+    //job (delete the suspended balance of owner and convert the balance available to withdrawal balance ,Request status completed)
+    public function AcceptService($id)
+    {
+        $request = Request::find($id);
+
+        $request->update(['status' => Status::UnderReview]);
+
+        $owner = Project_Owners::find($request['project_owner_id']);
+        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
+        $plan = Plan::find($delivery_option['plan_id']);
+        $service = Service::find($plan['service_id']);
+        $user = $service['owner_type']::find($service['owner_id']);
+
+        $user->update(['suspended_balance' => $user['suspended_balance'] - ($plan['price'] - $plan['price'] * 0.15), 'available_balance' => $user['available_balance'] + ($plan['price'] - $plan['price'] * 0.15)]);
+
+        $title = 'Accept Service';
+        $description = $owner->first_name . ' ' . $owner->last_name . ' has accepted the service ' . $service->title;
+
+        if ($service['owner_type'] == 'App\\Models\\Freelancer') {
+            Mail::to($user->email)->send(new SentMail($title, $description));
+        } else {
+            $owner_team = $user->freelancers()->where('is_owner', 1)->first();
+            Mail::to($owner_team->email)->send(new SentMail($title, $description));
+        }
+
+        //  return redirect(' ');
+
+        $now = Carbon::now();
+        $futureDate = $now->copy()->addDays(14);
+        $secondsDifference = $futureDate->diffInSeconds($now);
+        CloseServiceJob::dispatch($id)->delay($secondsDifference);
+
+    }
+
+    //freelancer or team cancel
+    //convert the suspended balance to withdrawal balance in owner
+    //minus in suspended balance in user
+    //delete the request
+    //mail for owner
+    public function cancel($id)
+    {
+        $request = Request::find($id);
+        if ($request->status == Status::UNDERWAY) {
+            $owner = Project_Owners::find($request['project_owner_id']);
+            $delivery_option = Delivery_Option::find($request['delivery_option_id']);
+            $plan = Plan::find($delivery_option['plan_id']);
+            $service = Service::find($plan['service_id']);
+            $user = $service['owner_type']::find($service['owner_id']);
+
+            $owner->update(['suspended_balance' => $owner['suspended_balance'] - $plan['price'], 'withdrawal_balance' => $owner['withdrawal_balance'] + $plan['price']]);
+
+            $user->update(['suspended_balance' => $user['suspended_balance'] - ($plan['price'] - $plan['price'] * 0.15)]);
+
+            $request->delete();
+
+            $title = 'Cancel Receipt of the Service';
+            if ($service['owner_type'] == 'App\\Models\\Freelancer') {
+                $description = $user->first_name . ' ' . $user->last_name . ' has canceled the receipt of the service ' . $service->title;
+            } else {
+                $description = $user->name . '  has canceled the receipt of the service ' . $service->title;
+            }
+            Mail::to($owner->email)->send(new SentMail($title, $description));
+        }
+
     }
 
 

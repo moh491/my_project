@@ -15,8 +15,6 @@ class PortfolioSeeder extends Seeder
      */
     public function run(): void
     {
-        Portfolio::truncate();
-        Owner_Portfolio::truncate();
         Portfolio::create([
             'title'=>'project1',
             'description'=>'Our portfolio showcases a comprehensive pharmacy management system designed to streamline operations, enhance customer service, and optimize medication management. The system comprises a Laravel backend for robust data management and a Vue.js frontend for seamless cross-platform user experiences',

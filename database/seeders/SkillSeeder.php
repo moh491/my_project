@@ -14,8 +14,7 @@ class SkillSeeder extends Seeder
      */
     public function run(): void
     {
-        Skill::truncate();
-        Skillable_Skill::truncate();
+
         Skill::create([
             'name'=>'laravel',
         ]);
