@@ -31,6 +31,7 @@ class PlanSeeder extends Seeder
             'description'=>'Our Premium Plan offers a complete, end-to-end solution for businesses looking to create a high-quality, feature-rich mobile app.',
             'service_id'=>1
 
+
         ]);
     }
 }
