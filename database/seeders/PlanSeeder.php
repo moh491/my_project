@@ -13,7 +13,6 @@ class PlanSeeder extends Seeder
      */
     public function run(): void
     {
-        Plan::truncate();
         Plan::create([
             'type'=>'basic',
             'price'=>45,

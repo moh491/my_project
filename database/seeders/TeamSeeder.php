@@ -14,7 +14,6 @@ class TeamSeeder extends Seeder
      */
     public function run(): void
     {
-        Team::truncate();
         Team::create([
             'name'=>'team 1',
             'about'=>'this  is team 1 ',

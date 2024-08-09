@@ -13,7 +13,6 @@ class ServiceSeeder extends Seeder
      */
     public function run(): void
     {
-        Service::truncate();
         Service::create([
             'title'=>'Mobile App Development',
             'description'=>'Build native or cross-platform mobile applications for iOS and Android platforms. From concept to launch, we create engaging and user-friendly mobile apps that drive business growth.',
