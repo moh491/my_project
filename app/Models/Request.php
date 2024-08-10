@@ -13,7 +13,7 @@ class Request extends Model
     protected $fillable=[
        'note',
         'files',
-        'budget',
+        //'budget',
         'status',
         'project_owner_id',
         'delivery_option_id',
