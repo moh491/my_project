@@ -14,17 +14,13 @@ class CertificationSeeder extends Seeder
      */
     public function run(): void
     {
-
-
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Certification::truncate();
 
-        // احصل على كل الفريلانسرات من قاعدة البيانات
-        $freelancers = Freelancer::all();
+         $freelancers = Freelancer::all();
 
-        // بيانات الشهادات المرتبطة بالتخصصات
-        $certificationsByPosition = [
-            1 => [ // Full Stack Developer
+         $certificationsByPosition = [
+            1 => [
                 [
                     'title' => 'Certified Laravel Developer',
                     'start_date' => '2022-01-01',
@@ -42,7 +38,7 @@ class CertificationSeeder extends Seeder
                     'image' => 'certifications/aws-cert.jpg',
                 ],
             ],
-            2 => [ // Graphic Designer
+            2 => [
                 [
                     'title' => 'Adobe Certified Expert (ACE) Photoshop',
                     'start_date' => '2021-05-01',
@@ -52,7 +48,7 @@ class CertificationSeeder extends Seeder
                     'image' => 'certifications/photoshop-cert.jpg',
                 ],
             ],
-            3 => [ // Mobile App Developer
+            3 => [
                 [
                     'title' => 'Certified Flutter Developer',
                     'start_date' => '2020-09-01',
@@ -62,7 +58,7 @@ class CertificationSeeder extends Seeder
                     'image' => 'certifications/flutter-cert.jpg',
                 ],
             ],
-            4 => [ // Data Scientist
+            4 => [
                 [
                     'title' => 'Google Data Engineer Professional Certificate',
                     'start_date' => '2021-01-01',
@@ -72,7 +68,7 @@ class CertificationSeeder extends Seeder
                     'image' => 'certifications/data-engineer-cert.jpg',
                 ],
             ],
-            6 => [ // UX/UI Designer
+            6 => [
                 [
                     'title' => 'Google UX Design Professional Certificate',
                     'start_date' => '2021-05-01',
@@ -82,7 +78,7 @@ class CertificationSeeder extends Seeder
                     'image' => 'certifications/google-ux-cert.jpg',
                 ],
             ],
-            13 => [ // Network Engineer
+            13 => [
                 [
                     'title' => 'Cisco Certified Network Associate (CCNA)',
                     'start_date' => '2022-02-01',
@@ -92,7 +88,7 @@ class CertificationSeeder extends Seeder
                     'image' => 'certifications/ccna-cert.jpg',
                 ],
             ],
-            8 => [ // Software Tester
+            8 => [
                 [
                     'title' => 'ISTQB Certified Tester',
                     'start_date' => '2022-03-01',
@@ -104,7 +100,7 @@ class CertificationSeeder extends Seeder
             ],
         ];
 
-        // ربط كل فريلانسر بشهادة متوافقة مع تخصصه
+
         foreach ($freelancers as $freelancer) {
             if (isset($certificationsByPosition[$freelancer->position_id])) {
                 foreach ($certificationsByPosition[$freelancer->position_id] as $certification) {
