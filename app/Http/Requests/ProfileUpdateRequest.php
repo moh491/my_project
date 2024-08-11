@@ -27,7 +27,7 @@ class ProfileUpdateRequest extends FormRequest
             'location'=>['sometimes']    ,
             'time_zone'=>['sometimes'],
             'position_id'=>['sometimes'],
-            'profile'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'profile'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 }
