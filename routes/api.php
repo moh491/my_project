@@ -221,6 +221,8 @@ Route::controller( ApplicationController::class)->prefix('app')->group(function 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('store','insert');
         Route::delete('delete/{id}','delete');
+        Route::get('/getFreelancerApplications','getFreelancerApplications');
+        Route::get('/getCompanyApplications','getCompanyApplications');
     });
 
 });

@@ -18,18 +18,19 @@ class CompanySeeder extends Seeder
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         Company::truncate();
 
-//         Company::create([
-//            'name'=>'OurCompany',
-//            'email'=>'Our@gmail.com',
-//            'email_verified_at'=>'2023-06-11 19:25:02',
-//            'logo'=>' ',
-//            'background_image'=>' ',
-//            'password'=>'111111',
-//            'field_id'=>1,
-//            'about'=>'The description of the company',
-//            'location'=>'Damascus-Syria',
-//
-//        ]);
+         Company::create([
+            'name'=>'Google',
+            'email'=>'contact@google.com',
+            'email_verified_at'=>'2023-06-11 19:25:02',
+            'logo'=>'google.png',
+            'background_image'=>'google_bg.jpg',
+            'website'=>'https://www.google.com',
+            'password'=>'111111',
+            'field_id'=>1,
+            'about'=>'Google is a multinational corporation specializing in Internet-related services and products.',
+            'location'=>'Mountain View, CA',
+
+       ]);
 //        Company::create([
 //            'name'=>'Meta',
 //            'email'=>'Meta@gmail.com',
@@ -42,49 +43,49 @@ class CompanySeeder extends Seeder
 //            'location'=>'Damascus-Syria',
 //        ]);
         $names = [
-             'Google', 'Facebook', 'Amazon', 'Apple', 'Microsoft',
+              'Facebook', 'Amazon', 'Apple', 'Microsoft',
             'Netflix', 'Twitter', 'LinkedIn', 'Uber', 'Airbnb',
              'شركة الاتصالات السعودية', 'مجموعة stc', 'شركة زين', 'شركة دو', 'شركة اتصالات مصر',
             'شركة أورانج مصر', 'شركة موبايلي', 'شركة كريم', 'شركة سوق دوت كوم', 'شركة جوميا'
         ];
 
         $logos = [
-             'google.png', 'facebook.png', 'amazon.png', 'apple.png', 'microsoft.png',
+               'facebook.png', 'amazon.png', 'apple.png', 'microsoft.png',
             'netflix.png', 'twitter.png', 'linkedin.png', 'uber.png', 'airbnb.png',
              'stc.png', 'stc_group.png', 'zain.png', 'du.png', 'etisalat_misr.png',
             'orange_misr.png', 'mobily.png', 'careem.png', 'souq.png', 'jumia.png'
         ];
 
         $emails = [
-             'contact@google.com', 'contact@facebook.com', 'contact@amazon.com', 'contact@apple.com', 'contact@microsoft.com',
+              'contact@facebook.com', 'contact@amazon.com', 'contact@apple.com', 'contact@microsoft.com',
             'contact@netflix.com', 'contact@twitter.com', 'contact@linkedin.com', 'contact@uber.com', 'contact@airbnb.com',
              'contact@stc.com.sa', 'contact@stcgroup.com', 'contact@zain.com', 'contact@du.ae', 'contact@etisalat.eg',
             'contact@orange.eg', 'contact@mobily.com.sa', 'contact@careem.com', 'contact@souq.com', 'contact@jumia.com'
         ];
 
         $locations = [
-             'Mountain View, CA', 'Menlo Park, CA', 'Seattle, WA', 'Cupertino, CA', 'Redmond, WA',
+              'Menlo Park, CA', 'Seattle, WA', 'Cupertino, CA', 'Redmond, WA',
             'Los Gatos, CA', 'San Francisco, CA', 'Sunnyvale, CA', 'San Francisco, CA', 'San Francisco, CA',
              'الرياض، السعودية', 'الرياض، السعودية', 'الرياض، السعودية', 'دبي، الإمارات', 'القاهرة، مصر',
             'القاهرة، مصر', 'الرياض، السعودية', 'دبي، الإمارات', 'دبي، الإمارات', 'القاهرة، مصر'
         ];
 
         $websites = [
-            'https://www.google.com', 'https://www.facebook.com', 'https://www.amazon.com', 'https://www.apple.com', 'https://www.microsoft.com',
+             'https://www.facebook.com', 'https://www.amazon.com', 'https://www.apple.com', 'https://www.microsoft.com',
             'https://www.netflix.com', 'https://www.twitter.com', 'https://www.linkedin.com', 'https://www.uber.com', 'https://www.airbnb.com',
             'https://www.stc.com.sa', 'https://www.stcgroup.com', 'https://www.zain.com', 'https://www.du.ae', 'https://www.etisalat.eg',
             'https://www.orange.eg', 'https://www.mobily.com.sa', 'https://www.careem.com', 'https://www.souq.com', 'https://www.jumia.com'
         ];
 
         $background_images = [
-             'google_bg.jpg', 'facebook_bg.jpg', 'amazon_bg.jpg', 'apple_bg.jpg', 'microsoft_bg.jpg',
+              'facebook_bg.jpg', 'amazon_bg.jpg', 'apple_bg.jpg', 'microsoft_bg.jpg',
             'netflix_bg.jpg', 'twitter_bg.jpg', 'linkedin_bg.jpg', 'uber_bg.jpg', 'airbnb_bg.jpg',
             'stc_bg.jpg', 'stc_group_bg.jpg', 'zain_bg.jpg', 'du_bg.jpg', 'etisalat_misr_bg.jpg',
             'orange_misr_bg.jpg', 'mobily_bg.jpg', 'careem_bg.jpg', 'souq_bg.jpg', 'jumia_bg.jpg'
         ];
 
         $abouts = [
-            'Google is a multinational corporation specializing in Internet-related services and products.',
+
             'Facebook is a social media and social networking service.',
             'Amazon is an e-commerce and cloud computing company.',
             'Apple designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories.',
@@ -106,7 +107,7 @@ class CompanySeeder extends Seeder
             'شركة جوميا هي منصة تجارة إلكترونية رائدة في إفريقيا والشرق الأوسط.'
         ];
 
-        $field_ids = [1, 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        $field_ids = [ 1, 2, 2, 3, 4, 5, 6, 7, 8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
         for ($i = 0; $i < count($names); $i++) {
             DB::table('companies')->insert([

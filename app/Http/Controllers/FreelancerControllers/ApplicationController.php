@@ -8,6 +8,7 @@ use App\Http\Resources\ApplicationResource;
 use App\Services\ApplicationService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ApplicationController extends Controller
 {
@@ -72,4 +73,35 @@ class ApplicationController extends Controller
             return $this->serverError($throwable->getMessage());
         }
     }
+
+    public function getFreelancerApplications()
+    {
+        try {
+             $freelancerId = Auth::guard('Freelancer')->user()->id;
+
+             $applications = $this->applicationService->getFreelancerApplications($freelancerId);
+            $data = ApplicationResource::collection($applications);
+
+            return $this->success('Successfully retrieved applications.', $data);
+
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+    public function getCompanyApplications()
+    {
+        try {
+
+            $companyId = Auth::guard('Company')->user()->id;
+
+             $applications = $this->applicationService->getCompanyApplications($companyId);
+            $data = ApplicationResource::collection($applications);
+
+            return $this->success('Successfully retrieved applications.', $data);
+
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
 }
