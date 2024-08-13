@@ -99,6 +99,9 @@ class ServicesService
             $path = $data['preview']->storeAs('service/' . $service->id, $imageName, 'public');
             $service->update(['preview' => $path]);
         }
+        if (isset($data['skills'])) {
+            $service->skills()->sync($data['skills']);
+        }
         if (isset($data['image'])) {
             $files = Storage::files('public/' . $service->image);
             foreach ($files as $file) {
@@ -112,6 +115,7 @@ class ServicesService
             }
             $service->update(['image' => 'service/' . $service->id]);
         }
+        unset($data['skills']);
         unset($data['image']);
         unset($data['preview']);
         $service->update($data);
