@@ -24,25 +24,25 @@ class DatabaseSeeder extends Seeder
         // ]);
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         $this->call([
+            FieldSeeder::class,
             FreelancerSeeder::class,
+            SkillSeeder::class,
             ProjectOwnerSeeder::class,
             CompanySeeder::class,
             LanguageSeeder::class,
-            SkillSeeder::class,
             CertificationSeeder::class,
             EducationSeeder::class,
+            PositionSeeder::class,
             ExperiencesSeeder::class,
             PortfolioSeeder::class,
+            ProjectSeeder::class,
             ReviewSeeder::class,
             ServiceSeeder::class,
             JobSeeder::class,
-            FieldSeeder::class,
-            PositionSeeder::class,
-            ProjectSeeder::class,
+            PlanSeeder::class,
             DeliveryOptionSeeder::class,
             featuresSeeder::class,
             PlanFeaturesSeeder::class,
-            PlanSeeder::class,
             TeamSeeder::class,
         ]);
         Offer::factory(5)->create();

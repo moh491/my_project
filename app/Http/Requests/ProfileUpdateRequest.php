@@ -3,10 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Enums\Languages_status;
-use App\Enums\Level;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
 class ProfileUpdateRequest extends FormRequest
 {
@@ -27,11 +25,11 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'first_name' => 'string|max:255',
-            'Last_name' => ['string', 'max:255'],
-            'location' => ['sometimes'],
-            'time_zone' => ['sometimes'],
-            'position_id' => ['sometimes'],
-            'profile' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'Last_name' => ['string' , 'max:255'] ,
+            'location'=>['sometimes']    ,
+            'time_zone'=>['sometimes'],
+            'position_id'=>['sometimes'],
+            'profile'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'languages' => 'array',
             'languages.*.language' => 'required',
             'languages.*.level' => ['required', new EnumValue(Languages_status::class)],

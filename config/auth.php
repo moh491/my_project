@@ -51,8 +51,6 @@ return [
             'provider' => 'Freelancers',
         ],
 
-
-
         'Project_Owner' => [
             'driver' => 'sanctum',
             'provider' => 'Project_Owners',

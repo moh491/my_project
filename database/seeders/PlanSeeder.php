@@ -13,25 +13,25 @@ class PlanSeeder extends Seeder
      */
     public function run(): void
     {
-        Plan::truncate();
-        Plan::create([
-            'type'=>'basic',
-            'price'=>45,
-            'description'=>'Our Basic Plan is ideal for startups and small businesses looking to develop a straightforward, functional mobile app. ',
-            'service_id'=>1
-        ]);
-        Plan::create([
-            'type'=>'standard',
-            'price'=>100,
-            'description'=>'The Standard Plan is designed for businesses aiming for a more polished and feature-rich mobile app.',
-            'service_id'=>1
-        ]);
-        Plan::create([
-            'type'=>'premium',
-            'price'=>150,
-            'description'=>'Our Premium Plan offers a complete, end-to-end solution for businesses looking to create a high-quality, feature-rich mobile app.',
-            'service_id'=>1
-
-        ]);
+//        Plan::create([
+//            'type'=>'basic',
+//            'price'=>45,
+//            'description'=>'Our Basic Plan is ideal for startups and small businesses looking to develop a straightforward, functional mobile app. ',
+//            'service_id'=>1
+//        ]);
+//        Plan::create([
+//            'type'=>'standard',
+//            'price'=>100,
+//            'description'=>'The Standard Plan is designed for businesses aiming for a more polished and feature-rich mobile app.',
+//            'service_id'=>1
+//        ]);
+//        Plan::create([
+//            'type'=>'premium',
+//            'price'=>150,
+//            'description'=>'Our Premium Plan offers a complete, end-to-end solution for businesses looking to create a high-quality, feature-rich mobile app.',
+//            'service_id'=>1
+//
+//
+//        ]);
     }
 }

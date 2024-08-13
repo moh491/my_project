@@ -99,23 +99,30 @@ class ServicesService
             $path = $data['preview']->storeAs('service/' . $service->id, $imageName, 'public');
             $service->update(['preview' => $path]);
         }
-        if (isset($data['skills'])) {
-            $service->skills()->sync($data['skills']);
-        }
-        if (isset($data['image'])) {
-            $files = Storage::files('public/' . $service->image);
-            foreach ($files as $file) {
-                if ($file !== 'public/' . $service->preview) {
-                    Storage::delete($file);
-                }
+
+        $existImages = $data['existImages'] ?? [];
+        $files = Storage::files('public/' . $service->image);
+        foreach ($files as $file) {
+            if ($file !== 'public/' . $service->preview && !in_array($file, $existImages)) {
+                Storage::delete($file);
             }
+        }
+
+
+        if (isset($data['image'])) {
             foreach ($data['image'] as $image) {
                 $imageName = $image->getClientOriginalName();
                 $image->storeAs('service/' . $service->id, $imageName, 'public');
             }
             $service->update(['image' => 'service/' . $service->id]);
         }
-        unset($data['skills']);
+
+        info($data['skills']);
+
+        if(isset($data['skills'])){
+            $service->skills()->sync($data['skills']);
+        }
+
         unset($data['image']);
         unset($data['preview']);
         $service->update($data);

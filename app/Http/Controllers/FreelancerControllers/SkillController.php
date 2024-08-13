@@ -4,6 +4,7 @@ namespace App\Http\Controllers\FreelancerControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SkillRequest;
+use App\Http\Resources\SkillResource;
 use App\Models\Skill;
 use App\Models\Team;
 use App\Services\SkillService;
@@ -26,7 +27,7 @@ class SkillController extends controller
     {
         try {
             $skills = Skill::all();
-            return $this->success('get skills', $skills);
+            return $this->success('get skills', SkillResource::collection($skills));
         } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }

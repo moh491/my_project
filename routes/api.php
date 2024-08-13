@@ -221,6 +221,8 @@ Route::controller( ApplicationController::class)->prefix('app')->group(function 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('store','insert');
         Route::delete('delete/{id}','delete');
+        Route::get('/getFreelancerApplications','getFreelancerApplications');
+        Route::get('/getCompanyApplications','getCompanyApplications');
     });
 
 });
@@ -243,6 +245,11 @@ Route::controller(MessagesController::class)->prefix('chat')->middleware('auth:s
 
 Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(function (){
    Route::get('/owner/{id}','endPoint');
+
+    Route::middleware('auth:Project_Owner')->group(function () {
+        Route::post('/update','update');
+    });
+
 });
 
 Route::controller(\App\Http\Controllers\StripePaymentController::class)->prefix('payment')->group(function ($router) {

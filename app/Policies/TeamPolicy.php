@@ -31,6 +31,10 @@ class TeamPolicy
 
     public function update(Freelancer $freelancer, Team $team)
     {
+//        return $team->freelancers()
+//            ->where('freelancer_id', $user->id)
+//            ->wherePivot('is_owner', true)
+//            ->exists();
         return $freelancer->teams()->where('team_id', $team->id)->exists();
     }
 

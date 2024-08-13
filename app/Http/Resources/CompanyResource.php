@@ -31,15 +31,18 @@ class CompanyResource extends JsonResource
             'website' => $this->website,
             'background_image' => $this->background_image,
             'about' => $this->about,
-            //'field_id'
-            'jobs' => $this->jobs->map(function ($job) {
+            'field' => [
+                'id' => $this->field->id,
+                'name' => $this->field->name,
+            ],
+            'jobs' => $this->jobs->map(function($job) {
                 return [
                     'id' => $job->id,
                     'title' => $job->title,
                     'location_type' => $job->location_type,
                     'employment_type' => $job->employment_type,
                     'level' => $job->level,
-                    'salary' => $job->min_salary . ' - ' . $job->max_salary,
+                    'salary' => $job->min_salary . ' - ' .  $job->max_salary,
                     'date_posted' => $job->created_at->diffForHumans(),
                 ];
             }),

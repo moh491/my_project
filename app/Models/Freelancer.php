@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Queue\Jobs\Job;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -134,6 +135,12 @@ class Freelancer extends Authenticatable
     {
         return $this->morphMany(Service::class,'owner');
     }
+
+    public function applications()
+    {
+        return $this->hasMany(Application::class);
+    }
+
 
 
 

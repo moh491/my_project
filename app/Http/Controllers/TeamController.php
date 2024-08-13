@@ -33,7 +33,7 @@ class TeamController extends Controller
         }
     }
 
-    public function store(StoreTeamRequest $request): JsonResponse
+    public function store(StoreTeamRequest $request)
     {
         try {
             $freelancer = Auth::guard('Freelancer')->user();
@@ -47,12 +47,9 @@ class TeamController extends Controller
 
     }
 
-
-
     public function update(UpdateTeamRequest $request, Team $team)
     {
         try {
-
             $freelancer = Auth::guard('Freelancer')->user();
             $this->authorize('update', $team);
 

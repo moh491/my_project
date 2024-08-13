@@ -7,8 +7,9 @@ use BenSampo\Enum\Enum;
 class Level extends Enum
 {
 
-    const  JUNIOR = 'junior';
-    const SENIOR = 'senior';
-    const MID = 'mid';
+    const Junior = 'Junior';
+    const Mid = 'Mid';
+    const Senior = 'Senior';
+
 
 }
