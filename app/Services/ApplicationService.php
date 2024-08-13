@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
-use App\Filtering\FillterApplication;
+use App\Filtering\FilterApplication;
 use App\Http\Requests\StoreApplicationRequest;
+use App\Http\Resources\ApplicationResource;
 use App\Http\Resources\OfferResource;
 use App\Models\Application;
 use App\Models\Company;
 use App\Models\Freelancer;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Auth;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ApplicationService
@@ -31,15 +33,19 @@ class ApplicationService
         return Application::where('freelancer_id', $freelancer_id)->get();
     }
 
-    public function filterAll()
+    public function filterAll(array $filters)
     {
+         $companyId = Auth::guard('Company')->id();
 
-        $applications = QueryBuilder::for(Application::class)
-            ->allowedFilters((new FillterApplication())->filterAll())
-            ->get();
+        $query = QueryBuilder::for(Application::class)
+            ->whereHas('job', function ($query) use ($companyId) {
+                $query->where('company_id', $companyId);
+            })
+            ->allowedFilters((new FilterApplication())->filterAll());
 
-        return OfferResource::collection($applications);
+         $applications = $query->get();
 
+        return ApplicationResource::collection($applications);
     }
 
     public function getApplicationOptions()

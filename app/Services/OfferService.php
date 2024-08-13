@@ -146,7 +146,6 @@ class OfferService
             ->allowedFilters((new FilterOffers())->filterAll())->with('project')
             ->get();
 
-
         return OfferResource::collection($offers);
 
     }

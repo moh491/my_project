@@ -216,13 +216,14 @@ Route::controller(OfferController::class)->prefix('offer')->middleware('auth:san
 Route::controller( ApplicationController::class)->prefix('app')->group(function (){
     Route::get('/application-options', 'applicationOptions');
     Route::get('/browse-applications','browseApplications');
-    Route::get('/filter','filterAll');
+
 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('store','insert');
         Route::delete('delete/{id}','delete');
         Route::get('/getFreelancerApplications','getFreelancerApplications');
         Route::get('/getCompanyApplications','getCompanyApplications');
+        Route::get('/filter','filterAll');
     });
 
 });

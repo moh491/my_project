@@ -67,12 +67,13 @@ class ApplicationController extends Controller
     public function filterAll(Request $request)
     {
         try {
-            $applications = $this->applicationService->filterAll();
-            return $this->success('successfully',$applications);
-        } catch  (\throwable $throwable){
+             $applications = $this->applicationService->filterAll($request->all());
+            return $this->success('Successfully filtered applications.', $applications);
+        } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
+
 
     public function getFreelancerApplications()
     {
