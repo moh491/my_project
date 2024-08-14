@@ -136,17 +136,17 @@ class ServiceSeeder extends Seeder
     {
         $plans = [
             [
-                'type' => 'basic',
+                'type' => 'Basic',
                 'price' => 45,
                 'description' => 'Our Basic Plan is ideal for startups and small businesses looking to develop a straightforward, functional mobile app.',
             ],
             [
-                'type' => 'standard',
+                'type' => 'Standard',
                 'price' => 75,
                 'description' => 'Our Standard Plan offers additional features and customization options for businesses aiming for growth.',
             ],
             [
-                'type' => 'premium',
+                'type' => 'Premium',
                 'price' => 120,
                 'description' => 'Our Premium Plan provides comprehensive solutions for large enterprises seeking advanced functionalities and support.',
             ],
