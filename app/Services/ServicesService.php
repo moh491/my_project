@@ -10,12 +10,9 @@ use App\Filtering\ServiceTitleFilter;
 use App\Http\Resources\RequestResource;
 use App\Http\Resources\ServiceDetailsResource;
 use App\Http\Resources\ServiceResource;
-use App\Jobs\CloseProjectJob;
 use App\Jobs\CloseServiceJob;
 use App\Mail\SentMail;
-use App\Models\Delivery_Option;
 use App\Models\Feature;
-use App\Models\Freelancer;
 use App\Models\Plan;
 use App\Models\Project_Owners;
 use App\Models\Request;
@@ -144,12 +141,11 @@ class ServicesService
     {
         $request = Request::create([
             'project_owner_id' => $id,
-            'delivery_option_id' => $data['delivery_option_id'],
+            'plan_id' => $data['plan_id'],
             'note' => $data['note']
         ]);
         $owner = Project_Owners::find($id);
-        $delivery = Delivery_Option::find($data['delivery_option_id']);
-        $plan = Plan::find($delivery['plan_id']);
+        $plan = Plan::find($data['plan_id']);
         $owner->update(['suspended_balance' => $owner['suspended_balance'] + $plan['price'], 'withdrawal_balance' => $owner['withdrawal_balance'] - $plan['price']]);
         if (isset($data['files'])) {
             $fileName = Str::uuid() . '.' . $data['files']->getClientOriginalExtension();
@@ -221,8 +217,7 @@ class ServicesService
     {
         $request = Request::find($id);
         $owner = Project_Owners::find($request['project_owner_id']);
-        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
-        $plan = Plan::find($delivery_option['plan_id']);
+        $plan = Plan::find($request['plan_id']);
         $owner->update(['suspended_balance' => $owner['suspended_balance'] - $plan['price'], 'withdrawal_balance' => $owner['withdrawal_balance'] + $plan['price']]);
         Storage::disk('public')->delete($request->files);
         $request->delete();
@@ -232,8 +227,7 @@ class ServicesService
     {
         $request = Request::find($id);
         $owner = Project_Owners::find($request['project_owner_id']);
-        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
-        $plan = Plan::find($delivery_option['plan_id']);
+        $plan = Plan::find($request['plan_id']);
         $service = Service::find($plan['service_id']);
         $user = $service['owner_type']::find($service['owner_id']);
         $request->update(['status' => Status::UNDERWAY]);
@@ -251,8 +245,7 @@ class ServicesService
     {
         $request = Request::find($id);
         $owner = Project_Owners::find($request['project_owner_id']);
-        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
-        $plan = Plan::find($delivery_option['plan_id']);
+        $plan = Plan::find($request['plan_id']);
         $service = Service::find($plan['service_id']);
         $user = $service['owner_type']::find($service['owner_id']);
         $request->update(['status' => Status::EXCLUDED]);
@@ -274,8 +267,7 @@ class ServicesService
         $request = Request::find($id);
         $request->update(['status' => Status::COMPLETED]);
         $owner = Project_Owners::find($request['project_owner_id']);
-        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
-        $plan = Plan::find($delivery_option['plan_id']);
+        $plan = Plan::find($request['plan_id']);
         $service = Service::find($plan['service_id']);
         $user = $service['owner_type']::find($service['owner_id']);
         $title = 'Service Delivery';
@@ -300,8 +292,7 @@ class ServicesService
         $request->update(['status' => Status::UnderReview]);
 
         $owner = Project_Owners::find($request['project_owner_id']);
-        $delivery_option = Delivery_Option::find($request['delivery_option_id']);
-        $plan = Plan::find($delivery_option['plan_id']);
+        $plan = Plan::find($request['plan_id']);
         $service = Service::find($plan['service_id']);
         $user = $service['owner_type']::find($service['owner_id']);
 
@@ -336,8 +327,7 @@ class ServicesService
         $request = Request::find($id);
         if ($request->status == Status::UNDERWAY) {
             $owner = Project_Owners::find($request['project_owner_id']);
-            $delivery_option = Delivery_Option::find($request['delivery_option_id']);
-            $plan = Plan::find($delivery_option['plan_id']);
+            $plan = Plan::find($request['plan_id']);
             $service = Service::find($plan['service_id']);
             $user = $service['owner_type']::find($service['owner_id']);
 
