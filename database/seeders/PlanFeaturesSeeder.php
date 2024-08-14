@@ -27,25 +27,17 @@ class PlanFeaturesSeeder extends Seeder
             'basic' => [
                 'Responsive Design',
                 'Customizable',
-                'Analytics Support',
-                'SEO Optimized'
+
             ],
             'standard' => [
                 'API Access',
                 'E-commerce Ready',
-                'Cloud Integration',
-                '24/7 Support',
-                'User Authentication'
+
             ],
             'premium' => [
                 'Advanced Security',
                 'Scalability',
-                'High Availability',
-                'Automated Deployment',
-                'Continuous Integration',
-                'Test Automation',
-                'User Activity Tracking',
-                'Interactive UI'
+
             ]
         ];
 
@@ -64,7 +56,7 @@ class PlanFeaturesSeeder extends Seeder
 
                 foreach ($assignedFeatures as $feature) {
                     Plan_Feature::create([
-                        'value' => $feature->is_boolean ? 'Enabled' : 'Configured',
+                        'value' => rand(0, 1) ? 'true' : 'false',
                         'plan_id' => $plan->id,
                         'feature_id' => $feature->id,
                     ]);
