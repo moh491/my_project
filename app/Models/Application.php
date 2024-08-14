@@ -8,7 +8,15 @@ use Illuminate\Queue\Jobs\Job;
 
 class Application extends Model
 {
-    protected $guarded=[];
+
+    protected $fillable=[
+        'status',
+        'job_id',
+        'freelancer_id',
+        'budget',
+        'experience_year',
+        'file',
+    ];
 
     use HasFactory;
 

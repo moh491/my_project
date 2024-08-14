@@ -21,13 +21,13 @@ class StoreApplicationRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    #[ArrayShape(['job_id' => "string", 'freelancer_id' => "string", 'is_accepted' => "string", 'status' => "string"])] public function rules(): array
+    public function rules(): array
     {
         return [
-            'job_id' => 'required|exists:jobs,id',
-            'freelancer_id' => 'required|exists:freelancers,id',
-            'is_accepted' => 'required|boolean',
-            'status' => 'required|in:reviewed,accepted,rejected,pending',
+            'job_id' => 'required|exists:company_jobs,id',
+            'budget'=>'required',
+            'experience_year'=>'required',
+            'file'=>'required|file',
         ];
     }
 }

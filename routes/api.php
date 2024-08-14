@@ -163,6 +163,9 @@ Route::controller(RequestServiceController::class)->prefix('request')->middlewar
     Route::post('Reject/{requestId}','Reject');
     Route::post('Cancel/{requestId}','Cancel');
 
+
+
+
 });
 
 
@@ -213,14 +216,17 @@ Route::controller(OfferController::class)->prefix('offer')->middleware('auth:san
 Route::controller( ApplicationController::class)->prefix('app')->group(function (){
     Route::get('/application-options', 'applicationOptions');
     Route::get('/browse-applications','browseApplications');
-
+    Route::get('/filter','filterAll');
 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('store','insert');
         Route::delete('delete/{id}','delete');
         Route::get('/getFreelancerApplications','getFreelancerApplications');
         Route::get('/getCompanyApplications','getCompanyApplications');
-        Route::get('/filter','filterAll');
+        Route::put('/{id}','ChangeStatusToReviewed');
+        Route::post('Accept/{id}','Accept');
+        Route::post('Reject/{id}','Reject');
+        Route::post('filter/{jobId}','filterOfApplication');
     });
 
 });

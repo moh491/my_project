@@ -24,46 +24,31 @@ class Service extends Model
         return $this->hasMany(Plan::class);
     }
 
-    public function features()
+    public function features(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Feature::class);
     }
 
     //Get all of the skills for the service.
-    public function skills()
+    public function skills(): \Illuminate\Database\Eloquent\Relations\MorphToMany
     {
         return $this->morphToMany(Skill::class, 'skillable', 'skillable__skills');
     }
 
     //Get all of the models that own service.
-    public function owner()
+    public function owner(): \Illuminate\Database\Eloquent\Relations\MorphTo
     {
         return $this->morphTo();
     }
 
-    public function allRequests()
+    public function allRequests(): \Illuminate\Database\Eloquent\Collection|array
     {
         return Request::query()
-            ->join('delivery__options', 'requests.delivery_option_id', '=', 'delivery__options.id')
-            ->join('plans', 'delivery__options.plan_id', '=', 'plans.id')
+            ->join('plans', 'requests.plan_id', '=', 'plans.id')
             ->where('plans.service_id', $this->id)
             ->select('requests.*')
             ->get();
     }
-
-    public function deliveryOptions()
-    {
-        return $this->hasManyThrough(
-            Delivery_Option::class,
-            Plan::class,
-            'service_id', // Foreign key on Plan table
-            'plan_id',    // Foreign key on DeliveryOption table
-            'id',         // Local key on Service table
-            'id'          // Local key on Plan table
-        );
-    }
-
-
 
 
 }
