@@ -111,16 +111,16 @@ class ServiceSeeder extends Seeder
 
         $owners = Project_Owners::all();
 
-        foreach ($owners as $index => $owner) {
-            $title = $ownerTitles[$index % count($ownerTitles)];
-            $description = $ownerDescriptions[$index % count($ownerDescriptions)];
+        foreach ($freelancers as $index => $freelancer) {
+            $title = $freelancerTitles[$index % count($freelancerTitles)];
+            $description = $freelancerDescriptions[$index % count($freelancerDescriptions)];
 
             $service = Service::create([
                 'title' => $title,
                 'description' => $description,
                 'image' => 'null',
                 'owner_type' => 'App\\Models\\Team',
-                'owner_id' => $owner->id,
+                'owner_id' => $freelancer->id,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
