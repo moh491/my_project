@@ -21,6 +21,8 @@ class Company extends Authenticatable
         'about',
         'location',
         'background_image',
+        'suspended_balance',
+        'withdrawal_balance'
     ];
 
 
@@ -71,6 +73,12 @@ class Company extends Authenticatable
     public function jobs(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(CompanyJob::class);
+    }
+
+
+    public function payments(): \Illuminate\Database\Eloquent\Relations\MorphMany
+    {
+        return $this->morphMany(Payment::class,'owner');
     }
 
 }

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('refund_id')->nullable();
             $table->enum('status',['paid','refunded']);
             $table->double('amount');
-            $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();
+//            $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();
+            $table->morphs('owner');
             $table->timestamps();
         });
     }

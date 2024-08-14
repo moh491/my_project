@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\JobRequest;
 use App\Http\Resources\BrowseJobs;
 use App\Http\Resources\JobResource;
+use App\Models\Company;
 use App\Services\JobService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
@@ -26,8 +27,14 @@ class JobController extends Controller
         try {
             $validator = $request->validated();
             $validator['company_id']=auth()->guard('Company')->user()->id;
-            $this->jobService->create($validator);
-            return $this->success('insert successful');
+            $company=Company::find($validator['company_id']);
+            if($company->withdrawal_balance >= 5 ) {
+                $this->jobService->create($validator);
+                return $this->success('insert successful');
+            }
+            else{
+                return $this->error('Please recharge the balance before create job');
+            }
         }
             catch (\throwable $throwable){
             return $this->serverError($throwable->getMessage());

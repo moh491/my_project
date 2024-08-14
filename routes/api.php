@@ -223,6 +223,10 @@ Route::controller( ApplicationController::class)->prefix('app')->group(function 
         Route::delete('delete/{id}','delete');
         Route::get('/getFreelancerApplications','getFreelancerApplications');
         Route::get('/getCompanyApplications','getCompanyApplications');
+        Route::put('/{id}','ChangeStatusToReviewed');
+        Route::post('Accept/{id}','Accept');
+        Route::post('Reject/{id}','Reject');
+        Route::post('filter/{jobId}','filterOfApplication');
     });
 
 });

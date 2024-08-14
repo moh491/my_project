@@ -83,9 +83,9 @@ class Project_Owners extends Authenticatable
         return $this->hasMany(Request::class,'project_owner_id');
     }
 
-    public function payments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function payments(): \Illuminate\Database\Eloquent\Relations\MorphMany
     {
-        return $this->hasMany(Payment::class);
+        return $this->morphMany(Payment::class,'owner');
     }
 
 }

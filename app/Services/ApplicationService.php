@@ -4,22 +4,84 @@ namespace App\Services;
 
 use App\Filtering\FillterApplication;
 use App\Http\Requests\StoreApplicationRequest;
+use App\Http\Resources\appResourece;
 use App\Http\Resources\OfferResource;
+use App\Mail\SentMail;
 use App\Models\Application;
 use App\Models\Company;
+use App\Models\CompanyJob;
 use App\Models\Freelancer;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class ApplicationService
 {
     use ApiResponseTrait;
 
-    public function applyForJob(StoreApplicationRequest $request)
+    public function applyForJob($data)
     {
-        return Application::create($request->all());
+        $application=Application::create([
+            'job_id'=>$data['job_id'],
+            'freelancer_id'=>Auth::guard('Freelancer')->user()->id,
+            'budget'=>$data['budget'],
+            'experience_year'=>$data['experience_year'],
+        ]);
+        if (isset($data['file'])) {
+            $fileName = Str::uuid() . '.' . $data['file']->getClientOriginalExtension();
+            $path = $data['file']->storeAs('Application', $fileName, 'public');
+            $application->update(['file' => $path]);
+        }
     }
+    public function changetoReviewed($id){
+        $application=Application::find($id);
+        $application->update(['status'=>'reviewed']);
+    }
+    public function Accept($id){
+        $application=Application::find($id);
+        $job=CompanyJob::find($application['job_id']);
+        $company=Company::find($job['company_id']);
+        $freelancer=Freelancer::find($application['freelancer_id']);
+        $application->update(['status'=>'accepted']);
+        //mail to freelancer
+        $description = $company->name . ' has accepted the application for the job ' . $job->title . ' To contact the company via e-mail: '.$company->email;
+        $title = 'Accept application';
+        Mail::to($freelancer->email)->send(new SentMail($title, $description));
 
+        //mail to company
+        $title='Send the freelancer email that you agree to application';
+        $description='You can contact the freelancer via e-mail: '.$freelancer->email.' in order to request a job opportunity '.$job->title;
+        Mail::to($company->email)->send(new SentMail($title,$description));
+
+
+    }
+    public function Reject($id){
+        $application=Application::find($id);
+        $job=CompanyJob::find($application['job_id']);
+        $company=Company::find($job['company_id']);
+        $freelancer=Freelancer::find($application['freelancer_id']);
+        $application->update(['status'=>'rejected']);
+        //mail to freelancer
+        $description = $company->name . ' has rejected the application for the job ' . $job->title ;
+        $title = 'Reject application';
+        Mail::to($freelancer->email)->send(new SentMail($title, $description));
+
+    }
+    public function filterOfApplication($jobId){
+        $job=CompanyJob::find($jobId);
+        $application = $job->applications();
+        $app = QueryBuilder::for($application)
+            ->allowedFilters([
+                AllowedFilter::exact('experience_year'),
+                AllowedFilter::exact('budget'),
+            ])
+            ->get();
+        return appResourece::collection($app);
+
+    }
     public function removeApplication($id): void
     {
         $application = Application::findOrFail($id);
