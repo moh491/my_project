@@ -98,8 +98,8 @@ class ServiceSeeder extends Seeder
             $service = Service::create([
                 'title' => $title,
                 'description' => $description,
-                'image' => 'null',
-                'owner_type' => 'Freelancer',
+                'image' => 'service',
+                'owner_type' => 'App\\Models\\Freelancer',
                 'owner_id' => $freelancer->id,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -118,8 +118,8 @@ class ServiceSeeder extends Seeder
             $service = Service::create([
                 'title' => $title,
                 'description' => $description,
-                'image' => 'null',
-                'owner_type' => 'Project_Owner',
+                'image' => 'service',
+                'owner_type' => 'App\\Models\\Team',
                 'owner_id' => $owner->id,
                 'created_at' => now(),
                 'updated_at' => now(),
