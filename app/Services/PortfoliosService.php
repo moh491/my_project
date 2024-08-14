@@ -57,6 +57,7 @@ class PortfoliosService
         }
         if ($type == "freelancer") {
             $portfolio->freelancers()->attach($id);
+
             if (isset($data['contributors']))
                 $portfolio->freelancers()->attach($data['contributors']);
         } else {
