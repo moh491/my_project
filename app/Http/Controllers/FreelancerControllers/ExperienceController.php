@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class ExperienceController extends Controller
 {
     use ApiResponseTrait;
+
     protected $experiencService;
 
     public function __construct(ExperiencService $experiencService)
@@ -21,45 +22,52 @@ class ExperienceController extends Controller
         $this->experiencService = $experiencService;
     }
 
-        public function insert(ExperienceRequest $request){
+    public function index($id)
+    {
+     $experience=Experience::find($id);
+     return $this->success('get experience',$experience);
+    }
+
+    public function insert(ExperienceRequest $request)
+    {
         try {
             $validator = $request->validated();
             $id = Auth::guard('Freelancer')->user()->id;
-            $this->experiencService->create($id,$validator);
+            $this->experiencService->create($id, $validator);
             return $this->success('insert successful');
-        }
-        catch (\throwable $throwable){
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
 
     }
-    public function update(ExperienceUpdateRequest $request,string $id){
+
+    public function update(ExperienceUpdateRequest $request, string $id)
+    {
         try {
             $data = $request->validated();
-            $experience=Experience::find($id);
-            if( Auth::guard('Freelancer')->user()->can('access', [ Experience::class, $experience ] ) ){
+            $experience = Experience::find($id);
+            if (Auth::guard('Freelancer')->user()->can('access', [Experience::class, $experience])) {
                 $this->experiencService->update($id, $data);
                 return $this->success('updated successful');
-            }else{
+            } else {
                 return $this->error('not authorized');
             }
-        }
-        catch (\throwable $throwable){
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
 
-    public function delete(string $id){
+    public function delete(string $id)
+    {
         try {
-            $experience=Experience::find($id);
-            if( Auth::guard('Freelancer')->user()->can('access', [ Experience::class, $experience ] ) ){
+            $experience = Experience::find($id);
+            if (Auth::guard('Freelancer')->user()->can('access', [Experience::class, $experience])) {
                 $this->experiencService->delete($id);
                 return $this->success('deleted successful');
-            }else{
+            } else {
                 return $this->error('not authorized');
             }
-        }
-        catch (\throwable $throwable){
+        } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }

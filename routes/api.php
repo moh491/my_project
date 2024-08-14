@@ -110,16 +110,19 @@ Route::controller(CertificateController::class)->prefix('certification')->middle
     Route::post('/', 'insert');
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
+    Route::get('/{id}','index');
 });
 Route::controller(ExperienceController::class)->prefix('experience')->middleware('auth:sanctum')->group(function () {
     Route::post('/', 'insert');
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
+    Route::get('/{id}','index');
 });
 Route::controller(EducationController::class)->prefix('education')->middleware('auth:sanctum')->group(function () {
     Route::post('/', 'insert');
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
+    Route::get('/{id}','index');
 });
 Route::controller(LanguageController::class)->prefix('language')->middleware('auth:sanctum')->group(function () {
     Route::post('/', 'insert');
