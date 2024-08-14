@@ -21,9 +21,12 @@ class ApplicationResource extends JsonResource
             'budget' => $this->budget,
             'experience_year' => $this->experience_year,
             'file' => $this->file,
+            'company_name'=>$this->job->company->name,
             'job' => [
-                'id' => $this->job->id,
+                 'id' => $this->job->id,
                 'title' => $this->job->title,
+                'location_type'=>$this->job->location_type,
+                'employment_type'=>$this->job->employment_type,
                 'description' => $this->job->description,
                 'min_salary' => $this->job->min_salary,
                 'max_salary' => $this->job->max_salary,

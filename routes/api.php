@@ -163,9 +163,6 @@ Route::controller(RequestServiceController::class)->prefix('request')->middlewar
     Route::post('Reject/{requestId}','Reject');
     Route::post('Cancel/{requestId}','Cancel');
 
-
-
-
 });
 
 
