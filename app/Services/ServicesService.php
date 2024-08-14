@@ -22,6 +22,7 @@ use App\Models\Request;
 use App\Models\Service;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -65,6 +66,17 @@ class ServicesService
             $path = $data['preview']->storeAs('service/' . $service->id, $imageName, 'public');
             $service->update(['preview' => $path]);
         }
+
+        $featureIds = [];
+        foreach ($data['features'] as $featureData) {
+            $feature = Feature::create([
+                'name' => $featureData['name'],
+                'is_boolean' => isset($featureData['is_boolean']),
+                'service_id' => $service->id
+            ]);
+            $featureIds [] = $feature->id;
+        }
+//
         foreach ($data['plans'] as $planData) {
             $plan = Plan::create([
                 'price' => $planData['price'],
@@ -72,13 +84,12 @@ class ServicesService
                 'type' => $planData['type'],
                 'service_id' => $service->id
             ]);
-            foreach ($planData['features'] as $featureData) {
-                $feature = Feature::firstOrCreate([
-                    'name' => $featureData['name'],
-                    'is_boolean' => $featureData['is_boolean'],
-                    'service_id' => $service->id
+            foreach ($planData['features'] as $index => $featureData) {
+                DB::table('plan__features')->insert([
+                    'value' => $featureData['value'] ?? false,
+                    'plan_id' => $plan->id,
+                    'feature_id' => $featureIds[$index],
                 ]);
-                $plan->features()->attach($feature->id, ['value' => $featureData['value']]);
             }
             foreach ($planData['delivery_options'] as $delivery_option) {
                 Delivery_Option::create([
@@ -87,6 +98,7 @@ class ServicesService
                     'plan_id' => $plan->id
                 ]);
             }
+
         }
     }
 
@@ -119,7 +131,7 @@ class ServicesService
 
         info($data['skills']);
 
-        if(isset($data['skills'])){
+        if (isset($data['skills'])) {
             $service->skills()->sync($data['skills']);
         }
 
