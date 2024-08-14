@@ -91,13 +91,6 @@ class ServicesService
                     'feature_id' => $featureIds[$index],
                 ]);
             }
-            foreach ($planData['delivery_options'] as $delivery_option) {
-                Delivery_Option::create([
-                    'days' => $delivery_option['days'],
-                    'increase' => $delivery_option['increase'],
-                    'plan_id' => $plan->id
-                ]);
-            }
 
         }
     }
@@ -181,13 +174,12 @@ class ServicesService
         $request->update(['rating' => $data['rating']]);
     }
 
-    public function browseRequestedServicesforproject_owner()
+    public function browseRequestedServicesforproject_owner(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
         $project_owner = Auth::guard('Project_Owner')->user();
 
         $requests = QueryBuilder::for(Request::query()
-            ->join('delivery__options', 'requests.delivery_option_id', '=', 'delivery__options.id')
-            ->join('plans', 'delivery__options.plan_id', '=', 'plans.id')
+            ->join('plans', 'requests.plan_id', '=', 'plans.id')
             ->join('services', 'plans.service_id', '=', 'services.id')
             ->where('requests.project_owner_id', $project_owner->id)
             ->select('requests.*'))
@@ -208,8 +200,7 @@ class ServicesService
     {
 
         $requests = QueryBuilder::for(Request::query()
-            ->join('delivery__options', 'requests.delivery_option_id', '=', 'delivery__options.id')
-            ->join('plans', 'delivery__options.plan_id', '=', 'plans.id')
+            ->join('plans', 'requests.plan_id', '=', 'plans.id')
             ->join('services', 'plans.service_id', '=', 'services.id')
             ->where('services.owner_type', $type)
             ->where('services.owner_id', $id)
