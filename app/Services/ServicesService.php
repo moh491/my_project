@@ -119,7 +119,6 @@ class ServicesService
             $service->update(['image' => 'service/' . $service->id]);
         }
 
-        info($data['skills']);
 
         if (isset($data['skills'])) {
             $service->skills()->sync($data['skills']);

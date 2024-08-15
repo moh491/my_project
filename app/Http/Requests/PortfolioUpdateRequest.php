@@ -23,7 +23,7 @@ class PortfolioUpdateRequest extends FormRequest
     {
         return [
             'title'=>'string',
-            'description'=>'text',
+            'description'=>'required',
             'date'=>'sometimes',
             'preview'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'images' => 'array',
@@ -31,6 +31,7 @@ class PortfolioUpdateRequest extends FormRequest
             'demo'=>'string',
             'link'=>'string',
             'skills'=>['array'],
+            'existImages' => 'array',
             'contributors'=>['array']
         ];
     }
