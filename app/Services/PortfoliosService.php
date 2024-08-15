@@ -94,11 +94,11 @@ class PortfoliosService
         }
 
         if (isset($data['images'])) {
-            foreach ($data['image'] as $image) {
+            foreach ($data['images'] as $image) {
                 $imageName = $image->getClientOriginalName();
-                $image->storeAs('service/' . $portfolio->id, $imageName, 'public');
+                $image->storeAs('portfolio/' . $portfolio->id, $imageName, 'public');
             }
-            $portfolio->update(['images' => 'service/' . $portfolio->id]);
+            $portfolio->update(['images' => 'portfolio/' . $portfolio->id]);
         }
 
         unset($data['preview']);
