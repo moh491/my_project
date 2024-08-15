@@ -6,9 +6,11 @@ use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 use App\Http\Requests\AddMemberRequest;
 use App\Http\Requests\RemoveMemberRequest;
+use App\Http\Resources\TeamResource;
 use App\Models\Team;
 use App\Services\TeamService;
 use App\Traits\ApiResponseTrait;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,7 +39,7 @@ class TeamController extends Controller
     {
         try {
             $freelancer = Auth::guard('Freelancer')->user();
-            $this->authorize('create', Team::class);
+           $this->authorize('create', Team::class);
              $this->teamService->createTeam($freelancer, $request);
             return $this->success('insert successful');
         }
@@ -92,4 +94,31 @@ class TeamController extends Controller
             return response()->json(['error' => $throwable->getMessage()], 500);
         }
     }
+
+    public function deleteTeam(Team $team){
+
+            try {
+                $freelancer = Auth::guard('Freelancer')->user();
+
+                 $this->teamService->deleteTeam($freelancer, $team);
+
+                return $this->success('Team deleted successfully');
+            } catch (AuthorizationException $e) {
+                return $this->error($e->getMessage());
+            } catch (\throwable $throwable){
+                return $this->serverError($throwable->getMessage());
+            }
+        }
+        public function myTeams(){
+        try {
+            $freelancer = Auth::guard('Freelancer')->user();
+
+            $teams = $this->teamService->getFreelancerTeams($freelancer);
+
+             return TeamResource::collection($teams);
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
 }

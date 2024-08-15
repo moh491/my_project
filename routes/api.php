@@ -264,8 +264,11 @@ Route::get('generate-cv', [PdfController::class, 'generateCV'])->middleware('aut
 
 Route::controller(TeamController::class)->prefix('team')->middleware('auth:Freelancer')->group(function () {
     Route::get('profile/{id}','getProfilePage')->name('team.show');
+    Route::get('/my-team' , 'myTeams');
     Route::post('/store',  'store');
     Route::put('/update/{team}',  'update');
     Route::post('/{team}/add-member','addMember');
     Route::delete('/{team}/remove-member', 'removeMember');
+    Route::delete('/{team}/remove-team' , 'deleteTeam');
+
 });

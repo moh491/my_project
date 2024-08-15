@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Http\Resources\ProfilePageTeamResource;
 use App\Models\Freelancer;
 use App\Models\Team;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 
 class TeamService
@@ -75,6 +76,27 @@ class TeamService
     public function removeMember(Team $team, $freelancerId): void
     {
         $team->freelancers()->detach($freelancerId);
+    }
+    public function deleteTeam(Freelancer $freelancer, Team $team)
+    {
+         if ($freelancer->cannot('delete', $team)) {
+            throw new AuthorizationException('You are not authorized to delete this team');
+        }
+
+         $isOwner = $team->freelancers()
+            ->wherePivot('freelancer_id', $freelancer->id)
+            ->wherePivot('is_owner', true)
+            ->exists();
+
+        if (!$isOwner) {
+            throw new AuthorizationException('You are not the owner of this team');
+        }
+
+        $team->delete();
+    }
+    public function getFreelancerTeams(Freelancer $freelancer)
+    {
+         return $freelancer->teams()->get();
     }
 
 }
