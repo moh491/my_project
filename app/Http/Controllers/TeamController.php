@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTeamRequest;
 use App\Http\Requests\UpdateTeamRequest;
 use App\Http\Requests\AddMemberRequest;
 use App\Http\Requests\RemoveMemberRequest;
+use App\Http\Resources\ProjectReviewsResource;
 use App\Http\Resources\TeamResource;
 use App\Models\Team;
 use App\Services\TeamService;
@@ -89,7 +90,7 @@ class TeamController extends Controller
 
             $this->teamService->removeMember($team, $request->freelancer_id);
 
-            return response()->json(['message' => 'Member removed successfully'], 200);
+            return $this->success('removeMember successful');
         } catch (\Throwable $throwable) {
             return response()->json(['error' => $throwable->getMessage()], 500);
         }
@@ -115,10 +116,20 @@ class TeamController extends Controller
 
             $teams = $this->teamService->getFreelancerTeams($freelancer);
 
-             return TeamResource::collection($teams);
+            return $this->success( TeamResource::collection($teams));
+        } catch (\Throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+          }
+       }
+       public function getTeamReviews(int $teamId){
+        try {
+             $reviews = $this->teamService->getTeamReviews($teamId);
+
+             return $this->success(ProjectReviewsResource::collection($reviews));
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
     }
+
 
 }

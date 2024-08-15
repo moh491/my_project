@@ -29,7 +29,7 @@ class ReviewResource extends JsonResource
             'professionalism'=>$this->professionalism,
             'communication'=>$this->communication,
             'commit_to_deadlines'=>$this->commit_to_deadlines,
-            'quality'=>$this->quality ,
+            'quality'=>$this->quality,
             'experience'=>$this->experience,
             're_employee'=>$this->re_employee,
             'description'=>$this->description,

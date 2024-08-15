@@ -99,4 +99,11 @@ class TeamService
          return $freelancer->teams()->get();
     }
 
+    public function getTeamReviews(int $teamId)
+    {
+         $team = Team::findOrFail($teamId);
+
+         return $team->projects()->has('review')->get();
+    }
+
 }
