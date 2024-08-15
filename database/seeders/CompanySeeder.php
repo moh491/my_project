@@ -23,7 +23,6 @@ class CompanySeeder extends Seeder
             'email'=>'contact@google.com',
             'email_verified_at'=>'2023-06-11 19:25:02',
             'logo'=>'google.png',
-            'background_image'=>'google_bg.jpg',
             'website'=>'https://www.google.com',
             'password'=>'111111',
             'field_id'=>1,
@@ -77,12 +76,7 @@ class CompanySeeder extends Seeder
             'https://www.orange.eg', 'https://www.mobily.com.sa', 'https://www.careem.com', 'https://www.souq.com', 'https://www.jumia.com'
         ];
 
-        $background_images = [
-              'facebook_bg.jpg', 'amazon_bg.jpg', 'apple_bg.jpg', 'microsoft_bg.jpg',
-            'netflix_bg.jpg', 'twitter_bg.jpg', 'linkedin_bg.jpg', 'uber_bg.jpg', 'airbnb_bg.jpg',
-            'stc_bg.jpg', 'stc_group_bg.jpg', 'zain_bg.jpg', 'du_bg.jpg', 'etisalat_misr_bg.jpg',
-            'orange_misr_bg.jpg', 'mobily_bg.jpg', 'careem_bg.jpg', 'souq_bg.jpg', 'jumia_bg.jpg'
-        ];
+
 
         $abouts = [
 
@@ -118,7 +112,6 @@ class CompanySeeder extends Seeder
                 'password' => Hash::make('password'),
                 'location' => $locations[$i],
                 'website' => $websites[$i],
-                'background_image' => $background_images[$i],
                 'about' => $abouts[$i],
                 'field_id' => $field_ids[$i],
                 'created_at' => now(),

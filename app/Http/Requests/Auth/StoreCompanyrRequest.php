@@ -24,12 +24,11 @@ class StoreCompanyrRequest extends FormRequest
     {
         return [
             'name'=>['required','string'],
-            'logo'=>['image|mimes:jpeg,png,jpg,gif,svg|max:2048','required'],
+            'logo'=>['image:jpeg,png,jpg,gif,svg|max:2048','required'],
             'email'=>['required'],
             'password' => ['required'],
             'about'=>['required'],
             'location'=>['required'],
-            'background_image'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'field_id'=>['required'],
         ];
     }
