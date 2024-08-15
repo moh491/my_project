@@ -76,10 +76,11 @@ class ProfilePageResource extends JsonResource
     public function comletionrate()
     {
 
+        $num=0;
         if ($this->projects()->count() > 0) {
             $num = $this->projectCompletedCount() / $this->projects()->count() * 100;
-            return (int)$num;
         }
+        return (int)$num;
     }
 
     public function avarageReviewProject()
