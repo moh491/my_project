@@ -55,7 +55,8 @@ class FreelancerController
     public function index(): \Illuminate\Http\JsonResponse
     {
         try {
-            $freelancer= FreeResource::collection(Freelancer::all());
+            $id=Auth::guard('Freelancer')->user()->id;
+            $freelancer= FreeResource::collection(Freelancer::where('id', '!=', $id)->get());
             return $this->success('get freelancers', $freelancer);
         } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());

@@ -23,8 +23,8 @@ class RequestAServiceRequest extends FormRequest
     {
         return [
             'note' => 'required',
-            'files' => 'sometimes|file',
-            'delivery_option_id' => 'required',
+            'files' => 'sometimes',
+            'plan_id'=>'required',
         ];
     }
 }

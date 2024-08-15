@@ -165,6 +165,7 @@ Route::controller(RequestServiceController::class)->prefix('request')->middlewar
     Route::post('Accept/{requestId}','Accept');
     Route::post('Reject/{requestId}','Reject');
     Route::post('Cancel/{requestId}','Cancel');
+    Route::get('/{id}','details')->name('request.show');
 
 
 
