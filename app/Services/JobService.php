@@ -69,14 +69,13 @@ class JobService
         ];
     }
 
-    public function filterAll(): AnonymousResourceCollection
+    public function filterAll()
     {
         $jobs = QueryBuilder::for(CompanyJob::class)
             ->allowedFilters((new FilterJob())->filterAll())
             ->with(['company:id,name,location'])
             ->get()
             ->makeHidden(['company_id']);
-
         return BrowseJobs::collection($jobs);
     }
 

@@ -14,9 +14,7 @@ class FilterJob
         return [
 
             AllowedFilter::callback('company', function (Builder $query, $value) {
-                $query->whereHas('company', function (Builder $query) use ($value) {
-                    $query->where('id', $value);
-                });
+                $query->where('company_id', $value);
             }),
 
             AllowedFilter::callback('location', function (Builder $query, $value) {
@@ -26,26 +24,28 @@ class FilterJob
             }),
 
             AllowedFilter::callback('average_salary', function (Builder $query, $value) {
-                $query->whereRaw('(? BETWEEN min_salary AND max_salary)', [$value]);
+
+                $value = (float) $value;
+                $query->whereRaw('min_salary <= ? AND max_salary >= ?', [$value, $value]);
             }),
 
 
             AllowedFilter::callback('search', function (Builder $query, $value) {
-
                 $query->where(function ($query) use ($value) {
                     $query->whereHas('company', function (Builder $companyQuery) use ($value) {
-                        (new SearchFilter(['name', 'location']))->__invoke($companyQuery, $value, 'companies');
+                         $companyQuery->where(function (Builder $query) use ($value) {
+                            $query->where('name', 'like', "%$value%")
+                                ->orWhere('location', 'like', "%$value%");
+                        });
+                    });
+
+                     $query->orWhere(function (Builder $query) use ($value) {
+                        $query->whereRaw('? BETWEEN min_salary AND max_salary', [$value])
+                            ->orWhere('description', 'like', "%$value%")
+                            ->orWhere('title', 'like', "%$value%");
                     });
                 });
-
-                $query->orWhere(function ($query) use ($value) {
-                    $query->whereRaw('? BETWEEN min_salary AND max_salary', [$value])
-                        ->orwhere('description', 'like', "%$value%")
-                        ->orWhere('title', 'like', "%$value%")
-                        ->orWhereDate('created_at', $value);
-                });
             }),
-
         ];
     }
 

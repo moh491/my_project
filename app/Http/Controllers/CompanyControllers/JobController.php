@@ -72,7 +72,7 @@ class JobController extends Controller
         }
     }
 
-    public function jobDetails($id): \Illuminate\Http\JsonResponse|JobResource
+    public function jobDetails($id)
     {
         try {
             $job = $this->jobService->getJobById($id);
@@ -83,7 +83,7 @@ class JobController extends Controller
         }
     }
 
-    public function getJobOptions(): \Illuminate\Http\JsonResponse
+    public function getJobOptions()
     {
         try {
              $options = $this->jobService->getJobOptions();
@@ -93,7 +93,7 @@ class JobController extends Controller
             }
     }
 
-    public function filterAll(Request $request): \Illuminate\Http\JsonResponse
+    public function filterAll(Request $request)
     {
         try {
             $jobs = $this->jobService->filterAll();

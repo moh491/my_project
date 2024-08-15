@@ -142,7 +142,7 @@ class ProjectService
 
     }
 
-    public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+    public function filterAll()
     {
 
         $projects = QueryBuilder::for(Project::class)
