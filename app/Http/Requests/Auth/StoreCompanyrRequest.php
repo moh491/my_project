@@ -24,7 +24,7 @@ class StoreCompanyrRequest extends FormRequest
     {
         return [
             'name'=>['required','string'],
-            'logo'=>'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'logo'=>['image|mimes:jpeg,png,jpg,gif,svg|max:2048','required'],
             'email'=>['required'],
             'password' => ['required'],
             'about'=>['required'],

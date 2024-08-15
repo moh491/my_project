@@ -36,7 +36,7 @@ class FreelancerService
 public function createFreelancer(array $freelancerData){
   $freelancer = Freelancer::create([
       'first_name' => $freelancerData['first_name'],
-      'last_name' => $freelancerData['Last_name'],
+      'last_name' => $freelancerData['last_name'],
       'email' => $freelancerData['email'],
       'password' => bcrypt($freelancerData['password']),
       'position_id' => $freelancerData['position_id'],
