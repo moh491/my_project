@@ -22,6 +22,11 @@ class CertificateController extends Controller
         $this->certificateService = $certificateService;
     }
 
+    public function index($id)
+    {
+        $certification=Certification::find($id);
+        return $this->success('get certification',$certification);
+    }
     public function insert(CertificateRequest $request){
         try {
             $id = Auth::guard('Freelancer')->user()->id;
