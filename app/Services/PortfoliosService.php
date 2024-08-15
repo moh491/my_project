@@ -57,6 +57,7 @@ class PortfoliosService
         }
         if ($type == "freelancer") {
             $portfolio->freelancers()->attach($id);
+
             if (isset($data['contributors']))
                 $portfolio->freelancers()->attach($data['contributors']);
         } else {
@@ -82,19 +83,24 @@ class PortfoliosService
             $path = $data['preview']->storeAs('portfolio/' . $portfolio->id, $imageName, 'public');
             $portfolio->update(['preview' => $path]);
         }
-        if (isset($data['images'])) {
-            $files = Storage::files('public/' . $portfolio->images);
-            foreach ($files as $file) {
-                if ($file !== 'public/' . $portfolio->preview) {
-                    Storage::delete($file);
-                }
+
+
+        $existImages = $data['existImages'] ?? [];
+        $files = Storage::files('public/' . $portfolio->image);
+        foreach ($files as $file) {
+            if ($file !== 'public/' . $portfolio->preview && !in_array($file, $existImages)) {
+                Storage::delete($file);
             }
+        }
+
+        if (isset($data['images'])) {
             foreach ($data['images'] as $image) {
                 $imageName = $image->getClientOriginalName();
                 $image->storeAs('portfolio/' . $portfolio->id, $imageName, 'public');
             }
             $portfolio->update(['images' => 'portfolio/' . $portfolio->id]);
         }
+
         unset($data['preview']);
         unset($data['images']);
         $portfolio->update($data);

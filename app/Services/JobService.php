@@ -16,9 +16,9 @@ class JobService
     use ApiResponseTrait;
     public function create(array $data): void
     {
-        CompanyJob::create(
-         $data
-        );
+        CompanyJob::create($data);
+        $company=Company::find($data['company_id']);
+        $company->update(['withdrawal_balance'=>$company['withdrawal_balance']-5]);
     }
 
     public function update(string $id,array $data): void

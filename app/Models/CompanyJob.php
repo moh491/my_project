@@ -8,6 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class CompanyJob extends Model
 {
     use HasFactory;
+     protected $fillable=[
+         'title',
+         'position_id',
+         'location_type',
+         'employment_type',
+         'level',
+         'description',
+         'requirements',
+         'responsibilities',
+         'min_salary',
+         'max_salary',
+         'company_id'
+     ];
 
     protected $guarded=[];
 

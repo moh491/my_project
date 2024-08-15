@@ -16,7 +16,6 @@ class PaymentService
         $amount = $request->input('amount'); // amount in dollars
         $price = $request->input('price'); // amount in dollars
         $amountInCents = $amount * 100;
-
         $stripe = new \Stripe\StripeClient(env('STRIPE_SECRET'));
 
         // Create a checkout session
@@ -44,7 +43,7 @@ class PaymentService
         return $session;
     }
 
-    public function success(Request $request,$id)
+    public function success(Request $request,$id,$type)
     {
         $sessionId = $request->query('session_id');
         $price = $request->query('price');
@@ -62,15 +61,16 @@ class PaymentService
         Payment::create([
             'payment_id' => $paymentIntent->id,
             'amount' => $price,
-            'project_owner_id' => $id,
+            'owner_id' => $id,
+            'owner_type'=>$type,
             'status' => 'paid',
             'session_id' => $sessionId,
         ]);
-        $project_owner= Project_Owners::find($id);
-        $project_owner->update(['withdrawal_balance'=> $project_owner->withdrawal_balance + $price]);
+        $owner= $type::find($id);
+        $owner->update(['withdrawal_balance'=> $owner->withdrawal_balance + $price]);
     }
 
-    public function refund($request, $id): \Stripe\Refund
+    public function refund($request, $id,$type,$refundAmount): \Stripe\Refund
     {
 
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
@@ -87,13 +87,15 @@ class PaymentService
         if (isset($request['amount'])) {
             $refund = \Stripe\Refund::create([
                 'payment_intent' => $paymentIntentId,
-                'amount' => $request['amount'],
+                //in cent
+                'amount' => $request['amount']*100,
             ]);
-
-        } else {
-            // Refund the PaymentIntent
+        }
+        else {
             $refund = \Stripe\Refund::create([
                 'payment_intent' => $paymentIntentId,
+                //in cent
+                'amount'=>$refundAmount*100
             ]);
         }
 
@@ -101,9 +103,14 @@ class PaymentService
             'session_id' => $request['session_id'],
             'refund_id' => $refund->id,
             'status' => 'refunded',
-            'amount' => $refund->amount,
-            'project_owner_id' => $id
+            //in dolar
+            'amount' =>$refund->amount/100,
+            'owner_id' => $id,
+            'owner_type'=>$type
         ]);
+
+        $owner=$type::find($id);
+        $owner->update(['withdrawal_balance' => $owner->withdrawal_balance - $refundAmount]);
 
 
         return $refund;

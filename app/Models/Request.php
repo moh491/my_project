@@ -16,13 +16,16 @@ class Request extends Model
         //'budget',
         'status',
         'project_owner_id',
-        'delivery_option_id',
+        'plan_id',
         'rating'
     ];
-    public function delivery_options(){
-        return $this->belongsTo(Delivery_Option::class);
+    public function plan(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Plan::class);
     }
-    public function project_owners(){
+
+    public function project_owners(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(Project_Owners::class);
     }
 }

@@ -110,16 +110,19 @@ Route::controller(CertificateController::class)->prefix('certification')->middle
     Route::post('/', 'insert');
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
+    Route::get('/{id}','index');
 });
 Route::controller(ExperienceController::class)->prefix('experience')->middleware('auth:sanctum')->group(function () {
     Route::post('/', 'insert');
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
+    Route::get('/{id}','index');
 });
 Route::controller(EducationController::class)->prefix('education')->middleware('auth:sanctum')->group(function () {
     Route::post('/', 'insert');
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
+    Route::get('/{id}','index');
 });
 Route::controller(LanguageController::class)->prefix('language')->middleware('auth:sanctum')->group(function () {
     Route::post('/', 'insert');
@@ -162,6 +165,9 @@ Route::controller(RequestServiceController::class)->prefix('request')->middlewar
     Route::post('Accept/{requestId}','Accept');
     Route::post('Reject/{requestId}','Reject');
     Route::post('Cancel/{requestId}','Cancel');
+
+
+
 
 });
 
@@ -213,14 +219,17 @@ Route::controller(OfferController::class)->prefix('offer')->middleware('auth:san
 Route::controller( ApplicationController::class)->prefix('app')->group(function (){
     Route::get('/application-options', 'applicationOptions');
     Route::get('/browse-applications','browseApplications');
-
+    Route::get('/filter','filterAll');
 
     Route::middleware('auth:sanctum')->group(function (){
         Route::post('store','insert');
         Route::delete('delete/{id}','delete');
         Route::get('/getFreelancerApplications','getFreelancerApplications');
         Route::get('/getCompanyApplications','getCompanyApplications');
-        Route::get('/filter','filterAll');
+        Route::put('/{id}','ChangeStatusToReviewed');
+        Route::post('Accept/{id}','Accept');
+        Route::post('Reject/{id}','Reject');
+        Route::post('filter/{jobId}','filterOfApplication');
     });
 
 });

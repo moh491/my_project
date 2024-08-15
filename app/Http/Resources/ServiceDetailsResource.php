@@ -68,19 +68,6 @@ class ServiceDetailsResource extends JsonResource
                             'value' => $feature->pivot['value'],
                         ];
                     }),
-                    'delivery_options' => $plan->delivery_options->map(function ($delivery) {
-                        $array = [
-                            'id' => $delivery->id,
-                            'days' => $delivery->days,
-                        ];
-                        if ($delivery->increase == 0) {
-                            return $array;
-                        } else {
-                            $array['increase'] = $delivery->increase;
-                            return $array;
-                        }
-
-                    })
                 ];
             }),
             'skills' => SkillResource::collection($this->skills)

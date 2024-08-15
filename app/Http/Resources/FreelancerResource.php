@@ -17,6 +17,7 @@ class FreelancerResource extends JsonResource
         $array = [
             'id' => $this['id'],
             'profile' => app('baseUrl') . $this['profile'],
+            'name' => $this['first_name'] . ' ' . $this['last_name']
         ];
         if ($request->routeIs('portfolio.show')) {
             return $array;

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('location');
             $table->string('website')->nullable();
-            $table->string('background_image');
+            $table->string('background_image')->nullable();
             $table->text('about');
             $table->decimal('withdrawal_balance')->default(0);
             $table->decimal('suspended_balance')->default(0);

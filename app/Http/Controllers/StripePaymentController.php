@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\PersonalAccessToken;
 
+
 class StripePaymentController extends Controller
 {
     use ApiResponseTrait;
@@ -27,7 +28,7 @@ class StripePaymentController extends Controller
     {
         try {
             $data = $confirmRequest->validated();
-            if (!Auth::guard('Project_Owner')->user()) {
+            if (Auth::guard('Freelancer')->user()) {
                 return $this->error('You dont have the authority');
             }
             $session = $this->paymentService->confirm($confirmRequest);
@@ -42,10 +43,27 @@ class StripePaymentController extends Controller
         try {
             $data = $refundRequest->validated();
             $payment = Payment::where('session_id', $data['session_id'])->first();
-            $id = Auth::guard('Project_Owner')->user()->id;
-            if ($payment->project_owner_id == $id) {
-                $refund = $this->paymentService->refund($data, $id);
-                return $this->success('refund successfully', $refund);
+            if(Auth::guard('Project_Owner')->user()){
+                $id=Auth::guard('Project_Owner')->user()->id;
+                $type='App\\Models\\Project_Owners';
+            }
+            else if(Auth::guard('Company')->user()){
+                $id=Auth::guard('Company')->user()->id;
+                $type='App\\Models\\Company';
+            }
+            else{
+                return $this->error('You dont have the authority' );
+            }
+            $user=$type::find($id);
+            $refundAmount = isset($data['amount']) ? $data['amount'] : $payment->amount;
+            if ($payment->owner_id == $id && $payment->owner_type==$type) {
+                if($user->withdrawal_balance >= $refundAmount && $payment->amount >= $refundAmount) {
+                    $refund = $this->paymentService->refund($data, $id, $type,$refundAmount);
+                    return $this->success('refund successfully', $refund);
+                }
+                else{
+                    return  $this->error('Insufficient withdrawal balance for refund.');
+                }
             }
             return $this->error('You dont have the authority');
         } catch (\Exception $th) {
@@ -59,9 +77,9 @@ class StripePaymentController extends Controller
         if (!$token) {
             return response()->json(['error' => 'Token not provided'], 403);
         }
-        $user = PersonalAccessToken::findToken($token)->tokenable;
+        $user = PersonalAccessToken::findToken($token);
         try {
-            $this->paymentService->success($request, $user->id);
+            $this->paymentService->success($request, $user->tokenable_id,$user->tokenable_type);
             return redirect('http://localhost:5173/projectOwner');
 
         } catch (\Exception $th) {

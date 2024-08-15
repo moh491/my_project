@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('applications', function (Blueprint $table) {
             $table->id();
-            $table->boolean('is_accepted');
-            $table->enum('status',['reviewed','accepted','rejected','pending']);
+            $table->enum('status',['reviewed','accepted','rejected','pending'])->default('pending');
             $table->decimal('budget');
             $table->integer('experience_year');
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->foreignId('job_id')->constrained('company_jobs')->cascadeOnDelete();;
             $table->foreignId('freelancer_id')->constrained('freelancers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();

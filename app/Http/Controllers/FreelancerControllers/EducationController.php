@@ -20,6 +20,11 @@ class EducationController extends Controller
     {
         $this->educationService = $educationService;
     }
+    public function index($id)
+    {
+        $education=Education::find($id);
+        return $this->success('get education',$education);
+    }
     public function insert(EducationRequest $request){
         try {
             $validator = $request->validated();
