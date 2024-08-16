@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Resources\CompanyResource;
+use App\Http\Resources\GetCompanyResource;
 use App\Mail\SendCodeEmail;
 use App\Models\Company;
 use App\Models\Otp;
@@ -33,11 +34,17 @@ class CompanyService
         return $company;
     }
 
-    public function getCompanyProfile($companyId)
+    public function getProfile($companyId)
     {
          $company = Company::with('jobs')->findOrFail($companyId);
 
          return new CompanyResource($company);
     }
+    public function getCompanyProfile($companyId){
+
+        $company = Company::with('jobs')->findOrFail($companyId);
+
+        return new GetCompanyResource($company);
+}
 
 }
