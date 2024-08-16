@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\fieldResource;
+use App\Http\Resources\FieldResource;
 use App\Models\Field;
-use Illuminate\Http\Request;
 
 class FieldController extends Controller
 {

@@ -43,10 +43,10 @@ class PdfController extends Controller
             'portfolios' => $freelancer->portfolios,
         ];
 
+
         $pdf = Pdf::loadView('cv-template', $data);
 
         return $pdf->download('cv.pdf');
-
 
     }
 }

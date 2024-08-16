@@ -28,8 +28,8 @@ class PortfolioRequest extends FormRequest
             'preview'=>'image|mimes:jpeg,png,jpg,gif,svg',
             'images' => 'required|array',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg',
-            'demo'=>'required',
-            'link'=>'required',
+            'demo'=>'sometimes',
+            'link'=>'sometimes',
             'skills'=>['required','array'],
             'contributors'=>['array']
 

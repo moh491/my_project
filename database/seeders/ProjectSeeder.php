@@ -19,23 +19,13 @@ class ProjectSeeder extends Seeder
     public function run(): void
     {
 
-//        Project::create([
-//            'title'=>'Online Clothing Store',
-//            'description'=>'Built an e-commerce website for a clothing store using React.js and Django. Integrated payment gateway for online transactions, implemented product catalog with filtering and sorting functionalities, and optimized performance for a seamless shopping experience.',
-//            'min_budget'=>1000,
-//            'max_budget'=>2000,
-//            'status'=>4,
-//            'project_owner_id'=>1,
-//            'field_id'=>3,
-//            'worker_type'=>'App\\Models\\Freelancer',
-//            'worker_id'=>1,
-//        ]);
+
 
         DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         DB::table('projects')->truncate();
        // DB::table('skillable__skills')->truncate(); // Ensure the pivot table is also truncated
 
-        $statuses = ['Open', 'Underway', 'Completed', 'Under Review', 'Closed'];
+        $statuses = [ 'Completed', 'Under Review', 'Closed'];
         $owners = Project_Owners::all();
         $fields = Field::all();
         $skills = Skill::all();
@@ -89,6 +79,8 @@ class ProjectSeeder extends Seeder
         $projects = [];
         $projectSkillMappings = [];
 
+
+        $user=['App\\Models\\Freelancer','App\\Models\\Team'];
         foreach ($owners as $index => $owner) {
             $field = $fields->random();
             $projectId = DB::table('projects')->insertGetId([
@@ -100,11 +92,62 @@ class ProjectSeeder extends Seeder
                 'status' => $statuses[array_rand($statuses)],
                 'project_owner_id' => $owner->id,
                 'field_id' => $field->id,
-                'start_date' => Carbon::now()->subMonths(rand(1, 6))->toDateString(),
-                'end_date' => Carbon::now()->addMonths(rand(1, 12))->toDateString(),
+                'start_date' => '2024-03-1',
+                'end_date' => '2024-03-15',
                 'created_at' => now(),
                 'updated_at' => now(),
+                'worker_type'=>$user[array_rand($user)],
+                'worker_id'=>1,
             ]);
+            Project::create([
+                'title'=>'Online Clothing Store',
+                'description'=>'Built an e-commerce website for a clothing store using React.js and Django. Integrated payment gateway for online transactions, implemented product catalog with filtering and sorting functionalities, and optimized performance for a seamless shopping experience.',
+                'min_budget'=>1000,
+                'max_budget'=>2000,
+                'status'=>4,
+                'project_owner_id'=>1,
+                'field_id'=>3,
+                'duration'=>12,
+                'worker_type'=>'App\\Models\\Freelancer',
+                'worker_id'=>1,
+            ]);
+            Project::create([
+                'title'=>'Online Clothing Store',
+                'description'=>'Built an e-commerce website for a clothing store using React.js and Django. Integrated payment gateway for online transactions, implemented product catalog with filtering and sorting functionalities, and optimized performance for a seamless shopping experience.',
+                'min_budget'=>1000,
+                'max_budget'=>2000,
+                'status'=>4,
+                'project_owner_id'=>1,
+                'field_id'=>3,
+                'duration'=>12,
+                'worker_type'=>'App\\Models\\Freelancer',
+                'worker_id'=>1,
+            ]);
+            Project::create([
+                'title'=>'Online Clothing Store',
+                'description'=>'Built an e-commerce website for a clothing store using React.js and Django. Integrated payment gateway for online transactions, implemented product catalog with filtering and sorting functionalities, and optimized performance for a seamless shopping experience.',
+                'min_budget'=>1000,
+                'max_budget'=>2000,
+                'status'=>4,
+                'project_owner_id'=>1,
+                'field_id'=>3,
+                'duration'=>12,
+                'worker_type'=>'App\\Models\\Team',
+                'worker_id'=>1,
+            ]);
+            Project::create([
+                'title'=>'Online Clothing Store',
+                'description'=>'Built an e-commerce website for a clothing store using React.js and Django. Integrated payment gateway for online transactions, implemented product catalog with filtering and sorting functionalities, and optimized performance for a seamless shopping experience.',
+                'min_budget'=>1000,
+                'max_budget'=>2000,
+                'status'=>4,
+                'project_owner_id'=>1,
+                'field_id'=>3,
+                'duration'=>12,
+                'worker_type'=>'App\\Models\\Team',
+                'worker_id'=>1,
+            ]);
+
 
 
             $randomSkillsCount = min(2, $skills->count());

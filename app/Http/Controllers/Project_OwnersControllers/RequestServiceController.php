@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Project_OwnersControllers;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RequestAServiceRequest;
 use App\Http\Requests\UpdateRequestRequest;
+use App\Http\Resources\RequestResource;
 use App\Models\Delivery_Option;
 use App\Models\Plan;
 use App\Models\Project_Owners;
@@ -151,5 +152,24 @@ class RequestServiceController extends Controller
         }
 
     }
+
+    public function details($id)
+    {
+        try {
+
+            $request = Request::find($id);
+            if(Auth::guard('Project_Owner')->user()->id==$request['project_owner_id']) {
+                return $this->success('get request details', new RequestResource($request));
+            }
+            else {
+                return $this->error('not authorized');
+            }
+
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+
+    }
+
 
 }

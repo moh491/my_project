@@ -166,6 +166,7 @@ Route::controller(RequestServiceController::class)->prefix('request')->middlewar
     Route::post('Accept/{requestId}','Accept');
     Route::post('Reject/{requestId}','Reject');
     Route::post('Cancel/{requestId}','Cancel');
+    Route::get('/{id}','details')->name('request.show');
 
 
 
@@ -213,6 +214,7 @@ Route::controller(OfferController::class)->prefix('offer')->middleware('auth:san
         Route::post('cancel/{id}','Cancelreceiptproject');
         Route::post('Accept/{offerId}','Accept');
         Route::post('Reject/{id}','Reject');
+        Route::get('details/{id}','details')->name('details.show');
     });
 
 
@@ -252,7 +254,7 @@ Route::controller(MessagesController::class)->prefix('chat')->middleware('auth:s
 
 
 Route::controller(DashboardOwnerController::class)->prefix('dashboard')->group(function (){
-   Route::get('/owner/{id}','endPoint');
+   Route::get('/owner/{id?}','endPoint');
 
     Route::middleware('auth:Project_Owner')->group(function () {
         Route::post('/update','update');

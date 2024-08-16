@@ -20,8 +20,11 @@ use ApiResponseTrait;
         $this->projectOwnerService = $projectOwnerService;
     }
 
-    public function endPoint($id)
+    public function endPoint($id=null)
     {
+        if(!$id){
+            $id = Auth::guard('Project_Owner')->user()->id;
+        }
          $projectOwner = Project_Owners::with('projects')->findOrFail($id);
 
          return new EndPointProjectOwnerResource($projectOwner);
