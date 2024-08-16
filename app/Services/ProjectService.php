@@ -67,8 +67,8 @@ class ProjectService
         $project->update(['status' => 'Under Review']);
         $project_owner = Project_Owners::find(Auth::guard('Project_Owner')->user()->id);
         $user = $project['worker_type']::find($project['worker_id']);
-        $user->update(['suspended_balance' => $user['suspended_balance'] - ($offer['budget'] - $offer['budget'] * 0.15), 'available_balance' => $user['available_balance'] - ($offer['budget'] - $offer['budget'] * 0.15)]);
-        //  return redirect('');
+        $user->update(['suspended_balance' => $user['suspended_balance'] - ($offer['budget'] - $offer['budget'] * 0.15), 'available_balance' => $user['available_balance'] + ($offer['budget'] - $offer['budget'] * 0.15)]);
+          return redirect('http://localhost:5173/addRating/' . $project['id']);
         //job
         $now = Carbon::now();
         $futureDate = $now->copy()->addDays(14);
