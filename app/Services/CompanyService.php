@@ -66,8 +66,7 @@ class CompanyService
 
         if (isset($data['field_ids']) &&
         !empty($data['field_ids'])) {
-            // Assuming field_ids contains a single ID because of BelongsTo relationship
-            $company->field_id = $data['field_ids'][0];
+             $company->field_id = $data['field_ids'][0];
             $company->save();
         }
 
