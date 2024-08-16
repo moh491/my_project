@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\fieldResource;
+use App\Http\Resources\FieldResource;
 use App\Models\Field;
 
 class FieldController extends Controller
