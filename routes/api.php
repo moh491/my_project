@@ -5,6 +5,7 @@ use App\Http\Controllers\CompanyControllers\CompanyAuthController;
 use App\Http\Controllers\CompanyControllers\CompanyController;
 use App\Http\Controllers\CompanyControllers\JobController;
 //use App\Http\Controllers\Controller1;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\FilterFreelancerController;
 use App\Http\Controllers\FreelancerControllers\ApplicationController;
 use App\Http\Controllers\FreelancerControllers\CertificateController;
@@ -285,3 +286,5 @@ Route::controller(TeamController::class)->prefix('team')->group(function () {
     });
 
 });
+
+Route::get('endPoint', [FieldController::class, 'endPoint']);
