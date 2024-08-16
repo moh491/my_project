@@ -114,7 +114,7 @@ class ProjectSeeder extends Seeder
                 'description' => $description,
                 'duration' => rand(1, 12),
                 'min_budget' => rand(500, 1000),
-                'max_budget' => rand(1000, 5000),
+                'max_budget' => rand(1000, 2000),
                 'status' => $statuses[array_rand($statuses)],
                 'project_owner_id' => $owner->id,
                 'field_id' => $field->id,
