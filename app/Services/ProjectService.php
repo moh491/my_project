@@ -138,7 +138,7 @@ class ProjectService
 
     public function getAllProjects()
     {
-        return Project::paginate(10);
+        return Project::orderBy('created_at', 'desc')->paginate(10);
 
     }
 
@@ -147,7 +147,7 @@ class ProjectService
 
         $projects = QueryBuilder::for(Project::class)
             ->allowedFilters((new FilterProjects())->filterAll())
-            ->with(['field:id,name'])
+            ->with(['field:id,name'])->orderBy('created_at','desc')
             ->get();
 
         return ProjectResource::collection($projects);

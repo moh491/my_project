@@ -35,7 +35,7 @@ class JobService
 
     public function getAllJobs()
     {
-        return CompanyJob::paginate(2);
+        return CompanyJob::orderBy('created_at', 'desc')->paginate(2);
     }
 
     public function getJobById($id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Builder|array|null
@@ -74,6 +74,7 @@ class JobService
         $jobs = QueryBuilder::for(CompanyJob::class)
             ->allowedFilters((new FilterJob())->filterAll())
             ->with(['company:id,name,location'])
+            ->orderBy('created_at', 'desc')
             ->get()
             ->makeHidden(['company_id']);
 
