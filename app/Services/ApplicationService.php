@@ -78,7 +78,7 @@ class ApplicationService
                 AllowedFilter::exact('experience_year'),
                 AllowedFilter::exact('budget'),
             ])
-            ->get();
+            ->orderBy('created_at','desc')->get();
         return appResourece::collection($app);
 
     }
@@ -90,14 +90,14 @@ class ApplicationService
 
     public function browseApplications($freelancer_id)
     {
-        return Application::where('freelancer_id', $freelancer_id)->get();
+        return Application::where('freelancer_id', $freelancer_id)->orderBy('created_at','desc')->get();
     }
 
     public function filterAll()
     {
 
         $applications = QueryBuilder::for(Application::class)
-            ->allowedFilters((new FillterApplication())->filterAll())
+            ->allowedFilters((new FillterApplication())->filterAll())->orderBy('created_at','desc')
             ->get();
 
         return OfferResource::collection($applications);
@@ -113,15 +113,23 @@ class ApplicationService
     public function getFreelancerApplications(int $freelancerId)
     {
         $freelancer = Freelancer::findOrFail($freelancerId);
-        return $freelancer->applications()->with('job')->get();
+        return $freelancer->applications()
+            ->with('job')
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     public function getCompanyApplications(int $companyId)
     {
         $company = Company::findOrFail($companyId);
-        return $company->jobs()->with('applications.freelancer')->get()->flatMap(function ($job) {
-            return $job->applications;
-        });
+        return $company->jobs()
+            ->with(['applications' => function($query) {
+                $query->orderBy('created_at', 'desc');
+            }, 'applications.freelancer'])
+            ->get()
+            ->flatMap(function ($job) {
+                return $job->applications;
+            });
     }
 
 }

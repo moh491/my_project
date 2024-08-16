@@ -48,7 +48,17 @@ class OfferController extends Controller
                     return $this->error('not authorized');
                 }
             }
-            $this->offerService->create($request->validated(), $id, $type);
+            $data=$request->validated();
+            $existingOffer = Offer::where('worker_type', $type)
+                ->where('worker_id', $id)
+                ->where('project_id', $data['project_id'])
+                ->first();
+
+            if ($existingOffer) {
+                return $this->error('You have already applied to this project.');
+            }
+
+            $this->offerService->create($data, $id, $type);
             return $this->success('insert successful');
         } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
