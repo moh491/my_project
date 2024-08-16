@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Filtering\FillterApplication;
+use App\Filtering\FilterApplication;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Resources\appResource;
 use App\Http\Resources\OfferResource;
@@ -97,7 +98,7 @@ class ApplicationService
     {
 
         $applications = QueryBuilder::for(Application::class)
-            ->allowedFilters((new FillterApplication())->filterAll())
+            ->allowedFilters((new FilterApplication())->filterAll())
             ->get();
 
         return OfferResource::collection($applications);

@@ -20,7 +20,7 @@ class ApplicationResource extends JsonResource
             'status' => $this->status,
             'budget' => $this->budget,
             'experience_year' => $this->experience_year,
-            'file' => $this->file,
+            'file' =>app('baseUrl') .  $this->file,
             'company_name'=>$this->job->company->name,
             'job' => [
                  'id' => $this->job->id,

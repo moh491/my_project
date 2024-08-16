@@ -47,6 +47,7 @@ class CompanyService
 
         return new GetCompanyResource($company);
     }
+
     public function updateCompany(Company $company, array $data)
     {
         if (isset($data['logo'])) {
@@ -64,15 +65,13 @@ class CompanyService
 
         $company->update($updateData);
 
-        if (isset($data['field_ids']) &&
-        !empty($data['field_ids'])) {
+
+         if (isset($data['field_ids']) && !empty($data['field_ids'])) {
              $company->field_id = $data['field_ids'][0];
             $company->save();
         }
 
         return $company;
     }
-
-
 
 }
