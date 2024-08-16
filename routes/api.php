@@ -101,7 +101,7 @@ Route::controller(ServiceController::class)->prefix('service')->group(function (
     Route::put('/{id}', 'update');
     Route::delete('/{id}', 'delete');
     Route::post('delivery/{requestId}','delivery');
-    Route::post('Accept/{requestId}','Accept');
+    Route::post('Accept/{requestId}','Accept')->name('Accept.service');
 });
 Route::controller(ProfilePageController::class)->prefix('freelancer/profile')->middleware('auth:sanctum')->group(function () {
     Route::get('/{id?}', 'getProfilePage');
@@ -169,6 +169,7 @@ Route::controller(RequestServiceController::class)->prefix('request')->middlewar
     Route::post('Reject/{requestId}','Reject');
     Route::post('Cancel/{requestId}','Cancel');
     Route::get('/{id}','details')->name('request.show');
+    Route::get('/get/{id}','getRequests');
 
 
 

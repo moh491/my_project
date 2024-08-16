@@ -101,7 +101,7 @@ class OfferService
             } else {
                 $description = $user->name . ' has canceled the receipt of the project ' . $project->title;
             }
-            $title = 'Cancel Receipt of the Project';
+            $title = 'Cancel Receipt of the ServiceMail';
             Mail::to($owner->email)->send(new SentMail($title, $description));
         }
 

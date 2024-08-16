@@ -57,7 +57,7 @@ class ProjectService
         } else {
             $description = $user->name . ' has delivery of the project ' . $project->title;
         }
-        $title = 'Project Delivery';
+        $title = 'ServiceMail Delivery';
         Mail::to($owner->email)->send(new ConfirmAccepted($title, $description,$offer['id']));
     }
 
@@ -76,7 +76,7 @@ class ProjectService
         $secondsDifference = $futureDate->diffInSeconds($now);
         CloseProjectJob::dispatch($id)->delay($secondsDifference);
         $description = $project_owner->first_name . ' ' . $project_owner->last_name . ' has accepted the project ' . $project->title;
-        $title = 'Accept Project';
+        $title = 'Accept ServiceMail';
         if ($offer['worker_type'] == 'App\\Models\\Freelancer') {
             Mail::to($user->email)->send(new SentMail($title, $description));
         } else {
@@ -123,7 +123,7 @@ class ProjectService
             $salaries [] = $i . '-' . $i + 99;
         }
 //// Get the minimum salary
-//        $minSalary = Project::min('salary');
+//        $minSalary = ServiceMail::min('salary');
 
 //        foreach ($averageSalary as  $salary) {
 //            $salary->average_salary = number_format($salary->average_salary, 0, '.', '');

@@ -184,8 +184,8 @@ class ServiceSeeder extends Seeder
             }
         }
         return [];
-//        Service::truncate();
-//        Service::create([
+//        ServiceMail::truncate();
+//        ServiceMail::create([
 //            'title'=>'Mobile App Development',
 //            'description'=>'Build native or cross-platform mobile applications for iOS and Android platforms. From concept to launch, we create engaging and user-friendly mobile apps that drive business growth.',
 //            'owner_type'=>'App\\Models\\Freelancer',
@@ -194,7 +194,7 @@ class ServiceSeeder extends Seeder
 //            'preview'=>'service/1/photo_1_2024-06-02_14-03-04.jpg'
 //
 //        ]);
-//        Service::create([
+//        ServiceMail::create([
 //            'title'=>'Custom Web Application Development',
 //            'description'=>'We specialize in developing custom web applications tailored to meet your specific business needs. Our team will work closely with you to understand requirements, design, develop, and deploy scalable web solutions.',
 //            'owner_type'=>'App\\Models\\Freelancer',
@@ -202,7 +202,7 @@ class ServiceSeeder extends Seeder
 //            'image'=>'service/1',
 //            'preview'=>'service/1/photo_1_2024-06-02_14-03-04.jpg'
 //        ]);
-//        Service::create([
+//        ServiceMail::create([
 //            'title'=>'UI/UX Design Services',
 //            'description'=>'Create intuitive and visually appealing user interfaces (UI) and user experiences (UX) that enhance usability and drive customer engagement.',
 //            'owner_type'=>'App\\Models\\Freelancer',
@@ -210,7 +210,7 @@ class ServiceSeeder extends Seeder
 //            'image'=>'service/1',
 //            'preview'=>'service/1/photo_1_2024-06-02_14-03-04.jpg'
 //        ]);
-//        Service::create([
+//        ServiceMail::create([
 //            'title'=>'API Development and Integration',
 //            'description'=>'Design and implement robust APIs to enable seamless communication and integration between different systems and services.',
 //            'owner_type'=>'App\\Models\\Freelancer',
@@ -218,7 +218,7 @@ class ServiceSeeder extends Seeder
 //            'image'=>'service/1',
 //            'preview'=>'service/1/photo_1_2024-06-02_14-03-04.jpg'
 //        ]);
-//        Service::create([
+//        ServiceMail::create([
 //            'title'=>'Data Analytics and Visualization',
 //            'description'=>'Utilize data analytics tools and techniques to derive actionable insights from complex data sets and create interactive visualizations for informed decision-making.',
 //            'owner_type'=>'App\\Models\\Freelancer',
@@ -226,7 +226,7 @@ class ServiceSeeder extends Seeder
 //            'image'=>'service/1',
 //            'preview'=>'service/1/photo_1_2024-06-02_14-03-04.jpg'
 //        ]);
-//        Service::create([
+//        ServiceMail::create([
 //            'title'=>'DevOps and Continuous Integration/Delivery',
 //            'description'=>'Implement DevOps practices to automate software development, testing, and deployment processes, ensuring faster delivery and improved collaboration.',
 //            'owner_type'=>'App\\Models\\Freelancer',

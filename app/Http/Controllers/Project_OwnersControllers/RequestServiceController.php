@@ -27,6 +27,17 @@ class RequestServiceController extends Controller
     {
         $this->servicesService = $servicesService;
     }
+    public function getRequests($id){
+
+        try {
+           $service=Service::find($id);
+           $requests=$service->allRequests();
+            return $this->success('get requests successfully',RequestResource::Collection($requests));
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+
+    }
 
     public function RequestService(RequestAServiceRequest $request)
     {
