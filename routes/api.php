@@ -139,6 +139,7 @@ Route::controller(SkillController::class)->prefix('skill')->middleware('auth:san
 Route::controller(CompanyController::class)->prefix('companies')->group(function (){
     Route::get('/profile', 'getProfile');
     Route::get('/profile/{id}', 'getCompanyProfile');
+    Route::put('/update', 'update');
     Route::get('/','index')->name('company.show');
 });
 

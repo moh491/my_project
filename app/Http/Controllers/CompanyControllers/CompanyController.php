@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\CompanyControllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateCompanyBrofileRequest;
 use App\Http\Resources\CompanyResource;
 use App\Models\Company;
 use App\Services\CompanyService;
@@ -57,5 +58,18 @@ class CompanyController extends Controller
         }
 
     }
+    public function update(UpdateCompanyBrofileRequest $request)
+    {
+        try {
+            $company = Auth::guard('Company')->user();
+
+            $this->companyService->updateCompany($company, $request->validated());
+
+            return $this->success('updated successful');
+        }  catch (\throwable $throwable){
+            return $this->serverError($throwable->getMessage());
+        }
+    }
+
 
 }
