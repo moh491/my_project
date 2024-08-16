@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Filtering\FillterApplication;
 use App\Http\Requests\StoreApplicationRequest;
-use App\Http\Resources\appResourece;
+use App\Http\Resources\appResource;
 use App\Http\Resources\OfferResource;
 use App\Mail\SentMail;
 use App\Models\Application;
@@ -79,7 +79,7 @@ class ApplicationService
                 AllowedFilter::exact('budget'),
             ])
             ->get();
-        return appResourece::collection($app);
+        return appResource::collection($app);
 
     }
     public function removeApplication($id): void
