@@ -52,6 +52,7 @@ class AuthController extends Controller
         }
         $token = $user->createToken('auth_' . $data['user_type'] . '_ token', ['*'])->plainTextToken;
         $user['type'] = get_class($user);
+
         return $this->success('login successful', $user, $token);
     }
 
