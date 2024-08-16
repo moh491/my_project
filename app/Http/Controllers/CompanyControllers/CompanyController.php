@@ -29,8 +29,6 @@ class CompanyController extends Controller
         } catch (\throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
-
-
     }
 
     public function getProfile()
@@ -41,12 +39,23 @@ class CompanyController extends Controller
             if (!$company) {
                 return $this->error('user not authenticated');
             }
-            $data = $this->companyService->getCompanyProfile($company->id);
+            $data = $this->companyService->getProfile($company->id);
 
             return $this->success('Get company profile', $data);
         } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
+    }
+
+    public function getCompanyProfile($id)
+    {
+        try {
+            $data = $this->companyService->getCompanyProfile($id);
+            return $this->success('Get company profile', $data);
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+
     }
 
 }

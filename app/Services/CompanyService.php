@@ -33,11 +33,17 @@ class CompanyService
         return $company;
     }
 
-    public function getCompanyProfile($companyId)
+    public function getProfile($companyId)
     {
          $company = Company::with('jobs')->findOrFail($companyId);
 
          return new CompanyResource($company);
     }
+    public function getCompanyProfile($companyId){
+
+        $company = Company::with('jobs')->findOrFail($companyId);
+
+        return new CompanyResource($company);
+}
 
 }
