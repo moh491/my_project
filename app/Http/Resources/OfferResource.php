@@ -51,6 +51,7 @@ class OfferResource extends JsonResource
                 'details' => [
                     'id' => $this->worker->id,
                     'name' => $this->worker->first_name . ' ' . $this->worker->last_name,
+                    'profile'=>app('baseUrl') .$this->profile,
                 ],
             ];
         } else {
@@ -59,6 +60,7 @@ class OfferResource extends JsonResource
                 'details' => [
                     'id' => $this->worker->id,
                     'name' => $this->worker->name,
+                    'profile'=>app('baseUrl') .$this->logo
                 ],
             ];
         }
