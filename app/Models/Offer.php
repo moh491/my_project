@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\Model;
 class Offer extends Model
 {
     use HasFactory;
+    protected $fillable=[
+        'duration',
+        'budget',
+        'description',
+        'status',
+        'files',
+        'project_id',
+        'worker_type',
+        'worker_id',
+
+    ];
 
     protected $guarded=[];
      //Get the project that are assigned this offer

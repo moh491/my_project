@@ -147,9 +147,12 @@ class ServicesService
         $plan = Plan::find($data['plan_id']);
         $owner->update(['suspended_balance' => $owner['suspended_balance'] + $plan['price'], 'withdrawal_balance' => $owner['withdrawal_balance'] - $plan['price']]);
         if (isset($data['files'])) {
-            $fileName = Str::uuid() . '.' . $data['files']->getClientOriginalExtension();
-            $path = $data['files']->storeAs('Request', $fileName, 'public');
-            $request->update(['files' => $path]);
+            $folderPath = 'Request/' . $request->id;
+            foreach ($data['files'] as $file) {
+                $fileName = $file->getClientOriginalName();
+                $file->storeAs($folderPath, $fileName, 'public');
+            }
+            $request->update(['files' => $folderPath]);
         }
     }
 
@@ -186,6 +189,7 @@ class ServicesService
             ])
             ->get();
 
+
         return RequestResource::collection($requests);
 
 
@@ -206,7 +210,8 @@ class ServicesService
                     return $query->where('services.title', 'like', '%' . $value . '%');
                 })
             ])
-            ->get();
+            ->with('project_owners')->get();
+
         return RequestResource::collection($requests);
 
 

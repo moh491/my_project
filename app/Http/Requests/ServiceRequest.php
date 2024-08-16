@@ -29,6 +29,7 @@ class ServiceRequest extends FormRequest
             'image.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'plans'=>'required',
             'plans.*.features'=>'array',
+            'features' => 'required',
             'plans.*.delivery_options'=>'array',
             'skills'=>'required|array'
         ];
