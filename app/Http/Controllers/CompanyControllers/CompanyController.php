@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Services\CompanyService;
 use App\Traits\ApiResponseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CompanyController extends Controller
 {
@@ -32,15 +33,20 @@ class CompanyController extends Controller
 
     }
 
-    public function getProfile($id)
+    public function getProfile()
     {
         try {
-            $data = $this->companyService->getCompanyProfile($id);
+             $company = Auth::guard('Company')->user();
+
+            if (!$company) {
+                return $this->error('user not authenticated');
+            }
+            $data = $this->companyService->getCompanyProfile($company->id);
+
             return $this->success('Get company profile', $data);
-        } catch (\throwable $throwable) {
+        } catch (\Throwable $throwable) {
             return $this->serverError($throwable->getMessage());
         }
-
     }
 
 }

@@ -30,6 +30,8 @@ class CompanyResource extends JsonResource
             'location' => $this->location,
             'website' => $this->website,
             'about' => $this->about,
+            'withdrawal_balance'=>$this->withdrawal_balance,
+            'suspended_balance'=>$this->suspended_balance,
             'field' => [
                 'id' => $this->field->id,
                 'name' => $this->field->name,

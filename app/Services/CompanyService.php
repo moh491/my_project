@@ -35,7 +35,9 @@ class CompanyService
 
     public function getCompanyProfile($companyId)
     {
-        $company = Company::with('jobs')->findOrFail($companyId);
-        return new CompanyResource($company);
+         $company = Company::with('jobs')->findOrFail($companyId);
+
+         return new CompanyResource($company);
     }
+
 }
