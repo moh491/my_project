@@ -31,7 +31,7 @@ class ServicesService
     public function getServices(string $id, $model)
     {
         $user = $model::find($id);
-        $services = $user->services;
+        $services = $user->services()->orderBy('created_at', 'desc')->get();
         return ServiceResource::collection($services);
     }
 
@@ -162,7 +162,7 @@ class ServicesService
             ->allowedFilters([
                 AllowedFilter::exact('skills.id'),
                 AllowedFilter::custom('search', new Search1Filter(['title', 'description'])),
-            ])->get();
+            ])->orderBy('created_at','desc')->get();
         return ServiceDetailsResource::collection($services);
     }
 
@@ -187,7 +187,7 @@ class ServicesService
                     return $query->where('services.title', 'like', '%' . $value . '%');
                 })
             ])
-            ->get();
+            ->orderBy('created_at','desc')->get();
 
 
         return RequestResource::collection($requests);
@@ -210,7 +210,7 @@ class ServicesService
                     return $query->where('services.title', 'like', '%' . $value . '%');
                 })
             ])
-            ->with('project_owners')->get();
+            ->with('project_owners')->orderBy('created_at','desc')->get();
 
         return RequestResource::collection($requests);
 
