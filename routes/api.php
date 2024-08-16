@@ -198,8 +198,8 @@ Route::controller(ProjectController::class)->prefix('project')->group(function (
     Route::middleware('auth:sanctum')->group(function () {
         Route::post('store', 'store');
         Route::post('delivery/{projectId}','delivery');
-        Route::post('Accept/{offerId}','Accept');
         Route::post('rating/{projectId}','rating');
+        Route::post('Accept/{offerId}','Accept')->name('Accept.project');
     });
 
 });
