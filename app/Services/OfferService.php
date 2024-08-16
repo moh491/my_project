@@ -131,7 +131,7 @@ class OfferService
 
     public function getAll(string $projectId)
     {
-        return Offer::where('project_id', $projectId)->orderBy('created_at','desc')->paginate(10);
+        return Offer::where('project_id', $projectId)->where('status','!=','Reject')->orderBy('created_at','desc')->paginate(10);
     }
 
     public function getOffers(string $id, $model)
