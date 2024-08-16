@@ -35,7 +35,7 @@ class ProjectDetialsResource extends JsonResource
                 'profile'=>$this->project_owner->profile,
                 'about' => $this->project_owner->about,
             ],
-            'offers_average' => $this->offers()->avg('budget'),
+            'offers_average' => round($this->offers()->avg('budget'), -1),
             'offers_number' => $this->offers()->count(),
             'skills' => $this->skills->pluck('name'),
             'ideal_skills' => json_decode($this->ideal_skills)
