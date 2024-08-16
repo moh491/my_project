@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Filtering\FillterApplication;
+use App\Filtering\FilterApplication;
 use App\Http\Requests\StoreApplicationRequest;
-use App\Http\Resources\appResourece;
+use App\Http\Resources\appResource;
 use App\Http\Resources\OfferResource;
 use App\Mail\SentMail;
 use App\Models\Application;
@@ -79,7 +79,7 @@ class ApplicationService
                 AllowedFilter::exact('budget'),
             ])
             ->orderBy('created_at','desc')->get();
-        return appResourece::collection($app);
+        return appResource::collection($app);
 
     }
     public function removeApplication($id): void
@@ -97,7 +97,7 @@ class ApplicationService
     {
 
         $applications = QueryBuilder::for(Application::class)
-            ->allowedFilters((new FillterApplication())->filterAll())->orderBy('created_at','desc')
+            ->allowedFilters((new FilterApplication())->filterAll())->orderBy('created_at','desc')
             ->get();
 
         return OfferResource::collection($applications);

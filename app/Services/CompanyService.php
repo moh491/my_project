@@ -8,6 +8,7 @@ use App\Mail\SendCodeEmail;
 use App\Models\Company;
 use App\Models\Otp;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class CompanyService
 {
@@ -45,6 +46,33 @@ class CompanyService
         $company = Company::with('jobs')->findOrFail($companyId);
 
         return new GetCompanyResource($company);
-}
+    }
+    public function updateCompany(Company $company, array $data)
+    {
+        if (isset($data['logo'])) {
+            if ($company->logo && Storage::exists($company->logo)) {
+                Storage::delete($company->logo);
+            }
+
+            $path = $data['logo']->store('profiles', 'public');
+            $data['logo'] = $path;
+        }
+
+        $updateData = array_filter($data, function($key) {
+            return $key !== 'field_ids';
+        }, ARRAY_FILTER_USE_KEY);
+
+        $company->update($updateData);
+
+        if (isset($data['field_ids']) &&
+        !empty($data['field_ids'])) {
+             $company->field_id = $data['field_ids'][0];
+            $company->save();
+        }
+
+        return $company;
+    }
+
+
 
 }
