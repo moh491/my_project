@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\File;
 
 class OfferResource extends JsonResource
 {
@@ -21,6 +22,16 @@ class OfferResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+    private function getFiles($path)
+    {
+        $pathFiles = File::files(storage_path('app/public/' . $path));
+        $files = [];
+        foreach ($pathFiles as $file) {
+            $files[] = app('baseUrl') . $path . '/' . $file->getFilename();
+        }
+
+        return $files;
+    }
     public function toArray(Request $request): array
     {
         $array =  [
@@ -40,10 +51,6 @@ class OfferResource extends JsonResource
                 'details' => [
                     'id' => $this->worker->id,
                     'name' => $this->worker->first_name . ' ' . $this->worker->last_name,
-                    'email' => $this->worker->email,
-                    'profile'=>$this->worker->profile,
-                    'about' => $this->worker->about,
-                    'skills' => $this->worker->skills->pluck('name'),
                 ],
             ];
         } else {
@@ -52,11 +59,11 @@ class OfferResource extends JsonResource
                 'details' => [
                     'id' => $this->worker->id,
                     'name' => $this->worker->name,
-                    'profile' => $this->worker->logo,
-                    'link' => $this->worker->link,
-                    'about' => $this->worker->about,
                 ],
             ];
+        }
+        if ($request->routeIs('details.show')) {
+            $array['files'] = $this->getFiles($this['files']);
         }
 
         return  $array;

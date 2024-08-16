@@ -26,8 +26,7 @@ class StoreOfferRequest extends FormRequest
             'duration' => 'required|integer',
             'budget' => 'required|numeric',
             'description' => 'required|string',
-            'files' => 'nullable|array',
-            'files.*' => 'file|mimes:jpg,jpeg,png,pdf,doc,docx,zip',
+            'files' => 'sometimes',
             'project_id' => 'required|exists:projects,id',
         ];
     }

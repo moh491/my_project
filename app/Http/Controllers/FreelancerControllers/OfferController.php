@@ -147,5 +147,24 @@ class OfferController extends Controller
         }
     }
 
+    public function details($id)
+    {
+        try {
+
+            $offer = Offer::find($id);
+            $project=Project::find($offer['project_id']);
+            if(Auth::guard('Project_Owner')->user()->id==$project['project_owner_id']) {
+                return $this->success('get offer details', new offerResource($offer));
+            }
+            else{
+                return $this->error('not authorized');
+            }
+
+        } catch (\throwable $throwable) {
+            return $this->serverError($throwable->getMessage());
+        }
+
+    }
+
 
 }
