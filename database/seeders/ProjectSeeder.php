@@ -107,7 +107,7 @@ class ProjectSeeder extends Seeder
             ]);
 
 
-            $randomSkillsCount = min(2, $skills->count()); // Ensure we don't request more skills than available
+            $randomSkillsCount = min(2, $skills->count());
             $randomSkills = $skills->random($randomSkillsCount)->pluck('id')->toArray();
             foreach ($randomSkills as $skillId) {
                 $projectSkillMappings[] = [

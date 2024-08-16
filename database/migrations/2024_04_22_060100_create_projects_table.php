@@ -20,8 +20,8 @@ return new class extends Migration
             $table->decimal('min_budget');
             $table->decimal('max_budget');
             $table->enum('status',ProjectStatus::getValues())->default('Open');
-            $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();;
-            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();;
+            $table->foreignId('project_owner_id')->constrained('project__owners')->cascadeOnDelete();
+            $table->foreignId('field_id')->constrained('fields')->cascadeOnDelete();
             $table->nullableMorphs('worker');
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
