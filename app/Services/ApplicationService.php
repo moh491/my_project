@@ -117,12 +117,19 @@ class ApplicationService
         return $freelancer->applications()->with('job')->get();
     }
 
-    public function getCompanyApplications(int $companyId)
+    public function getCompanyApplications(int $companyId, int $jobId = null)
     {
         $company = Company::findOrFail($companyId);
-        return $company->jobs()->with('applications.freelancer')->get()->flatMap(function ($job) {
+
+         $jobsQuery = $company->jobs()->with('applications.freelancer');
+        if ($jobId) {
+            $jobsQuery->where('id', $jobId);
+        }
+
+        return $jobsQuery->get()->flatMap(function ($job) {
             return $job->applications;
         });
     }
+
 
 }

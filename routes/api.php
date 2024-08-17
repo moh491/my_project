@@ -230,7 +230,7 @@ Route::controller( ApplicationController::class)->prefix('app')->group(function 
         Route::post('store','insert');
         Route::delete('delete/{id}','delete');
         Route::get('/getFreelancerApplications','getFreelancerApplications');
-        Route::get('/getCompanyApplications','getCompanyApplications');
+        Route::get('/getCompanyApplications/{job_id}','getCompanyApplications');
         Route::put('/{id}','ChangeStatusToReviewed');
         Route::post('Accept/{id}','Accept');
         Route::post('Reject/{id}','Reject');

@@ -177,13 +177,13 @@ class ApplicationController extends Controller
         }
     }
 
-    public function getCompanyApplications()
+    public function getCompanyApplications(Request $request)
     {
         try {
-
             $companyId = Auth::guard('Company')->user()->id;
+            $jobId = $request->input('job_id');
 
-            $applications = $this->applicationService->getCompanyApplications($companyId);
+            $applications = $this->applicationService->getCompanyApplications($companyId, $jobId);
             $data = ApplicationResource::collection($applications);
 
             return $this->success('Successfully retrieved applications.', $data);
@@ -192,5 +192,6 @@ class ApplicationController extends Controller
             return $this->serverError($throwable->getMessage());
         }
     }
+
 
 }
