@@ -20,7 +20,7 @@ class ProfilePageService
         if (isset($data['languages'])) {
             foreach ($data['languages'] as $language) {
                 $freelancer->languages()->updateOrCreate(
-                    ['language' => $language['language']],
+                    ['language' => $language['name']],
                     ['level' => $language['level']]
                 );
             }
