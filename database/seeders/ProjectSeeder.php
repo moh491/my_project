@@ -39,15 +39,15 @@ class ProjectSeeder extends Seeder
             'نور الهدى' => 'تحسين سير العمل في المشاريع',
             'عمر جمال' => 'حلول تحديات المشاريع المعقدة',
             'أمينة أحمد' => 'إدارة العلاقات مع العملاء',
-            'John Smith' => 'Comprehensive Project Management System',
+            'John Smith' => 'Comprehensive ServiceMail Management System',
             'Jane Doe' => 'Innovative Tech Startup Application',
             'Michael Johnson' => 'Cross-Functional Team Collaboration Platform',
-            'Emily Davis' => 'Agile Project Management System',
-            'David Brown' => 'Process Improvement Project',
+            'Emily Davis' => 'Agile ServiceMail Management System',
+            'David Brown' => 'Process Improvement ServiceMail',
             'Sophia Wilson' => 'Enterprise Risk Management',
             'James Taylor' => 'Large Team Collaboration App',
-            'Olivia Martinez' => 'Project Workflow Optimization',
-            'William Anderson' => 'Complex Project Challenges Solutions',
+            'Olivia Martinez' => 'ServiceMail Workflow Optimization',
+            'William Anderson' => 'Complex ServiceMail Challenges Solutions',
             'Isabella Thomas' => 'Client Relationship Management'
         ];
 
@@ -75,7 +75,7 @@ class ProjectSeeder extends Seeder
         ];
 
         $idealSkills = [
-            'نظام شامل لإدارة المشاريع يستخدم أحدث الأطر التكنولوجية.' => ['Project Management', 'Agile', 'Scrum'],
+            'نظام شامل لإدارة المشاريع يستخدم أحدث الأطر التكنولوجية.' => ['ServiceMail Management', 'Agile', 'Scrum'],
             'تطوير تطبيق مخصص للشركات الناشئة ذو إمكانيات متعددة المنصات.' => ['Mobile Development', 'Cross-Platform', 'Startup Tech'],
             'منصة لتحليل البيانات الكبيرة واستخراج الرؤى القيمة.' => ['Data Analysis', 'Big Data', 'Analytics'],
             'تصميم واجهة مستخدم وتجربة مستخدم سهلة الاستخدام وجذابة.' => ['UI/UX Design', 'User Experience', 'Prototyping'],
@@ -110,7 +110,7 @@ class ProjectSeeder extends Seeder
             Log::info("Ideal skills: ", $idealSkillsForDescription);
 
             $projectId = DB::table('projects')->insertGetId([
-                'title' => $titles[$owner->first_name . ' ' . $owner->last_name] ?? 'General Project',
+                'title' => $titles[$owner->first_name . ' ' . $owner->last_name] ?? 'General ServiceMail',
                 'description' => $description,
                 'duration' => rand(1, 12),
                 'min_budget' => rand(500, 1000),

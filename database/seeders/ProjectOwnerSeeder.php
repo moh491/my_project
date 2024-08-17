@@ -107,7 +107,7 @@ class ProjectOwnerSeeder extends Seeder
             'مكرس لتحسين العمليات وتحسين سير العمل في المشاريع.',
             'مفكر استراتيجي لديه قدرة على حل تحديات المشاريع المعقدة.',
             'ماهر في إدارة المساهمين والحفاظ على علاقات قوية مع العملاء.',
-            'Experienced Project Manager with a strong track record in managing complex projects.',
+            'Experienced ServiceMail Manager with a strong track record in managing complex projects.',
             'Skilled Entrepreneur with a background in tech startups and innovation.',
             'Passionate about leading cross-functional teams to achieve strategic goals.',
             'Experienced in both agile and waterfall project management methodologies.',

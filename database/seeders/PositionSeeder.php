@@ -25,7 +25,7 @@ class PositionSeeder extends Seeder
             ['name' => 'UX Designer', 'field_id' => 7],
             ['name' => 'Database Engineer', 'field_id' => 8],
             ['name' => 'QA Tester', 'field_id' => 14],
-            ['name' => 'Project Coordinator', 'field_id' => 15],
+            ['name' => 'ServiceMail Coordinator', 'field_id' => 15],
             ['name' => 'Product Specialist', 'field_id' => 16],
             ['name' => 'Web Developer', 'field_id' => 1],
             ['name' => 'Technical Support Engineer', 'field_id' => 19],

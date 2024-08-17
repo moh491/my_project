@@ -69,9 +69,9 @@ class ProjectController extends Controller
         try {
             $offer = Offer::find($id);
             $project = Project::find($offer['project_id']);
-            if ($project['project_owner_id'] == Auth::guard('Project_Owner')->user()->id) {
+            if ($project['project_owner_id'] ==Auth::guard('Project_Owner')->user()->id) {
                 $this->projectService->AcceptProject($id);
-                return $this->success('Accept Project Successfully');
+                return redirect('http://localhost:5173/addRating/' . $project['id']);
             } else {
                 return $this->error('not authorized');
             }

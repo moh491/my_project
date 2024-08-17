@@ -7,6 +7,7 @@ use App\Filtering\FilterProjects;
 use App\Http\Resources\BrowseJobs;
 use App\Http\Resources\ProjectResource;
 use App\Jobs\CloseProjectJob;
+use App\Mail\ConfirmAccepted;
 use App\Mail\SentMail;
 use App\Models\Field;
 use App\Models\Job;
@@ -48,6 +49,7 @@ class ProjectService
 
         $project = Project::find($id);
         $project->update(['status' => 'Completed']);
+        $offer=Offer::where('project_id',$id)->where('worker_type',$project['worker_type'])->where('worker_id',$project['worker_id'])->first();
         $user = $project['worker_type']::find($project['worker_id']);
         $owner = Project_Owners::find($project['project_owner_id']);
         if ($project['worker_type'] == 'App\\Models\\Freelancer') {
@@ -55,8 +57,8 @@ class ProjectService
         } else {
             $description = $user->name . ' has delivery of the project ' . $project->title;
         }
-        $title = 'Project Delivery';
-        Mail::to($owner->email)->send(new SentMail($title, $description));
+        $title = 'ServiceMail Delivery';
+        Mail::to($owner->email)->send(new ConfirmAccepted($title, $description,$offer['id']));
     }
 
     //project_owner
@@ -68,14 +70,13 @@ class ProjectService
         $project_owner = Project_Owners::find(Auth::guard('Project_Owner')->user()->id);
         $user = $project['worker_type']::find($project['worker_id']);
         $user->update(['suspended_balance' => $user['suspended_balance'] - ($offer['budget'] - $offer['budget'] * 0.15), 'available_balance' => $user['available_balance'] + ($offer['budget'] - $offer['budget'] * 0.15)]);
-          return redirect('http://localhost:5173/addRating/' . $project['id']);
         //job
         $now = Carbon::now();
         $futureDate = $now->copy()->addDays(14);
         $secondsDifference = $futureDate->diffInSeconds($now);
         CloseProjectJob::dispatch($id)->delay($secondsDifference);
         $description = $project_owner->first_name . ' ' . $project_owner->last_name . ' has accepted the project ' . $project->title;
-        $title = 'Accept Project';
+        $title = 'Accept ServiceMail';
         if ($offer['worker_type'] == 'App\\Models\\Freelancer') {
             Mail::to($user->email)->send(new SentMail($title, $description));
         } else {
@@ -122,7 +123,7 @@ class ProjectService
             $salaries [] = $i . '-' . $i + 99;
         }
 //// Get the minimum salary
-//        $minSalary = Project::min('salary');
+//        $minSalary = ServiceMail::min('salary');
 
 //        foreach ($averageSalary as  $salary) {
 //            $salary->average_salary = number_format($salary->average_salary, 0, '.', '');

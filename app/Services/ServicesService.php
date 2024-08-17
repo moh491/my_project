@@ -12,6 +12,7 @@ use App\Http\Resources\ServiceDetailsResource;
 use App\Http\Resources\ServiceResource;
 use App\Jobs\CloseServiceJob;
 use App\Mail\SentMail;
+use App\Mail\ServiceMail;
 use App\Models\Feature;
 use App\Models\Plan;
 use App\Models\Project_Owners;
@@ -280,7 +281,7 @@ class ServicesService
         } else {
             $description = $user->name . '  has delivery of the service ' . $service->title;
         }
-        Mail::to($owner->email)->send(new SentMail($title, $description));
+        Mail::to($owner->email)->send(new ServiceMail($title, $description,$id));
     }
 
     //owner
@@ -311,8 +312,6 @@ class ServicesService
             $owner_team = $user->freelancers()->where('is_owner', 1)->first();
             Mail::to($owner_team->email)->send(new SentMail($title, $description));
         }
-
-        //  return redirect(' ');
 
         $now = Carbon::now();
         $futureDate = $now->copy()->addDays(14);
