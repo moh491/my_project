@@ -34,6 +34,7 @@ class ApplicationResource extends JsonResource
             'freelancer' => [
                 'id' => $this->freelancer->id,
                 'first_name' => $this->freelancer->first_name,
+                'about' => $this['about']
                 'last_name' => $this->freelancer->last_name,
                 'email' => $this->freelancer->email,
                 'location' => $this->freelancer->location,
