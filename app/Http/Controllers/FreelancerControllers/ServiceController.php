@@ -121,8 +121,7 @@ class ServiceController extends Controller
 
         try {
             $request = Request::find($id);
-            $delivery_option = Delivery_Option::find($request['delivery_option_id']);
-            $plan = Plan::find($delivery_option['plan_id']);
+            $plan = Plan::find($request['plan_id']);
             $service = Service::find($plan['service_id']);
             if (Auth::guard('Freelancer')->user()->can('access', [Service::class, $service])) {
                 $this->servicesService->serviceDelivery($id);
@@ -144,6 +143,7 @@ class ServiceController extends Controller
             $request = Request::find($id);
             if ($request['project_owner_id'] == Auth::guard('Project_Owner')->user()->id) {
                 $this->servicesService->AcceptService($id);
+                //  return redirect(' ');
                 return $this->success('Accept Service Successfully');
             } else {
                 return $this->error('not authorized');

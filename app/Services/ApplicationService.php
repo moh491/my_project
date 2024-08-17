@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Filtering\FillterApplication;
+
 use App\Filtering\FilterApplication;
 use App\Http\Requests\StoreApplicationRequest;
 use App\Http\Resources\appResource;
@@ -114,7 +114,10 @@ class ApplicationService
     public function getFreelancerApplications(int $freelancerId)
     {
         $freelancer = Freelancer::findOrFail($freelancerId);
-        return $freelancer->applications()->with('job')->get();
+        return $freelancer->applications()
+            ->with('job')
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
     public function getCompanyApplications(int $companyId, int $jobId = null)
@@ -130,6 +133,5 @@ class ApplicationService
             return $job->applications;
         });
     }
-
 
 }

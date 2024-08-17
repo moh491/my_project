@@ -27,7 +27,7 @@ class StoreApplicationRequest extends FormRequest
             'job_id' => 'required|exists:company_jobs,id',
             'budget'=>'required',
             'experience_year'=>'required',
-            'file'=>'required|file',
+            'file'=>'file',
         ];
     }
 }

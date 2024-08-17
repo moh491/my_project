@@ -19,7 +19,12 @@ class appResource extends JsonResource
             'status' => $this->status,
             'budget' => $this->budget,
             'experience_year' => $this->experience_year,
-            'file' =>app('baseUrl') .  $this->file,
+            'freelancer' => [
+                'id' => $this->freelancer->id,
+                'name'=>$this->freelancer->first_name.' '.$this->freelancer->last_name,
+                'profile'=>app('baseUrl') .$this->freelancer->profile,
+                'about'=>$this->freelancer->about,
+            ],
         ];
     }
 }

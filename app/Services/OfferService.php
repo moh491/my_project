@@ -101,7 +101,7 @@ class OfferService
             } else {
                 $description = $user->name . ' has canceled the receipt of the project ' . $project->title;
             }
-            $title = 'Cancel Receipt of the Project';
+            $title = 'Cancel Receipt of the ServiceMail';
             Mail::to($owner->email)->send(new SentMail($title, $description));
         }
 
@@ -115,7 +115,7 @@ class OfferService
         $owner = Project::has('offers')
             ->join('project__owners', 'projects.project_owner_id', '=', 'project__owners.id')
             ->select('projects.id', 'project__owners.first_name', 'project__owners.last_name')
-            ->distinct()
+            ->distinct()->orderBy('projects.created_at', 'desc')
             ->get()
             ->map(function ($project) {
                 $project->owner_name = $project->first_name . ' ' . $project->last_name;
@@ -131,19 +131,19 @@ class OfferService
 
     public function getAll(string $projectId)
     {
-        return Offer::where('project_id', $projectId)->paginate(10);
+        return Offer::where('project_id', $projectId)->where('status','!=','Reject')->orderBy('created_at','desc')->paginate(10);
     }
 
     public function getOffers(string $id, $model)
     {
-        return Offer::where('worker_type', $model)->where('worker_id', $id)->paginate(10);
+        return Offer::where('worker_type', $model)->where('worker_id', $id)->orderBy('created_at','desc')->paginate(10);
     }
 
     public function filterAll(): \Illuminate\Http\Resources\Json\AnonymousResourceCollection
     {
 
         $offers = QueryBuilder::for(Offer::class)
-            ->allowedFilters((new FilterOffers())->filterAll())->with('project')
+            ->allowedFilters((new FilterOffers())->filterAll())->with('project')->orderBy('created_at','desc')
             ->get();
 
         return OfferResource::collection($offers);

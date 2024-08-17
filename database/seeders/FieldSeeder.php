@@ -32,7 +32,7 @@ class FieldSeeder extends Seeder
             ['name' => 'Cloud Engineer'],
             ['name' => 'Business Intelligence Analyst'],
             ['name' => 'QA Engineer'],
-            ['name' => 'Project Manager'],
+            ['name' => 'ServiceMail Manager'],
             ['name' => 'Product Manager'],
             ['name' => 'Web Designer'],
             ['name' => 'Technical Support Specialist'],

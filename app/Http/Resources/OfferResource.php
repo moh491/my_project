@@ -43,6 +43,7 @@ class OfferResource extends JsonResource
             'worker_type' => $this['worker_type'],
             'status' => $this['status'],
             'created_at' =>  $this['created_at']->diffForHumans(),
+            'project_id' => $this['project_id']
         ];
 
         if ($this['worker_type'] === 'App\Models\Freelancer') {
@@ -51,6 +52,7 @@ class OfferResource extends JsonResource
                 'details' => [
                     'id' => $this->worker->id,
                     'name' => $this->worker->first_name . ' ' . $this->worker->last_name,
+                    'profile'=>app('baseUrl') .$this->profile,
                 ],
             ];
         } else {
@@ -59,6 +61,7 @@ class OfferResource extends JsonResource
                 'details' => [
                     'id' => $this->worker->id,
                     'name' => $this->worker->name,
+                    'profile'=>app('baseUrl') .$this->logo
                 ],
             ];
         }
