@@ -32,7 +32,7 @@ class ProfileUpdateRequest extends FormRequest
             'profile'=>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'languages' => 'array',
             'languages.*.name' => 'required',
-            'languages.*.level' => ['required'],
+            'languages.*.level' => ['required', new EnumValue(Languages_status::class)],
             'skills'=>'array',
         ];
     }

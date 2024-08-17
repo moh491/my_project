@@ -8,9 +8,9 @@ class Languages_status extends Enum
 {
     const  JUNIOR = 'junior';
     const  BEGINNER= 'beginner';
+    const  INTERMEDIATE= 'intermediate';
     const  VERY_GOOD= 'very_good';
     const EXCELLENT= 'excellent';
     const FLUENT='fluent';
-    const NATIVE='native';
 
 }
