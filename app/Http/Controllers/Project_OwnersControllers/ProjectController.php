@@ -47,6 +47,7 @@ class ProjectController extends Controller
 
     public function delivery($id)
     {
+        info($id);
         try {
             $project = Project::find($id);
             if (($project['worker_type'] == 'App\\Models\\Freelancer' && $project['worker_id'] == Auth::guard('Freelancer')->user()->id) || ($project['worker_type'] == 'App\\Models\\Team' && Team::find($project['worker_id'])->freelancers->contains(Auth::guard('Freelancer')->user()->id))) {

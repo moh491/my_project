@@ -43,6 +43,7 @@ class OfferResource extends JsonResource
             'worker_type' => $this['worker_type'],
             'status' => $this['status'],
             'created_at' =>  $this['created_at']->diffForHumans(),
+            'project_id' => $this['project_id']
         ];
 
         if ($this['worker_type'] === 'App\Models\Freelancer') {
