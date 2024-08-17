@@ -29,7 +29,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class ServicesService
 {
-    public function getServices(string $id, $model)
+    public function getServices($id, $model)
     {
         if ($id) {
             $user = $model::find($id);
