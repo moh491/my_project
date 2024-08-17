@@ -35,7 +35,7 @@ class ServicesService
             $user = $model::find($id);
             $services = $user->services()->orderBy('created_at', 'desc')->get();
         } else {
-            $services = Service::orderBy('created_at', 'desc');
+            return Service::orderBy('created_at', 'desc');
         }
         return ServiceResource::collection($services);
     }
