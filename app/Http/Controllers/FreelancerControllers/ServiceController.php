@@ -32,8 +32,11 @@ class ServiceController extends Controller
         try {
             ($type == "team") ? $model = $model = 'App\\Models\\Team' : $model = 'App\\Models\\Freelancer';
             if (!$id) {
-                $id = Auth::guard('Freelancer')->user()->id;
-                $model = 'App\\Models\\Freelancer';
+                $user = Auth::guard('Freelancer')->user();
+                if($user){
+                    $model = 'App\\Models\\Freelancer';
+                    $id = $user->id;
+                }
             }
             $information = $this->servicesService->getServices($id, $model);
             return $this->success('get services', $information);

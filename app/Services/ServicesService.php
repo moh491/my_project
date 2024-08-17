@@ -31,8 +31,12 @@ class ServicesService
 {
     public function getServices(string $id, $model)
     {
-        $user = $model::find($id);
-        $services = $user->services()->orderBy('created_at', 'desc')->get();
+        if ($id) {
+            $user = $model::find($id);
+            $services = $user->services()->orderBy('created_at', 'desc')->get();
+        } else {
+            $services = Service::all()->orderBy('created_at', 'desc');
+        }
         return ServiceResource::collection($services);
     }
 
@@ -163,7 +167,7 @@ class ServicesService
             ->allowedFilters([
                 AllowedFilter::exact('skills.id'),
                 AllowedFilter::custom('search', new Search1Filter(['title', 'description'])),
-            ])->orderBy('created_at','desc')->get();
+            ])->orderBy('created_at', 'desc')->get();
         return ServiceDetailsResource::collection($services);
     }
 
@@ -188,7 +192,7 @@ class ServicesService
                     return $query->where('services.title', 'like', '%' . $value . '%');
                 })
             ])
-            ->orderBy('created_at','desc')->get();
+            ->orderBy('created_at', 'desc')->get();
 
 
         return RequestResource::collection($requests);
@@ -211,7 +215,7 @@ class ServicesService
                     return $query->where('services.title', 'like', '%' . $value . '%');
                 })
             ])
-            ->with('project_owners')->orderBy('created_at','desc')->get();
+            ->with('project_owners')->orderBy('created_at', 'desc')->get();
 
         return RequestResource::collection($requests);
 
@@ -281,7 +285,7 @@ class ServicesService
         } else {
             $description = $user->name . '  has delivery of the service ' . $service->title;
         }
-        Mail::to($owner->email)->send(new ServiceMail($title, $description,$id));
+        Mail::to($owner->email)->send(new ServiceMail($title, $description, $id));
     }
 
     //owner
